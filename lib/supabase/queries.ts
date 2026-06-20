@@ -123,3 +123,37 @@ export async function getApprovals() {
   const { data } = await sb.from("approvals").select("*").order("created_at", { ascending: false });
   return data ?? [];
 }
+
+// ---------- storefront with ratings (premium UI) ----------
+export type StoreProduct = DbProduct & {
+  category: DbCategory; rating: number; reviews: number; isNew: boolean;
+};
+
+export async function getStorefront(): Promise<{ products: StoreProduct[]; formula: PF }> {
+  const sb = supabaseServer();
+  const [{ data: prods }, { data: revs }, formula] = await Promise.all([
+    sb.from("products").select("*, category:categories(id,name,slug)").eq("status", "published").order("sku"),
+    sb.from("reviews").select("product_id, rating"),
+    getPricingFormula(),
+  ]);
+  const agg = new Map<string, { sum: number; n: number }>();
+  for (const r of (revs as any[]) ?? []) {
+    const a = agg.get(r.product_id) ?? { sum: 0, n: 0 }; a.sum += r.rating; a.n++; agg.set(r.product_id, a);
+  }
+  const now = Date.now();
+  const products = ((prods as any[]) ?? []).map((p) => {
+    const a = agg.get(p.id);
+    const rating = a && a.n ? a.sum / a.n : 4.6;
+    const reviews = a?.n ?? 0;
+    const isNew = p.created_at ? now - new Date(p.created_at).getTime() < 1000 * 60 * 60 * 24 * 21 : false;
+    return { ...p, rating: Math.round(rating * 10) / 10, reviews, isNew };
+  });
+  return { products, formula };
+}
+
+export type FeaturedReview = { id: string; author_name: string; rating: number; body: string };
+export async function getFeaturedReviews(): Promise<FeaturedReview[]> {
+  const sb = supabaseServer();
+  const { data } = await sb.from("reviews").select("id,author_name,rating,body").gte("rating", 4).order("created_at", { ascending: false }).limit(3);
+  return ((data as any[]) ?? []).map((r) => ({ id: r.id, author_name: r.author_name, rating: r.rating, body: r.body }));
+}
