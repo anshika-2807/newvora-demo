@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ProductImage } from "@/components/Placeholder";
 import { Stars } from "./Stars";
+import { AddToCart } from "@/components/cart/AddToCart";
 import { formatPaise } from "@/lib/pricing";
 import { liveOffer } from "@/lib/offers";
 import type { PricingFormula } from "@/lib/pricing";
@@ -31,7 +32,7 @@ export function ProductCard({ p, formula, index = 0 }: { p: CardProduct; formula
         {low && <span className="absolute bottom-3 left-3 bg-ink/80 text-cream text-[10px] px-2 py-1 rounded-full">Only {p.qty} left</span>}
 
         <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
-          <span className="btn-gold block text-center text-sm font-medium py-2.5">Quick add +</span>
+          <AddToCart variant="card" item={{ sku: p.sku, name: p.name, price: o.price, category: p.category.slug }} />
         </div>
       </div>
 

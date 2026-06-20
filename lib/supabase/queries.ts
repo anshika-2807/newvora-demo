@@ -214,3 +214,11 @@ export async function getDashboardAnalytics(fromISO: string, toISO: string): Pro
   const topProducts = [...prodMap.entries()].map(([name, v]) => ({ name, ...v })).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
   return { weekly: wk, channels, categories, topProducts };
 }
+
+export async function getOrder(id: string) {
+  const sb = supabaseServer();
+  const { data: order } = await sb.from("orders").select("*").eq("id", id).maybeSingle();
+  if (!order) return null;
+  const { data: items } = await sb.from("order_items").select("qty,unit_price,line_total,product:products(name,sku)").eq("order_id", id);
+  return { order, items: (items as any[]) ?? [] };
+}

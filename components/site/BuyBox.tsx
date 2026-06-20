@@ -1,10 +1,16 @@
 "use client";
 import { useState } from "react";
+import { useCart } from "@/components/cart/CartContext";
 
-export function BuyBox({ colors, waText, waHref }: { colors: string[]; waText: string; waHref: string }) {
+export function BuyBox({ colors, waHref, item }: {
+  colors: string[]; waText: string; waHref: string;
+  item: { sku: string; name: string; price: number; category: string };
+}) {
+  const { add } = useCart();
   const [color, setColor] = useState(colors[0] ?? "");
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const onAdd = () => { add({ ...item, color: color || undefined }, qty); setAdded(true); setTimeout(() => setAdded(false), 1500); };
   return (
     <div className="mt-6">
       {colors.length > 0 && (
@@ -27,16 +33,10 @@ export function BuyBox({ colors, waText, waHref }: { colors: string[]; waText: s
         </div>
       </div>
       <div className="flex gap-3">
-        <button onClick={() => { setAdded(true); setTimeout(() => setAdded(false), 1600); }}
-          className="btn-primary flex-1 py-3.5 text-sm font-medium">
-          {added ? "✓ Added to cart" : "Add to cart"}
-        </button>
-        <a href={waHref} target="_blank" rel="noreferrer"
-          className="px-5 py-3.5 rounded-full bg-[#25D366] text-white text-sm font-medium transition-transform hover:-translate-y-0.5 active:scale-95">WhatsApp</a>
+        <button onClick={onAdd} className="btn-primary flex-1 py-3.5 text-sm font-medium">{added ? "✓ Added to cart" : "Add to cart"}</button>
+        <a href={waHref} target="_blank" rel="noreferrer" className="px-5 py-3.5 rounded-full bg-[#25D366] text-white text-sm font-medium transition-transform hover:-translate-y-0.5 active:scale-95">WhatsApp</a>
       </div>
-      <p className="text-xs text-muted mt-3 flex items-center gap-4">
-        <span>✓ COD available</span><span>✓ Free shipping over ₹999</span><span>✓ 7-day returns</span>
-      </p>
+      <p className="text-xs text-muted mt-3 flex flex-wrap items-center gap-4"><span>✓ COD available</span><span>✓ Free shipping over ₹999</span><span>✓ 7-day returns</span></p>
     </div>
   );
 }

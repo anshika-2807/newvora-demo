@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PromoBar } from "./PromoBar";
 import { MobileMenu } from "./MobileMenu";
+import { CartWidget } from "@/components/cart/CartWidget";
 
 type Cat = { name: string; slug: string };
 
@@ -42,9 +43,7 @@ export function Header({ categories }: { categories: Cat[] }) {
             <button aria-label="Search" className="text-lg hover:text-emerald transition-colors hover:scale-110">⌕</button>
             <Link href="/account" aria-label="Account" className="hidden sm:inline text-lg hover:text-emerald transition-colors hover:scale-110">♢</Link>
             <button aria-label="Wishlist" className="text-lg hover:text-rose transition-colors hover:scale-110">♡</button>
-            <button aria-label="Cart" className="relative text-lg hover:text-emerald transition-colors hover:scale-110">
-              ⛬<span className="absolute -top-2 -right-2 bg-gold text-ink text-[10px] h-4 w-4 rounded-full grid place-items-center">0</span>
-            </button>
+            <CartWidget />
           </div>
         </div>
       </div>
