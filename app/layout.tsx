@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: { default: "Blythe Diva — Artificial Jewellery, Sadar Bazar Delhi", template: "%s | Blythe Diva" },
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         {/* progressive-enhancement flag for scroll reveal */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <Analytics />
       </head>
       <body>{children}</body>
     </html>

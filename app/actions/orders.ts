@@ -1,5 +1,6 @@
 "use server";
 import { supabaseServer } from "@/lib/supabase/server";
+import { sendPurchase } from "@/lib/ga4";
 
 export type PlaceOrderInput = {
   items: { sku: string; qty: number; color?: string }[];
@@ -18,7 +19,9 @@ export async function placeOrderAction(input: PlaceOrderInput): Promise<{ ok: bo
     p_payment: input.payment,
   });
   if (error) return { ok: false, error: error.message };
-  return { ok: true, orderId: (data as any)?.order_id, total: (data as any)?.total };
+  const orderId = (data as any)?.order_id, total = (data as any)?.total;
+  await sendPurchase({ orderId, valuePaise: total, channel: "retail", items: input.items.map((i) => ({ sku: i.sku, qty: i.qty })) });
+  return { ok: true, orderId, total };
 }
 
 export async function posSaleAction(input: { items: { sku: string; qty: number }[]; customer: { name?: string; phone?: string }; payment: string }): Promise<{ ok: boolean; orderId?: string; total?: number; error?: string }> {
@@ -28,5 +31,7 @@ export async function posSaleAction(input: { items: { sku: string; qty: number }
     p_items: input.items, p_customer: input.customer ?? {}, p_channel: "pos", p_payment: input.payment || "cash",
   });
   if (error) return { ok: false, error: error.message };
-  return { ok: true, orderId: (data as any)?.order_id, total: (data as any)?.total };
+  const orderId = (data as any)?.order_id, total = (data as any)?.total;
+  await sendPurchase({ orderId, valuePaise: total, channel: "retail", items: input.items.map((i) => ({ sku: i.sku, qty: i.qty })) });
+  return { ok: true, orderId, total };
 }
