@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ProductImage } from "@/components/Placeholder";
 import { Stars } from "./Stars";
 import { AddToCart } from "@/components/cart/AddToCart";
+import { WishlistButton } from "@/components/wishlist/WishlistButton";
 import { formatPaise } from "@/lib/pricing";
 import { liveOffer } from "@/lib/offers";
 import type { PricingFormula } from "@/lib/pricing";
@@ -26,8 +27,7 @@ export function ProductCard({ p, formula, index = 0 }: { p: CardProduct; formula
           {p.isNew && <span className="bg-emerald text-white text-[11px] font-semibold px-2 py-1 rounded-full">NEW</span>}
         </div>
 
-        <button aria-label="Wishlist"
-          className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/85 backdrop-blur text-rose opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all hover:bg-rose hover:text-white">♡</button>
+        <WishlistButton item={{ sku: p.sku, name: p.name, category: p.category.name, categorySlug: p.category.slug, price: o.price }} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full backdrop-blur opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all" />
 
         {low && <span className="absolute bottom-3 left-3 bg-ink/80 text-cream text-[10px] px-2 py-1 rounded-full">Only {p.qty} left</span>}
 

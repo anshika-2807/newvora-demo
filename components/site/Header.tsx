@@ -3,6 +3,7 @@ import { PromoBar } from "./PromoBar";
 import { MobileMenu } from "./MobileMenu";
 import { CartWidget } from "@/components/cart/CartWidget";
 import { SearchBox } from "./SearchBox";
+import { WishlistWidget } from "@/components/wishlist/WishlistWidget";
 
 type Cat = { name: string; slug: string };
 
@@ -43,7 +44,7 @@ export function Header({ categories }: { categories: Cat[] }) {
           <div className="flex items-center gap-4 text-ink">
             <SearchBox />
             <Link href="/account" aria-label="Account" className="hidden sm:inline text-lg hover:text-emerald transition-colors hover:scale-110">♢</Link>
-            <button aria-label="Wishlist" className="text-lg hover:text-rose transition-colors hover:scale-110">♡</button>
+            <WishlistWidget />
             <CartWidget />
           </div>
         </div>
