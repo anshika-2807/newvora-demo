@@ -1,0 +1,52 @@
+/**
+ * lib/ai/providers.ts — OpenAI-compatible chat providers (server-only).
+ * Groq and OpenAI both speak the /chat/completions schema. Keys are read with
+ * case fallbacks so they work whether set as GROQ_API_KEY or Groq_api_key, etc.
+ */
+import "server-only";
+
+function env(...names: string[]): string | undefined {
+  for (const n of names) { const v = process.env[n]; if (v) return v; }
+  return undefined;
+}
+export const groqKey = () => env("GROQ_API_KEY", "Groq_api_key", "groq_api_key");
+export const openaiKey = () => env("OPENAI_API_KEY", "openai_api_key", "OpenAI_api_key");
+
+type ChatArgs = { system: string; user: string; json?: boolean; timeoutMs?: number };
+
+async function chat(endpoint: string, key: string, model: string, a: ChatArgs): Promise<string> {
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), a.timeoutMs ?? 30_000);
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: "system", content: a.system }, { role: "user", content: a.user }],
+        temperature: 0.7,
+        ...(a.json ? { response_format: { type: "json_object" } } : {}),
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    const j: any = await res.json();
+    const content = j?.choices?.[0]?.message?.content;
+    if (!content) throw new Error("empty completion");
+    return content;
+  } finally { clearTimeout(t); }
+}
+
+export function groqConfigured() { return !!groqKey(); }
+export function openaiConfigured() { return !!openaiKey(); }
+
+export async function groqChat(a: ChatArgs): Promise<string> {
+  const key = groqKey(); if (!key) throw new Error("no groq key");
+  const model = env("GROQ_MODEL") ?? "openai/gpt-oss-120b";
+  return chat("https://api.groq.com/openai/v1/chat/completions", key, model, a);
+}
+export async function openaiChat(a: ChatArgs): Promise<string> {
+  const key = openaiKey(); if (!key) throw new Error("no openai key");
+  const model = env("OPENAI_MODEL") ?? "gpt-4o-mini";
+  return chat("https://api.openai.com/v1/chat/completions", key, model, a);
+}
