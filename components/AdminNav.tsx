@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { logoutAction } from "@/app/actions/auth";
 
 const LINKS = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "▦" },
@@ -45,7 +46,10 @@ export function AdminNav() {
           </Link>
         ))}
       </nav>
-      <div className="mt-auto px-3 pt-6">
+      <form action={logoutAction} className="mt-auto px-3 pt-6">
+        <button className="w-full text-left text-sm text-cream/70 hover:text-white transition-colors mb-3">↩ Sign out</button>
+      </form>
+      <div className="px-3">
         <div className="flex items-center gap-2 text-[11px] text-cream/50">
           <span className="h-2 w-2 rounded-full bg-emerald-light animate-pulse" /> Live · Sadar Bazar, Delhi
         </div>
