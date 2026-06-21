@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { getRoles } from "@/lib/supabase/queries";
-import { createRoleAction, PERMISSIONS } from "@/app/actions/rbac";
+import { createRoleAction } from "@/app/actions/rbac";
+import { PERMISSIONS } from "@/lib/permissions";
 
 export const metadata = { title: "Owner Console · Roles & Permissions" };
 const label = (p: string) => p.replace(/_/g, " ");

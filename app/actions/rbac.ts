@@ -1,8 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
-
-export const PERMISSIONS = ["product_editing", "inventory", "billing", "purchases", "analytics", "user_management", "approvals"] as const;
+import { PERMISSIONS } from "@/lib/permissions";
 
 export async function createRoleAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
