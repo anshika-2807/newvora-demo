@@ -1,5 +1,6 @@
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { Assistant } from "@/components/site/Assistant";
 import { getCategories } from "@/lib/supabase/queries";
 import { CartProvider } from "@/components/cart/CartContext";
 
@@ -13,6 +14,7 @@ export default async function RetailLayout({ children }: { children: React.React
       <Header categories={cats} />
       <main className="flex-1">{children}</main>
       <Footer categories={cats} />
+      <Assistant />
     </div></CartProvider>
   );
 }
