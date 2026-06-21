@@ -50,9 +50,31 @@ export async function generateOneAction(sku: string): Promise<GenResult> {
   const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
   await sb.from("product_images").insert({ product_id: p.id, path: pub.publicUrl, kind: "model", sort: -1 });
 
+  // The polished model shot replaces the raw photo everywhere: auto-delete every raw
+  // (source/flatlay) image — both its storage object and its DB row — so only the
+  // AI-generated image (and any owner-added angles) is ever shown on the storefront/admin.
+  const raws = (p.images ?? []).filter((i: any) => i.kind === "source" || i.kind === "flatlay");
+  if (raws.length) {
+    const objectPaths = raws
+      .map((i: any) => storagePathFromPublicUrl(i.path))
+      .filter((x): x is string => !!x);
+    if (objectPaths.length) await sb.storage.from(BUCKET).remove(objectPaths).catch(() => {});
+    await sb.from("product_images").delete().in("id", raws.map((i: any) => i.id));
+  }
+
   revalidatePath(`/shop/${p.category.slug}/${sku}`);
   revalidatePath("/admin/catalogue");
+  revalidatePath("/admin/media");
+  revalidatePath("/shop");
   return { ok: true, sku, url: pub.publicUrl };
+}
+
+/** Extract the in-bucket object path from a Supabase public URL, or null if external. */
+function storagePathFromPublicUrl(url: string): string | null {
+  const marker = `/object/public/${BUCKET}/`;
+  const i = url.indexOf(marker);
+  if (i === -1) return null;
+  return decodeURIComponent(url.slice(i + marker.length));
 }
 
 export async function generateAllAction(): Promise<{ total: number; ok: number; needsKey: boolean; results: GenResult[] }> {
