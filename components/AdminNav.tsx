@@ -9,6 +9,8 @@ const LINKS = [
   { href: "/admin/estimates", label: "Estimates", icon: "≈" },
   { href: "/admin/returns", label: "Returns", icon: "⤺" },
   { href: "/admin/purchases", label: "Purchases", icon: "⇪" },
+  { href: "/admin/customers", label: "Customers", icon: "♚" },
+  { href: "/admin/abandoned", label: "Abandoned carts", icon: "⊘" },
   { href: "/admin/inventory", label: "Inventory", icon: "▤" },
   { href: "/admin/approvals", label: "Approvals", icon: "✓" },
   { href: "/admin/inbox", label: "Notifications", icon: "✉" },

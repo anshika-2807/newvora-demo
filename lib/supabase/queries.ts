@@ -285,3 +285,33 @@ export async function getAssignmentsRegistry() {
   const { data } = await sb.from("assignments").select("id,responsibility,channel,sla_minutes,assignee:contacts!assignments_assigned_contact_id_fkey(name),backup:contacts!assignments_backup_contact_id_fkey(name)");
   return (data as any[]) ?? [];
 }
+
+// ---------- CRM + abandoned carts + SEO ----------
+export async function getCustomers() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("orders").select("customer_name,customer_phone,total,created_at");
+  const map = new Map<string, { name: string; phone: string | null; orders: number; spent: number; last: string }>();
+  for (const o of (data as any[]) ?? []) {
+    const name = (o.customer_name ?? "").trim(); if (!name) continue;
+    const c = map.get(name) ?? { name, phone: o.customer_phone ?? null, orders: 0, spent: 0, last: o.created_at };
+    c.orders++; c.spent += o.total ?? 0; if (o.created_at > c.last) c.last = o.created_at; if (!c.phone) c.phone = o.customer_phone ?? null;
+    map.set(name, c);
+  }
+  return [...map.values()].sort((a, b) => b.spent - a.spent);
+}
+export async function getRetailers() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("retailers").select("id,name,city,approved").order("name");
+  return (data as any[]) ?? [];
+}
+export async function getAbandonedCarts() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("abandoned_carts").select("*").eq("recovered", false).order("created_at", { ascending: false });
+  return (data as any[]) ?? [];
+}
+export async function getSitemapData() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("products").select("sku, category:categories(slug)").eq("status", "published");
+  const { data: cats } = await sb.from("categories").select("slug");
+  return { products: ((data as any[]) ?? []).map((p) => ({ sku: p.sku, slug: p.category?.slug ?? "all" })), categories: ((cats as any[]) ?? []).map((c) => c.slug) };
+}
