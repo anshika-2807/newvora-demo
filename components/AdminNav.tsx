@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin/billing", label: "Billing (POS)", icon: "₹" },
   { href: "/admin/estimates", label: "Estimates", icon: "≈" },
   { href: "/admin/returns", label: "Returns", icon: "⤺" },
+  { href: "/admin/purchases", label: "Purchases", icon: "⇪" },
   { href: "/admin/inventory", label: "Inventory", icon: "▤" },
   { href: "/admin/approvals", label: "Approvals", icon: "✓" },
 ];

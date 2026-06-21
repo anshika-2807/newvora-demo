@@ -1,0 +1,77 @@
+"use client";
+import { useState } from "react";
+import { formatPaise } from "@/lib/pricing";
+import { recordPurchaseAction } from "@/app/actions/purchases";
+
+type Sup = { id: string; name: string; city: string | null };
+type Prod = { id: string; name: string; sku: string };
+type Line = { supplierSku: string; mappedProductId: string; mappedName: string; qty: string; cost: string };
+
+export function PurchaseClient({ suppliers, products }: { suppliers: Sup[]; products: Prod[] }) {
+  const [supplierId, setSupplierId] = useState("");
+  const [billNo, setBillNo] = useState("");
+  const [lines, setLines] = useState<Line[]>([{ supplierSku: "", mappedProductId: "", mappedName: "", qty: "", cost: "" }]);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  const input = "rounded-xl border border-sand px-3 py-2 text-sm bg-white outline-none focus:border-emerald";
+  const set = (i: number, patch: Partial<Line>) => setLines((p) => p.map((l, idx) => idx === i ? { ...l, ...patch } : l));
+  const suggest = (q: string) => q.trim() ? products.filter((p) => (p.name + p.sku).toLowerCase().includes(q.toLowerCase())).slice(0, 6) : [];
+  const total = lines.reduce((s, l) => s + (Number(l.qty) || 0) * (Number(l.cost) || 0), 0);
+
+  async function submit() {
+    setBusy(true); setMsg("");
+    const res = await recordPurchaseAction({
+      supplierId, billNo,
+      items: lines.map((l) => ({ supplierSku: l.supplierSku, mappedProductId: l.mappedProductId, qty: Number(l.qty) || 0, unitCostRupees: Number(l.cost) || 0 })),
+    });
+    setBusy(false);
+    if (res.ok) { setMsg(`✓ Purchase recorded (${formatPaise(res.total ?? 0)}) — mapped items added to stock.`); setLines([{ supplierSku: "", mappedProductId: "", mappedName: "", qty: "", cost: "" }]); setBillNo(""); }
+    else setMsg(`✕ ${res.error}`);
+  }
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+      <div className="grid sm:grid-cols-2 gap-3 mb-4">
+        <select className={input} value={supplierId} onChange={(e) => setSupplierId(e.target.value)}>
+          <option value="">Select supplier…</option>
+          {suppliers.map((s) => <option key={s.id} value={s.id}>{s.name}{s.city ? ` · ${s.city}` : ""}</option>)}
+        </select>
+        <input className={input} placeholder="Supplier bill no." value={billNo} onChange={(e) => setBillNo(e.target.value)} />
+      </div>
+
+      <p className="text-xs text-muted mb-2">Type the supplier&apos;s item name/code — we suggest your internal SKU. Map it, or leave unmapped to skip the stock update.</p>
+      <div className="space-y-2">
+        {lines.map((l, i) => (
+          <div key={i} className="grid grid-cols-12 gap-2 items-start">
+            <div className="col-span-5 relative">
+              <input className={input + " w-full"} placeholder="Supplier item / code" value={l.supplierSku}
+                onChange={(e) => { set(i, { supplierSku: e.target.value }); setOpenIdx(i); }} onFocus={() => setOpenIdx(i)} />
+              {l.mappedName ? (
+                <p className="text-[11px] text-emerald-dark mt-0.5">→ {l.mappedName} <button onClick={() => set(i, { mappedProductId: "", mappedName: "" })} className="text-muted underline ml-1">change</button></p>
+              ) : openIdx === i && suggest(l.supplierSku).length > 0 && (
+                <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
+                  {suggest(l.supplierSku).map((p) => (
+                    <button key={p.id} onClick={() => { set(i, { mappedProductId: p.id, mappedName: `${p.name} (${p.sku})` }); setOpenIdx(null); }}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-emerald-mist">{p.name} <span className="text-muted">· {p.sku}</span></button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <input className={input + " col-span-2"} placeholder="Qty" inputMode="numeric" value={l.qty} onChange={(e) => set(i, { qty: e.target.value })} />
+            <input className={input + " col-span-3"} placeholder="Unit cost ₹" inputMode="numeric" value={l.cost} onChange={(e) => set(i, { cost: e.target.value })} />
+            <div className="col-span-2 text-sm text-right pt-2">{formatPaise((Number(l.qty) || 0) * (Number(l.cost) || 0) * 100)}</div>
+          </div>
+        ))}
+      </div>
+      <button onClick={() => setLines((p) => [...p, { supplierSku: "", mappedProductId: "", mappedName: "", qty: "", cost: "" }])} className="text-sm text-emerald nav-link mt-3">+ Add line</button>
+
+      <div className="flex items-center justify-between mt-5 border-t border-sand pt-4">
+        <span className="text-lg font-semibold text-ink">Total: {formatPaise(total * 100)}</span>
+        <button onClick={submit} disabled={busy} className="btn-primary px-6 py-2.5 text-sm font-medium disabled:opacity-50">{busy ? "Recording…" : "Record purchase"}</button>
+      </div>
+      {msg && <p className="text-sm mt-2 text-ink">{msg}</p>}
+    </div>
+  );
+}

@@ -241,3 +241,22 @@ export async function getReturns() {
   const { data } = await sb.from("returns").select("id,kind,reason,qty,created_at").order("created_at", { ascending: false }).limit(20);
   return (data as any[]) ?? [];
 }
+
+// ---------- purchases ----------
+export async function getSuppliers() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("suppliers").select("id,name,city").order("city");
+  return (data as any[]) ?? [];
+}
+export async function getProductsLite() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("products").select("id,name,sku").order("sku");
+  return (data as any[]) ?? [];
+}
+export async function getRecentPurchases() {
+  const sb = supabaseServer();
+  const { data } = await sb.from("purchases")
+    .select("id,bill_no,total,created_at,supplier:suppliers(name,city),purchase_items(qty)")
+    .order("created_at", { ascending: false }).limit(15);
+  return (data as any[]) ?? [];
+}
