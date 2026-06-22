@@ -466,7 +466,9 @@ export async function getShoppableReels(): Promise<ShopReel[]> {
     id: r.id, caption: r.caption, video_url: r.video_url,
     products: (r.reel_products ?? []).map((rp: any) => rp.product).filter((p: any) => p && p.status === "published")
       .map((p: any) => ({ sku: p.sku, name: p.name, price: _liveOffer(p.base_wholesale, formula).price, categorySlug: p.category?.slug ?? "all", category: p.category?.name ?? "" })),
-  })).filter((r) => r.products.length > 0);
+  }));
+  // NOTE: previously reels with no mapped/published products were dropped — that hid newly
+  // uploaded reels. Now every reel shows; the "shop this look" chips appear only when present.
 }
 
 export async function getAdminReels() {

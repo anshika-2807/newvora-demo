@@ -38,16 +38,18 @@ async function nextSku(sb: ReturnType<typeof supabaseServer>): Promise<number> {
 export type NewProduct = { categoryId: string; name: string; basePriceRupees: number; qty: number; type: "simple" | "configurable"; colors: string[] };
 export type RowResult = { row: number; ok: boolean; sku?: string; error?: string };
 
-async function insertOne(sb: ReturnType<typeof supabaseServer>, formula: any, n: NewProduct, skuNum: number): Promise<RowResult> {
+async function insertOne(sb: ReturnType<typeof supabaseServer>, formula: any, n: NewProduct, skuNum: number, publish = false): Promise<RowResult> {
   if (!n.name) return { row: skuNum, ok: false, error: "Missing name" };
   if (!(n.basePriceRupees > 0)) return { row: skuNum, ok: false, error: "Base price must be > 0" };
   if (!n.categoryId) return { row: skuNum, ok: false, error: "Missing category" };
   const prices = computePrices(n.basePriceRupees * 100, formula);
   if (!isValidPriceSet(prices)) return { row: skuNum, ok: false, error: "Computed price invalid — flagged" };
   const sku = `BD${skuNum}`;
+  // Incomplete products (no photo yet) stay DRAFT so they never appear on the storefront
+  // looking unfinished. They publish automatically once a photo is added, or via Show.
   const { data: prod, error } = await sb.from("products").insert({
     category_id: n.categoryId, sku, name: n.name, type: n.type,
-    base_wholesale: n.basePriceRupees * 100, qty: Math.max(0, n.qty), status: "published", last_movement_at: new Date().toISOString(),
+    base_wholesale: n.basePriceRupees * 100, qty: Math.max(0, n.qty), status: publish ? "published" : "draft", last_movement_at: new Date().toISOString(),
   }).select("id").single();
   if (error) return { row: skuNum, ok: false, error: error.message };
   if (n.type === "configurable" && n.colors.length) {
@@ -100,20 +102,20 @@ export async function createProductWithImageAction(formData: FormData): Promise<
     colors: String(formData.get("colors") ?? "").split(",").map((s) => s.trim()).filter(Boolean),
   };
   const [formula, skuNum] = await Promise.all([getPricingFormula(), nextSku(sb)]);
-  const res = await insertOne(sb, formula, n, skuNum);
-  if (res.ok && res.sku) {
-    const file = formData.get("image") as File | null;
-    if (file && typeof file === "object" && file.size > 0) {
-      await ensureMediaBucket(sb);
-      const ext = ((file.type.split("/")[1]) || "jpg").replace("jpeg", "jpg");
-      const path = `${res.sku}/source.${ext}`;
-      const bytes = new Uint8Array(await file.arrayBuffer());
-      const up = await sb.storage.from(BUCKET).upload(path, bytes, { contentType: file.type || "image/jpeg", upsert: true });
-      if (!up.error) {
-        const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
-        const { data: prod } = await sb.from("products").select("id").eq("sku", res.sku).single();
-        if (prod) await sb.from("product_images").insert({ product_id: prod.id, path: pub.publicUrl, kind: "flatlay", sort: 0 });
-      }
+  const file = formData.get("image") as File | null;
+  const hasPhoto = !!(file && typeof file === "object" && file.size > 0);
+  // Publish immediately only when a photo is attached (complete listing); otherwise draft.
+  const res = await insertOne(sb, formula, n, skuNum, hasPhoto);
+  if (res.ok && res.sku && hasPhoto && file) {
+    await ensureMediaBucket(sb);
+    const ext = ((file.type.split("/")[1]) || "jpg").replace("jpeg", "jpg");
+    const path = `${res.sku}/source.${ext}`;
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const up = await sb.storage.from(BUCKET).upload(path, bytes, { contentType: file.type || "image/jpeg", upsert: true });
+    if (!up.error) {
+      const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
+      const { data: prod } = await sb.from("products").select("id").eq("sku", res.sku).single();
+      if (prod) await sb.from("product_images").insert({ product_id: prod.id, path: pub.publicUrl, kind: "flatlay", sort: 0 });
     }
   }
   revalidatePath("/admin/catalogue"); revalidatePath("/shop");

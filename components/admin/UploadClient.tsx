@@ -59,7 +59,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
       push({ text: `Creating ${form.name.trim()}…`, status: "run" });
       const res = await createProductWithImageAction(fd);
       if (!res.ok) { patchLast("err", `Failed: ${res.error}`); toast(res.error ?? "Could not add", "error"); return; }
-      patchLast("ok", `Created ${res.sku} ✓`);
+      patchLast("ok", `Created ${res.sku} ✓${file ? " · published" : " · saved as draft (add a photo or Show it to publish)"}`);
       setProgress({ done: 1, total: writeAi ? 2 : 1 });
       if (writeAi && res.sku) { await writeAiPage(res.sku, form.name.trim()); setProgress({ done: 2, total: 2 }); }
       toast(`${res.sku} added`);
@@ -90,7 +90,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
         else patchLast("err", `Skipped ${r.name}: ${res.error}`);
         setProgress({ done: i + 1, total: rows.length });
       }
-      push({ text: `Done — ${created} of ${rows.length} products are live in ${catName} ✓`, status: "ok" });
+      push({ text: `Done — ${created} of ${rows.length} products saved as drafts in ${catName}. Add photos (or Show them) to publish ✓`, status: "ok" });
       toast(`${created} products added`);
       setCsv("");
     } catch (e) {

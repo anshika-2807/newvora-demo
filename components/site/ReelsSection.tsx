@@ -24,15 +24,19 @@ export function ReelsSection({ reels }: { reels: ShopReel[] }) {
               <span className="absolute top-3 left-3 h-9 w-9 rounded-full bg-white/85 grid place-items-center text-ink">▶</span>
               <p className="absolute bottom-3 left-3 right-3 text-cream text-sm font-medium drop-shadow">{r.caption}</p>
             </div>
-            <p className="text-[11px] uppercase tracking-wide text-muted mt-2 mb-1">Shop this look</p>
-            <div className="flex gap-2 overflow-x-auto">
-              {r.products.slice(0, 4).map((p) => (
-                <Link key={p.sku} href={`/shop/${p.categorySlug}/${p.sku}`} className="shrink-0 w-20 group">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-cream"><ProductImage name={p.name} /></div>
-                  <p className="text-[11px] font-medium text-ink mt-1">{formatPaise(p.price)}</p>
-                </Link>
-              ))}
-            </div>
+            {r.products.length > 0 && (
+              <>
+                <p className="text-[11px] uppercase tracking-wide text-muted mt-2 mb-1">Shop this look</p>
+                <div className="flex gap-2 overflow-x-auto">
+                  {r.products.slice(0, 4).map((p) => (
+                    <Link key={p.sku} href={`/shop/${p.categorySlug}/${p.sku}`} className="shrink-0 w-20 group">
+                      <div className="aspect-square rounded-lg overflow-hidden bg-cream"><ProductImage name={p.name} /></div>
+                      <p className="text-[11px] font-medium text-ink mt-1">{formatPaise(p.price)}</p>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>

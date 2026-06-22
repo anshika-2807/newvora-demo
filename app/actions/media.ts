@@ -22,7 +22,9 @@ export async function uploadProductImageAction(formData: FormData): Promise<{ ok
   if (up.error) return { ok: false, error: up.error.message };
   const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
   await sb.from("product_images").insert({ product_id: (p as any).id, path: pub.publicUrl, kind, sort: 1 });
-  revalidatePath("/admin/media"); revalidatePath("/admin/catalogue");
+  // A product with a photo is "complete" — auto-publish it if it was still a draft.
+  await sb.from("products").update({ status: "published" }).eq("id", (p as any).id).eq("status", "draft");
+  revalidatePath("/admin/media"); revalidatePath("/admin/catalogue"); revalidatePath("/shop");
   return { ok: true, url: pub.publicUrl };
 }
 
