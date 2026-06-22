@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ProductImage } from "@/components/Placeholder";
 import { formatPaise } from "@/lib/pricing";
+import { ReelPlayer } from "@/components/site/ReelPlayer";
 import type { ShopReel } from "@/lib/supabase/queries";
 
 export function ReelsSection({ reels }: { reels: ShopReel[] }) {
@@ -13,16 +14,9 @@ export function ReelsSection({ reels }: { reels: ShopReel[] }) {
       </div>
       <div className="flex gap-5 overflow-x-auto pb-3 snap-x">
         {reels.map((r) => (
-          <div key={r.id} className="snap-start shrink-0 w-64">
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-ink group">
-              {r.video_url ? (
-                <video src={r.video_url} muted loop playsInline className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full" style={{ background: "linear-gradient(160deg,#241B2E,#0F5C4D,#C8A24C)" }} />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
-              <span className="absolute top-3 left-3 h-9 w-9 rounded-full bg-white/85 grid place-items-center text-ink">▶</span>
-              <p className="absolute bottom-3 left-3 right-3 text-cream text-sm font-medium drop-shadow">{r.caption}</p>
+          <div key={r.id} className="snap-start shrink-0 w-72">
+            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-ink">
+              <ReelPlayer videoUrl={r.video_url} caption={r.caption} />
             </div>
             {r.products.length > 0 && (
               <>

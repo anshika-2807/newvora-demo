@@ -3,6 +3,15 @@ import "server-only";
 import { supabaseServer } from "./server";
 import type { PricingFormula } from "../pricing";
 
+/**
+ * Sanitise a user search term before putting it in a PostgREST `.or(...ilike...)` filter.
+ * Strips characters with meaning in the or() grammar (commas, parentheses, wildcards,
+ * dots, asterisks) so a search string can never break or inject into the query.
+ */
+function escLike(s: string): string {
+  return s.trim().replace(/[,()*%.]/g, " ").replace(/\s+/g, " ").trim();
+}
+
 export type DbCategory = { id: string; name: string; slug: string };
 export type DbVariant = { id: string; color: string | null; sku: string; qty: number; image_paths: string[] };
 export type DbImage = { id: string; path: string; kind: string | null; sort: number };
@@ -35,7 +44,7 @@ export async function getProductsPage(opts: { page?: number; pageSize?: number; 
   const pageSize = opts.pageSize ?? 25;
   const page = Math.max(1, opts.page ?? 1);
   let query = sb.from("products").select("id,sku,name,qty,base_wholesale,type,status,generated_content,category:categories(id,name,slug)", { count: "exact" });
-  if (opts.q?.trim()) { const s = opts.q.trim(); query = query.or(`name.ilike.%${s}%,sku.ilike.%${s}%`); }
+  if (opts.q?.trim()) { const s = escLike(opts.q); if (s) query = query.or(`name.ilike.%${s}%,sku.ilike.%${s}%`); }
   if (opts.category && opts.category !== "all") {
     const { data: cat } = await sb.from("categories").select("id").eq("slug", opts.category).maybeSingle();
     if (cat) query = query.eq("category_id", (cat as any).id);
@@ -73,7 +82,7 @@ export async function getCatalogProducts(opts: { category?: string }) {
 export async function getCustomersDb(opts: { q?: string; type?: string }) {
   const sb = supabaseServer();
   let query = sb.from("customers").select("id,name,phone,type,gstin,city,credit_balance,created_at");
-  if (opts.q?.trim()) { const s = opts.q.trim(); query = query.or(`name.ilike.%${s}%,phone.ilike.%${s}%,gstin.ilike.%${s}%`); }
+  if (opts.q?.trim()) { const s = escLike(opts.q); if (s) query = query.or(`name.ilike.%${s}%,phone.ilike.%${s}%,gstin.ilike.%${s}%`); }
   if (opts.type && opts.type !== "all") query = query.eq("type", opts.type);
   const { data } = await query.order("name");
   return (data as any[]) ?? [];
@@ -83,13 +92,16 @@ export async function getCustomerById(id: string) {
   const sb = supabaseServer();
   const { data: c } = await sb.from("customers").select("*").eq("id", id).maybeSingle();
   if (!c) return null;
-  // Order history: by linked customer_id OR matching phone (covers POS sales saved with a phone).
+  // Order history: linked customer_id plus any POS sales saved with the same phone.
+  // (Two separate queries merged — avoids putting a raw phone into an or() filter.)
   const phone = (c as any).phone;
-  let q = sb.from("orders").select("id,total,channel,bill_type,payment_mode,status,created_at,customer_id,customer_phone").order("created_at", { ascending: false }).limit(100);
-  const { data: orders } = phone
-    ? await q.or(`customer_id.eq.${id},customer_phone.eq.${phone}`)
-    : await q.eq("customer_id", id);
-  const list = (orders as any[]) ?? [];
+  const sel = "id,total,amount_paid,invoice_no,channel,bill_type,payment_mode,status,created_at,customer_id,customer_phone";
+  const byId = await sb.from("orders").select(sel).eq("customer_id", id).order("created_at", { ascending: false }).limit(100);
+  const byPhone = phone ? await sb.from("orders").select(sel).eq("customer_phone", phone).order("created_at", { ascending: false }).limit(100) : { data: [] as any[] };
+  const seen = new Set<string>();
+  const list = [...((byId.data as any[]) ?? []), ...((byPhone.data as any[]) ?? [])]
+    .filter((o) => (seen.has(o.id) ? false : (seen.add(o.id), true)))
+    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
   return {
     customer: c,
     orders: list,
@@ -101,7 +113,7 @@ export async function getCustomerById(id: string) {
 export async function getSuppliersList(opts: { q?: string; kind?: string; city?: string }) {
   const sb = supabaseServer();
   let query = sb.from("suppliers").select("id,name,kind,city,state,phone,gstin,address,notes,created_at");
-  if (opts.q?.trim()) { const s = opts.q.trim(); query = query.or(`name.ilike.%${s}%,phone.ilike.%${s}%,gstin.ilike.%${s}%`); }
+  if (opts.q?.trim()) { const s = escLike(opts.q); if (s) query = query.or(`name.ilike.%${s}%,phone.ilike.%${s}%,gstin.ilike.%${s}%`); }
   if (opts.kind && opts.kind !== "all") query = query.eq("kind", opts.kind);
   if (opts.city && opts.city !== "all") query = query.eq("city", opts.city);
   const { data } = await query.order("name");
@@ -118,7 +130,7 @@ export async function getOrdersPage(opts: { page?: number; pageSize?: number; q?
   const pageSize = opts.pageSize ?? 25;
   const page = Math.max(1, opts.page ?? 1);
   let query = sb.from("orders").select("id,total,amount_paid,invoice_no,channel,status,payment_mode,bill_type,customer_name,customer_phone,source_tag,created_at", { count: "exact" });
-  if (opts.q?.trim()) { const s = opts.q.trim(); query = query.or(`customer_name.ilike.%${s}%,customer_phone.ilike.%${s}%`); }
+  if (opts.q?.trim()) { const s = escLike(opts.q); if (s) query = query.or(`customer_name.ilike.%${s}%,customer_phone.ilike.%${s}%`); }
   if (opts.channel && opts.channel !== "all") query = query.eq("channel", opts.channel);
   if (opts.from) query = query.gte("created_at", opts.from);
   if (opts.to) query = query.lte("created_at", opts.to);

@@ -4,8 +4,9 @@ import type { NextRequest } from "next/server";
 const OWNER = process.env.ADMIN_SESSION_TOKEN ?? "bd-owner-session-v1";
 const STAFF = OWNER + "-staff";
 
-/** Longest-prefix → required permission. Paths not listed are open to any signed-in user. */
-const ROUTE_PERM: [string, string][] = [
+/** Longest-prefix → required permission(s). An array means ANY of those perms grants access.
+ *  Paths not listed are open to any signed-in user. */
+const ROUTE_PERM: [string, string | string[]][] = [
   ["/admin/upload", "catalog.create"],
   ["/admin/catalogue", "catalog.view"],
   ["/admin/media", "catalog.ai"],
@@ -15,6 +16,9 @@ const ROUTE_PERM: [string, string][] = [
   ["/admin/reorder", "inventory.view"],
   ["/admin/billing", "billing.sell"],
   ["/admin/sales", "sales.view"],
+  // Invoice/estimate detail pages: viewable by sellers OR sales-viewers (so POS->invoice works).
+  ["/admin/invoice", ["billing.sell", "billing.gst", "sales.view"]],
+  ["/admin/estimate", ["estimates.create", "estimates.bill", "sales.view"]],
   ["/admin/estimates", "estimates.create"],
   ["/admin/returns", "billing.refund"],
   ["/admin/purchases", "purchases.view"],
@@ -48,11 +52,15 @@ export function middleware(req: NextRequest) {
   const perms = (req.cookies.get("bd_perms")?.value ?? "").split(",").filter(Boolean);
   const path = req.nextUrl.pathname;
   const match = ROUTE_PERM.filter(([p]) => path === p || path.startsWith(p + "/")).sort((a, b) => b[0].length - a[0].length)[0];
-  if (match && !perms.includes(match[1])) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/admin/dashboard";
-    url.searchParams.set("denied", match[0].replace("/admin/", ""));
-    return NextResponse.redirect(url);
+  if (match) {
+    const required = Array.isArray(match[1]) ? match[1] : [match[1]];
+    const ok = required.some((r) => perms.includes(r));
+    if (!ok) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/admin/dashboard";
+      url.searchParams.set("denied", match[0].replace("/admin/", ""));
+      return NextResponse.redirect(url);
+    }
   }
   return NextResponse.next();
 }
