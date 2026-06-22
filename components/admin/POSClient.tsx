@@ -1,16 +1,20 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { formatPaise } from "@/lib/pricing";
 import { posSaleAction } from "@/app/actions/orders";
 import { QtyField } from "@/components/admin/QtyField";
 
 type P = { sku: string; name: string; price: number; category: string; qty: number };
+type Line = { sku: string; name: string; price: number; qty: number; stock: number };
 
 export function POSClient({ products }: { products: P[] }) {
   const router = useRouter();
   const [q, setQ] = useState("");
-  const [lines, setLines] = useState<{ sku: string; name: string; price: number; qty: number }[]>([]);
+  const [scan, setScan] = useState("");
+  const [scanMsg, setScanMsg] = useState<{ text: string; ok: boolean } | null>(null);
+  const scanRef = useRef<HTMLInputElement>(null);
+  const [lines, setLines] = useState<Line[]>([]);
   const [cust, setCust] = useState({ name: "", phone: "" });
   const [pay, setPay] = useState("cash");
   const [billType, setBillType] = useState<"gst" | "cash">("gst");
@@ -27,9 +31,24 @@ export function POSClient({ products }: { products: P[] }) {
   }, [q, products]);
 
   const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
-  function addLine(p: P) { setLines((prev) => { const ex = prev.find((l) => l.sku === p.sku); if (ex) return prev.map((l) => l.sku === p.sku ? { ...l, qty: l.qty + 1 } : l); return [...prev, { sku: p.sku, name: p.name, price: p.price, qty: 1 }]; }); setQ(""); }
+  function addLine(p: P) { setLines((prev) => { const ex = prev.find((l) => l.sku === p.sku); if (ex) return prev.map((l) => l.sku === p.sku ? { ...l, qty: l.qty + 1 } : l); return [...prev, { sku: p.sku, name: p.name, price: p.price, qty: 1, stock: p.qty }]; }); setQ(""); }
   function setQty(sku: string, qty: number) { setLines((p) => p.map((l) => l.sku === sku ? { ...l, qty: Math.max(1, Math.floor(qty || 1)) } : l)); }
   function rm(sku: string) { setLines((p) => p.filter((l) => l.sku !== sku)); }
+
+  /** Barcode scanner sends "<SKU>\n" — match exactly and add, showing available stock. */
+  function onScan(raw: string) {
+    const code = raw.trim();
+    if (!code) return;
+    const p = products.find((x) => x.sku.toLowerCase() === code.toLowerCase());
+    if (p) {
+      addLine(p);
+      setScanMsg({ text: `✓ ${p.name} added · ${p.qty} in stock${p.qty <= 0 ? " (OUT OF STOCK)" : ""}`, ok: p.qty > 0 });
+    } else {
+      setScanMsg({ text: `✕ No product with SKU “${code}”`, ok: false });
+    }
+    setScan("");
+    scanRef.current?.focus();
+  }
 
   async function complete() {
     setBusy(true); setErr("");
@@ -49,8 +68,22 @@ export function POSClient({ products }: { products: P[] }) {
     <div className="grid lg:grid-cols-2 gap-6">
       <div className="bg-white rounded-2xl p-6 shadow-card">
         <h2 className="font-medium text-ink mb-3">Add items</h2>
+
+        {/* Barcode scan */}
+        <div className="mb-3">
+          <div className="flex items-center gap-2 rounded-xl border-2 border-emerald/40 bg-emerald-mist/40 px-3 py-2">
+            <span className="text-emerald text-lg">▥</span>
+            <input ref={scanRef} autoFocus value={scan} onChange={(e) => setScan(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); onScan(scan); } }}
+              placeholder="Scan barcode or type SKU + Enter…"
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-emerald-dark/50" />
+            <button onClick={() => onScan(scan)} className="text-xs px-3 py-1 rounded-full bg-emerald text-white">Add</button>
+          </div>
+          {scanMsg && <p className={`text-xs mt-1 ${scanMsg.ok ? "text-emerald-dark" : "text-rose"}`}>{scanMsg.text}</p>}
+        </div>
+
         <div className="relative">
-          <input className={input} placeholder="Search by name or SKU…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <input className={input} placeholder="…or search by name / SKU" value={q} onChange={(e) => setQ(e.target.value)} />
           {matches.length > 0 && (
             <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
               {matches.map((p) => (
@@ -65,7 +98,10 @@ export function POSClient({ products }: { products: P[] }) {
           {lines.length === 0 && <p className="text-sm text-muted">No items yet. Search above to add.</p>}
           {lines.map((l) => (
             <div key={l.sku} className="flex items-center gap-3 border-b border-sand/60 pb-2">
-              <div className="flex-1"><p className="text-sm text-ink">{l.name}</p><p className="text-xs text-muted">{l.sku} · {formatPaise(l.price)}</p></div>
+              <div className="flex-1">
+                <p className="text-sm text-ink">{l.name}</p>
+                <p className="text-xs text-muted">{l.sku} · {formatPaise(l.price)} · <span className={l.qty > l.stock ? "text-rose font-medium" : "text-emerald"}>{l.stock} in stock</span>{l.qty > l.stock && <span className="text-rose"> — only {l.stock} available!</span>}</p>
+              </div>
               <div className="inline-flex items-center rounded-full border border-sand text-sm overflow-hidden">
                 <button onClick={() => setQty(l.sku, l.qty - 1)} className="px-2.5 py-1 hover:bg-cream" aria-label="decrease">−</button>
                 <QtyField value={l.qty} onChange={(n) => setQty(l.sku, n)} className="w-14 text-center border-x border-sand py-1 outline-none focus:bg-emerald-mist" />
