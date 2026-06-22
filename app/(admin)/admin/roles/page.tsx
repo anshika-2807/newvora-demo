@@ -1,44 +1,49 @@
 export const dynamic = "force-dynamic";
 import { getRoles } from "@/lib/supabase/queries";
-import { createRoleAction } from "@/app/actions/rbac";
-import { PERMISSIONS } from "@/lib/permissions";
+import { createRoleAction, updateRoleAction, deleteRoleAction } from "@/app/actions/rbac";
+import { RoleForm } from "@/components/admin/RoleForm";
+import { permLabel } from "@/lib/permissions";
 
 export const metadata = { title: "Owner Console · Roles & Permissions" };
-const label = (p: string) => p.replace(/_/g, " ");
 
 export default async function Roles() {
   const roles = await getRoles();
   return (
-    <main className="p-8 bg-cream/40 min-h-screen max-w-4xl">
+    <main className="p-4 sm:p-8 bg-cream/40 min-h-screen max-w-5xl">
       <h1 className="font-display text-4xl text-ink mb-1">Roles &amp; Permissions</h1>
-      <p className="text-sm text-muted mb-6">Discord-style custom roles. Create a role, tick exactly what it can do, then assign staff to it.</p>
+      <p className="text-sm text-muted mb-6">Discord-style granular control. Grant exactly what a role can do — e.g. a stock clerk who can <b>add</b> stock but never <b>remove</b> it, or list products but not delete them.</p>
 
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
-        <h2 className="font-medium text-ink mb-3">Create a role</h2>
-        <form action={createRoleAction} className="space-y-4">
-          <input name="name" placeholder="Role name (e.g. Counter Staff)" className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {PERMISSIONS.map((p) => (
-              <label key={p} className="flex items-center gap-2 text-sm capitalize bg-cream/60 rounded-xl px-3 py-2 cursor-pointer hover:bg-emerald-mist transition-colors">
-                <input type="checkbox" name={`perm_${p}`} className="accent-emerald" /> {label(p)}
-              </label>
-            ))}
-          </div>
-          <button className="btn-primary px-6 py-2.5 text-sm font-medium">Create role</button>
-        </form>
+      <div className="bg-white rounded-2xl p-6 shadow-card mb-8">
+        <h2 className="font-medium text-ink mb-4">Create a role</h2>
+        <RoleForm action={createRoleAction} submitLabel="Create role" />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <h2 className="font-medium text-ink mb-3">Existing roles</h2>
+      <div className="space-y-4">
+        {roles.length === 0 && <p className="text-sm text-muted">No roles yet.</p>}
         {roles.map((r: any) => (
-          <div key={r.id} className="bg-white rounded-2xl p-5 shadow-card">
-            <p className="font-medium text-ink mb-2">{r.name}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {(r.permissions ?? []).length === 0 && <span className="text-xs text-muted">No permissions</span>}
-              {(r.permissions ?? []).map((p: string) => (
-                <span key={p} className="text-[11px] capitalize px-2 py-1 rounded-full bg-emerald-mist text-emerald-dark">{label(p)}</span>
-              ))}
+          <details key={r.id} className="bg-white rounded-2xl shadow-card overflow-hidden">
+            <summary className="px-5 py-4 cursor-pointer flex items-center justify-between list-none">
+              <div>
+                <p className="font-medium text-ink">{r.name}</p>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {(r.permissions ?? []).length === 0 && <span className="text-xs text-muted">No permissions</span>}
+                  {(r.permissions ?? []).slice(0, 8).map((p: string) => (
+                    <span key={p} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-mist text-emerald-dark">{permLabel(p)}</span>
+                  ))}
+                  {(r.permissions ?? []).length > 8 && <span className="text-[11px] text-muted">+{(r.permissions ?? []).length - 8} more</span>}
+                </div>
+              </div>
+              <span className="text-muted text-sm">Edit ⌄</span>
+            </summary>
+            <div className="border-t border-sand px-5 py-4">
+              <RoleForm action={updateRoleAction} id={r.id} initialName={r.name} initialPerms={r.permissions ?? []} submitLabel="Save changes" />
+              <form action={deleteRoleAction} className="mt-3">
+                <input type="hidden" name="id" value={r.id} />
+                <button className="text-xs text-rose hover:underline">Delete this role</button>
+              </form>
             </div>
-          </div>
+          </details>
         ))}
       </div>
     </main>

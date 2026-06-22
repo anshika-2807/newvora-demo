@@ -16,6 +16,7 @@ const GROUPS: { title: string; links: L[] }[] = [
     { href: "/admin/media", label: "Product Photos", icon: "▣" },
     { href: "/admin/categories", label: "Categories", icon: "▦" },
     { href: "/admin/inventory", label: "Inventory", icon: "▤" },
+    { href: "/admin/barcodes", label: "Barcodes", icon: "▥" },
     { href: "/admin/reorder", label: "AI Reorder", icon: "✨" },
   ]},
   { title: "Sales & Billing", links: [
