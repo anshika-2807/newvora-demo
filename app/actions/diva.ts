@@ -11,12 +11,14 @@ import { groqChat, openaiChat, groqConfigured, openaiConfigured } from "@/lib/ai
 import { supabaseServer } from "@/lib/supabase/server";
 import {
   getChannelReport, getInventoryClassified, getProductsPage, getDashboardData, getStorefront,
+  getProductBySku, getProductSalesStats,
 } from "@/lib/supabase/queries";
 import { formatPaise } from "@/lib/pricing";
 import { liveOffer } from "@/lib/offers";
 import { DIVA_TOOLS, PAGE_MAP, toolByName } from "@/lib/diva/tools";
 import { requirePerm } from "@/lib/auth";
 import { generateContentAction } from "@/app/actions/aiContent";
+import { generateOneAction } from "@/app/actions/images";
 import { revalidatePath } from "next/cache";
 
 export type DivaStep = { tool: string; args: Record<string, any>; label: string; kind: string; needsConfirm: boolean };
@@ -37,13 +39,20 @@ export async function divaPlan(command: string): Promise<DivaPlan> {
 
   const catalog = DIVA_TOOLS.map((t) => `- ${t.name}(${t.params.map((p) => p.name + (p.required ? "*" : "")).join(", ")}) [${t.kind}] — ${t.desc}`).join("\n");
   const system =
-    `You are DIVA, the operations agent inside the Blythe Diva jewellery admin console (Sadar Bazar, Delhi). ` +
+    `You are DIVA, the operations agent inside the Blythe Diva artificial-jewellery admin console (Yogendra Industries, Sadar Bazar, Delhi). ` +
+    `The console manages a catalogue of products (each has a SKU like BD1000, a price, stock, status published/draft, AI page, photos), ` +
+    `online + wholesale + counter(POS) sales, estimates, purchases, suppliers, inventory health, staff roles, and analytics. ` +
     `Turn the owner's command into an ordered plan using ONLY these tools:\n${catalog}\n\n` +
-    `Rules: break the request into the minimum number of concrete steps. Each step must be one tool with its args. ` +
-    `Use open_page to take the owner to a screen when they want to "go to"/"open"/"show" a section. ` +
-    `Prefer read tools to answer questions. Use mutate tools only when the owner clearly asks to change something. ` +
-    `Respond ONLY as compact JSON: {"reply": "<one friendly sentence about what you'll do>", "steps": [{"tool":"<name>","args":{...},"label":"<short human label>"}]}. ` +
-    `If nothing matches, return an empty steps array and explain in reply.`;
+    `Rules: break the request into the minimum number of concrete steps; each step is one tool with its args. ` +
+    `Use open_page to navigate when they say go to / open / show a section. Use read tools to answer questions. ` +
+    `Use mutate tools only when they clearly ask to change something. SKUs look like BD1234 — pass them uppercased. ` +
+    `"hide"/"take off the store"=hide_product; "show"/"put back"=show_product; "delete/remove a product"=delete_product. ` +
+    `Examples:\n` +
+    `"how's BD1004 doing?" -> [{"tool":"product_analytics","args":{"sku":"BD1004"},"label":"Analyse BD1004"}]\n` +
+    `"hide the polki choker BD1003 and tell me sales this week" -> [{"tool":"hide_product","args":{"sku":"BD1003"}},{"tool":"analyze_sales","args":{"days":7}}]\n` +
+    `"add 30 to BD1010 then open inventory" -> [{"tool":"add_stock","args":{"sku":"BD1010","qty":30}},{"tool":"open_page","args":{"page":"inventory"}}]\n\n` +
+    `Respond ONLY as compact JSON: {"reply": "<one friendly sentence>", "steps": [{"tool":"<name>","args":{...},"label":"<short label>"}]}. ` +
+    `If nothing matches, return empty steps and explain in reply.`;
 
   let parsed: any = null;
   try {
@@ -147,22 +156,75 @@ export async function divaRun(toolName: string, args: Record<string, any>): Prom
         revalidatePath("/admin/inventory");
         return { ok: true, message: `${toolName === "add_stock" ? "Added" : "Removed"} ${qty} — ${(p as any).name} is now ${newQty} in stock.` };
       }
+      case "product_details": {
+        const sku = String(args.sku ?? "").trim().toUpperCase();
+        const p = await getProductBySku(sku);
+        if (!p) return { ok: false, message: `No product with SKU ${sku}.` };
+        const { formula } = await getStorefront();
+        const o = liveOffer(p.base_wholesale, formula);
+        const gc = (p.generated_content as any) ?? {};
+        const tags = (gc.tags ?? []).slice(0, 6).join(", ");
+        const photos = (p.images ?? []).length;
+        return { ok: true, data: p, message: `${p.name} (${sku}) — ${p.category?.name}. Price ${formatPaise(o.price)} (MRP ${formatPaise(o.mrp)}). Stock ${p.qty}. Status ${p.status}. ${photos} photo(s). Tags: ${tags || "none"}.` };
+      }
+      case "product_analytics": {
+        const sku = String(args.sku ?? "").trim().toUpperCase();
+        const s = await getProductSalesStats(sku);
+        if (!s) return { ok: false, message: `No product with SKU ${sku}.` };
+        return { ok: true, data: s, message: `${s.name} (${sku}): ${s.units} units sold across ${s.orders} orders, ${formatPaise(s.revenue)} revenue. Currently ${s.stock} in stock, status ${s.status}.` };
+      }
       case "generate_ai_content": {
         const sku = String(args.sku ?? "").trim().toUpperCase();
         if (!sku) return { ok: false, message: "Which SKU?" };
-        await generateContentAction(sku);
+        const r = await generateContentAction(sku);
         revalidatePath("/admin/catalogue");
-        return { ok: true, message: `Regenerated the AI product page for ${sku}.` };
+        return { ok: r.ok, message: r.ok ? `Regenerated the AI product page for ${sku}.` : `Couldn't write the page for ${sku}.` };
       }
-      case "set_status": {
+      case "generate_photo": {
         const sku = String(args.sku ?? "").trim().toUpperCase();
-        const status = String(args.status ?? "").toLowerCase().includes("pub") ? "published" : "draft";
         if (!sku) return { ok: false, message: "Which SKU?" };
+        const r = await generateOneAction(sku);
+        revalidatePath("/admin/catalogue"); revalidatePath("/admin/media");
+        return { ok: r.ok, message: r.ok ? `Generated a model photo for ${sku}.` : `Couldn't generate a photo for ${sku} (${r.reason ?? "error"}).` };
+      }
+      case "hide_product":
+      case "show_product": {
+        const sku = String(args.sku ?? "").trim().toUpperCase();
+        if (!sku) return { ok: false, message: "Which SKU?" };
+        const status = toolName === "show_product" ? "published" : "draft";
         const sb = supabaseServer();
         const { error } = await sb.from("products").update({ status }).eq("sku", sku);
         if (error) return { ok: false, message: error.message };
         revalidatePath("/admin/catalogue"); revalidatePath("/shop");
-        return { ok: true, message: `${sku} is now ${status}.` };
+        return { ok: true, message: `${sku} is now ${status === "published" ? "visible on the store" : "hidden from the store"}.` };
+      }
+      case "delete_product": {
+        const sku = String(args.sku ?? "").trim().toUpperCase();
+        if (!sku) return { ok: false, message: "Which SKU?" };
+        const sb = supabaseServer();
+        const { data: p } = await sb.from("products").select("id,name").eq("sku", sku).maybeSingle();
+        if (!p) return { ok: false, message: `No product with SKU ${sku}.` };
+        const pid = (p as any).id;
+        await sb.from("product_images").delete().eq("product_id", pid);
+        await sb.from("variants").delete().eq("product_id", pid);
+        const { error } = await sb.from("products").delete().eq("id", pid);
+        revalidatePath("/admin/catalogue"); revalidatePath("/shop");
+        if (error) {
+          // Has past orders → can't hard-delete; hide instead.
+          await sb.from("products").update({ status: "draft" }).eq("id", pid);
+          return { ok: true, message: `${sku} has past orders, so I hid it from the store instead of deleting (keeps your books intact).` };
+        }
+        return { ok: true, message: `Deleted ${(p as any).name} (${sku}).` };
+      }
+      case "delete_role": {
+        const name = String(args.name ?? "").trim();
+        if (!name) return { ok: false, message: "Which role?" };
+        const sb = supabaseServer();
+        const { data: role } = await sb.from("roles").select("id,name").ilike("name", name).maybeSingle();
+        if (!role) return { ok: false, message: `No role called "${name}".` };
+        await sb.from("roles").delete().eq("id", (role as any).id);
+        revalidatePath("/admin/roles");
+        return { ok: true, message: `Deleted the "${(role as any).name}" role.` };
       }
       default:
         return { ok: false, message: "That action isn't wired yet." };

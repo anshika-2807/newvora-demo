@@ -261,6 +261,21 @@ export async function getDashboardAnalytics(fromISO: string, toISO: string): Pro
   return { weekly: wk, channels, categories, topProducts };
 }
 
+/** Sales analytics for a single product (units, revenue, order count). */
+export async function getProductSalesStats(sku: string) {
+  const sb = supabaseServer();
+  const { data: p } = await sb.from("products").select("id,name,status,qty").eq("sku", sku).maybeSingle();
+  if (!p) return null;
+  const { data } = await sb.from("order_items").select("qty,line_total").eq("product_id", (p as any).id);
+  const rows = (data as any[]) ?? [];
+  return {
+    name: (p as any).name, status: (p as any).status, stock: (p as any).qty,
+    units: rows.reduce((s, r) => s + (r.qty ?? 0), 0),
+    revenue: rows.reduce((s, r) => s + (r.line_total ?? 0), 0),
+    orders: rows.length,
+  };
+}
+
 /** Per-channel report for a date range: totals + sample order rows for the expandable view. */
 export async function getChannelReport(fromISO: string, toISO: string) {
   const sb = supabaseServer();

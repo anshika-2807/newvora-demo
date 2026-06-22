@@ -16,12 +16,13 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([{ who: "diva", text: "Hi Yogendra, I'm DIVA. Tell me what to do — “show this week's sales”, “add 20 to BD1004”, “open estimates”. Speak or type." }]);
+  const [msgs, setMsgs] = useState<Msg[]>([{ who: "diva", text: "Hi Yogendra, I'm DIVA. I can analyse, navigate, and act — e.g. “how is BD1004 selling?”, “hide the polki choker”, “add 20 to BD1010”, “generate a photo for BD1002”, “open inventory”, “delete BD1099”. Speak or type. You can Stop me or type a new instruction anytime." }]);
   const [steps, setSteps] = useState<Step[]>([]);
   const [awaiting, setAwaiting] = useState<number | null>(null);
   const recRef = useRef<any>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<Step[]>([]);
+  const runIdRef = useRef(0);
   const sync = (s: Step[]) => { stepsRef.current = s; setSteps([...s]); };
 
   useEffect(() => { logRef.current?.scrollTo({ top: 1e9, behavior: "smooth" }); }, [msgs, steps]);
@@ -41,31 +42,42 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
 
   async function submit(text?: string) {
     const cmd = (text ?? input).trim();
-    if (!cmd || busy) return;
-    setInput(""); setMsgs((m) => [...m, { who: "owner", text: cmd }]); setBusy(true); sync([]); setAwaiting(null);
+    if (!cmd) return;
+    const myRun = ++runIdRef.current; // supersedes any in-flight run
+    setInput(""); setMsgs((m) => [...m, { who: "owner", text: cmd }]); setBusy(true); setAwaiting(null); sync([]);
     const plan = await divaPlan(cmd);
+    if (myRun !== runIdRef.current) return;
     setMsgs((m) => [...m, { who: "diva", text: plan.reply }]);
     if (plan.steps.length === 0) { setBusy(false); return; }
     sync(plan.steps.map((s) => ({ ...s, status: "pending" })));
-    run(0);
+    run(0, myRun);
   }
 
-  async function run(i: number) {
+  async function run(i: number, myRun: number) {
+    if (myRun !== runIdRef.current) return;
     const s = stepsRef.current;
     if (i >= s.length) { setBusy(false); toast("DIVA finished ✓"); setMsgs((m) => [...m, { who: "diva", text: "Done ✓" }]); return; }
     const step = s[i];
     if (step.needsConfirm && !step.confirmed) { setAwaiting(i); setBusy(false); return; }
     step.status = "running"; sync(s);
     const res = await divaRun(step.tool, step.args);
+    if (myRun !== runIdRef.current) return; // superseded/stopped mid-step
     step.status = res.ok ? "done" : "error"; step.message = res.message; sync(s);
     if (res.message) setMsgs((m) => [...m, { who: "diva", text: res.message }]);
     if (res.navigate) router.push(res.navigate);
     setBusy(true);
-    run(i + 1);
+    run(i + 1, myRun);
   }
 
-  function confirmStep(i: number) { const s = stepsRef.current; s[i].confirmed = true; sync(s); setAwaiting(null); setBusy(true); run(i); }
-  function skipStep(i: number) { const s = stepsRef.current; s[i].status = "skipped"; sync(s); setAwaiting(null); setBusy(true); run(i + 1); }
+  function stopRun() {
+    runIdRef.current++; // invalidate the running plan
+    const s = stepsRef.current.map((x) => x.status === "pending" || x.status === "running" ? { ...x, status: "skipped" as const } : x);
+    sync(s); setAwaiting(null); setBusy(false);
+    setMsgs((m) => [...m, { who: "diva", text: "Stopped. Tell me what to do instead." }]);
+  }
+
+  function confirmStep(i: number) { const s = stepsRef.current; s[i].confirmed = true; sync(s); setAwaiting(null); setBusy(true); run(i, runIdRef.current); }
+  function skipStep(i: number) { const s = stepsRef.current; s[i].status = "skipped"; sync(s); setAwaiting(null); setBusy(true); run(i + 1, runIdRef.current); }
 
   return (
     <>
@@ -122,13 +134,16 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
           </div>
 
           <div className="p-3 border-t border-sand bg-white">
+            {busy && (
+              <button onClick={stopRun} className="w-full mb-2 py-1.5 rounded-full bg-rose/10 text-rose text-xs font-medium hover:bg-rose/20 transition-colors">■ Stop</button>
+            )}
             <div className="flex items-center gap-2">
               <button onClick={toggleMic} title="Speak" className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center transition-colors ${listening ? "bg-rose text-white animate-pulse" : "bg-cream text-ink hover:bg-emerald-mist"}`}>🎤</button>
               <input
                 value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()}
-                placeholder={listening ? "Listening…" : "Tell DIVA what to do…"}
+                placeholder={busy ? "Type to redirect DIVA…" : listening ? "Listening…" : "Tell DIVA what to do…"}
                 className="flex-1 rounded-full border border-sand px-4 py-2.5 text-sm outline-none focus:border-emerald" />
-              <button onClick={() => submit()} disabled={busy || !input.trim()} className="btn-primary w-10 h-10 shrink-0 rounded-full flex items-center justify-center disabled:opacity-50">➤</button>
+              <button onClick={() => submit()} disabled={!input.trim()} className="btn-primary w-10 h-10 shrink-0 rounded-full flex items-center justify-center disabled:opacity-50">➤</button>
             </div>
           </div>
         </div>

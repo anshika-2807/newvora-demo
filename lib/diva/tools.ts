@@ -49,6 +49,8 @@ export const DIVA_TOOLS: DivaTool[] = [
   { name: "inventory_status", kind: "read", permission: "inventory.view", desc: "Dead / low / healthy stock counts and the worst dead-stock items.", params: [] },
   { name: "low_stock", kind: "read", permission: "inventory.view", desc: "List products that are low or out of stock.", params: [] },
   { name: "find_product", kind: "read", permission: "catalog.view", desc: "Search the catalogue by name or SKU; returns price and stock.", params: [{ name: "query", type: "string", required: true, desc: "name or SKU to search" }] },
+  { name: "product_details", kind: "read", permission: "catalog.view", desc: "Full details of one product: price, stock, status, tags, description, photos.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
+  { name: "product_analytics", kind: "read", permission: "sales.view", desc: "Sales analytics for one product: units sold, revenue, number of orders.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
 
   // NAVIGATE
   { name: "open_page", kind: "navigate", desc: "Open a console page by name (dashboard, catalogue, inventory, billing, sales, estimates, suppliers, roles, barcodes, etc.).", params: [{ name: "page", type: "string", required: true, desc: "page name" }] },
@@ -57,7 +59,11 @@ export const DIVA_TOOLS: DivaTool[] = [
   { name: "add_stock", kind: "mutate", permission: "inventory.add", confirm: true, desc: "Increase a product's stock by a quantity, with a source tag.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }, { name: "qty", type: "number", required: true, desc: "units to add" }, { name: "source", type: "string", desc: "reason/source" }] },
   { name: "remove_stock", kind: "mutate", permission: "inventory.remove", confirm: true, desc: "Decrease a product's stock by a quantity, with a source tag.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }, { name: "qty", type: "number", required: true, desc: "units to remove" }, { name: "source", type: "string", desc: "reason/source" }] },
   { name: "generate_ai_content", kind: "mutate", permission: "catalog.ai", confirm: true, desc: "Generate/refresh the AI product page (title, description, tags, SEO) for a SKU.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
-  { name: "set_status", kind: "mutate", permission: "catalog.publish", confirm: true, desc: "Publish or unpublish a product.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }, { name: "status", type: "string", required: true, desc: "published or draft" }] },
+  { name: "generate_photo", kind: "mutate", permission: "catalog.ai", confirm: true, desc: "Generate the professional model photo from a product's raw photo.", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
+  { name: "hide_product", kind: "mutate", permission: "catalog.publish", confirm: true, desc: "Hide a product from the storefront (set to draft).", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
+  { name: "show_product", kind: "mutate", permission: "catalog.publish", confirm: true, desc: "Make a product visible on the storefront (publish).", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
+  { name: "delete_product", kind: "mutate", permission: "catalog.delete", confirm: true, desc: "Delete a product permanently (or hide it if it has past orders).", params: [{ name: "sku", type: "string", required: true, desc: "product SKU" }] },
+  { name: "delete_role", kind: "mutate", permission: "roles.manage", confirm: true, desc: "Delete a staff role by name.", params: [{ name: "name", type: "string", required: true, desc: "role name" }] },
 ];
 
 export function toolByName(name: string): DivaTool | undefined {
