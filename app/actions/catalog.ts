@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { computePrices, isValidPriceSet } from "@/lib/pricing";
 import { getPricingFormula } from "@/lib/supabase/queries";
+import { requirePerm } from "@/lib/auth";
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
@@ -45,6 +46,7 @@ async function insertOne(sb: ReturnType<typeof supabaseServer>, formula: any, n:
 }
 
 export async function createProductAction(p: NewProduct): Promise<RowResult> {
+  if (!(await requirePerm("catalog.create"))) return { row: 0, ok: false, error: "Your role can't add products." };
   const sb = supabaseServer();
   const [formula, sku] = await Promise.all([getPricingFormula(), nextSku(sb)]);
   const res = await insertOne(sb, formula, p, sku);
@@ -53,6 +55,7 @@ export async function createProductAction(p: NewProduct): Promise<RowResult> {
 }
 
 export async function bulkUploadAction(categoryId: string, rows: Omit<NewProduct, "categoryId">[]): Promise<{ created: number; results: RowResult[] }> {
+  if (!(await requirePerm("catalog.create"))) return { created: 0, results: [{ row: 0, ok: false, error: "Your role can't add products." }] };
   const sb = supabaseServer();
   const formula = await getPricingFormula();
   let skuNum = await nextSku(sb);
@@ -73,6 +76,7 @@ async function ensureMediaBucket(sb: ReturnType<typeof supabaseServer>) {
 }
 
 export async function createProductWithImageAction(formData: FormData): Promise<RowResult> {
+  if (!(await requirePerm("catalog.create"))) return { row: 0, ok: false, error: "Your role can't add products." };
   const sb = supabaseServer();
   const n: NewProduct = {
     categoryId: String(formData.get("categoryId") ?? ""),
@@ -117,6 +121,7 @@ import { groqChat, openaiChat, groqConfigured, openaiConfigured } from "@/lib/ai
  *  intelligently to {name, base_price, qty, type, colors}, then inserts. Falls back to
  *  naive comma parsing if no AI key. */
 export async function aiBulkUploadAction(categoryId: string, rawText: string): Promise<{ created: number; results: RowResult[]; usedAi: boolean }> {
+  if (!(await requirePerm("catalog.create"))) return { created: 0, results: [{ row: 0, ok: false, error: "Your role can't add products." }], usedAi: false };
   const sb = supabaseServer();
   const formula = await getPricingFormula();
   let rows: Omit<NewProduct, "categoryId">[] = [];

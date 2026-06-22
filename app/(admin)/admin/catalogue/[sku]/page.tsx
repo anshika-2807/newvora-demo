@@ -1,12 +1,14 @@
 export const dynamic = "force-dynamic";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { getProductBySku, getCategories, getPricingFormula } from "@/lib/supabase/queries";
 import { ProductEditor, type EditorProduct } from "@/components/admin/ProductEditor";
+import { requirePerm } from "@/lib/auth";
 
 export const metadata = { title: "Owner Console · Edit product" };
 
 export default async function EditProduct({ params }: { params: { sku: string } }) {
+  if (!(await requirePerm("catalog.edit"))) redirect("/admin/dashboard?denied=editing+products");
   const [p, categories, formula] = await Promise.all([
     getProductBySku(params.sku),
     getCategories(),

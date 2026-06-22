@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { AdminNav } from "@/components/AdminNav";
 import { Diva } from "@/components/admin/Diva";
 import { getSession } from "@/lib/auth";
@@ -6,6 +7,8 @@ export const dynamic = "force-dynamic";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const s = getSession();
+  // Defense-in-depth: never render the console for an unauthenticated request.
+  if (!s.authed) redirect("/login");
   return (
     <div className="flex min-h-screen bg-diva-cream">
       <AdminNav perms={s.permissions} roleName={s.roleName} />

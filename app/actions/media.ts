@@ -1,10 +1,12 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
+import { requirePerm } from "@/lib/auth";
 
 const BUCKET = "product-media";
 
 export async function uploadProductImageAction(formData: FormData): Promise<{ ok: boolean; url?: string; error?: string }> {
+  if (!(await requirePerm("catalog.ai"))) return { ok: false, error: "Your role can't manage product photos." };
   const sku = String(formData.get("sku") ?? "");
   const kind = String(formData.get("kind") ?? "flatlay"); // flatlay | angle
   const file = formData.get("image") as File | null;
@@ -25,12 +27,14 @@ export async function uploadProductImageAction(formData: FormData): Promise<{ ok
 }
 
 export async function deleteProductImageAction(formData: FormData) {
+  if (!(await requirePerm("catalog.ai"))) return;
   const id = String(formData.get("id"));
   await supabaseServer().from("product_images").delete().eq("id", id);
   revalidatePath("/admin/media"); revalidatePath("/shop");
 }
 
 export async function setHeroImageAction(formData: FormData) {
+  if (!(await requirePerm("catalog.ai"))) return;
   const id = String(formData.get("id"));
   const productId = String(formData.get("productId"));
   const sb = supabaseServer();

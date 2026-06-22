@@ -1,8 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
+import { requirePerm } from "@/lib/auth";
 
 export async function upsertSupplierAction(formData: FormData): Promise<void> {
+  if (!(await requirePerm("suppliers.manage"))) return;
   const id = String(formData.get("id") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return;
@@ -23,6 +25,7 @@ export async function upsertSupplierAction(formData: FormData): Promise<void> {
 }
 
 export async function deleteSupplierAction(formData: FormData) {
+  if (!(await requirePerm("suppliers.manage"))) return;
   const id = String(formData.get("id"));
   await supabaseServer().from("suppliers").delete().eq("id", id);
   revalidatePath("/admin/suppliers");

@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
+import { requirePerm } from "@/lib/auth";
 
 /**
  * Adjust a product's stock by a signed delta, tagged with a SOURCE so re-added
@@ -13,6 +14,8 @@ export async function adjustStockAction(formData: FormData): Promise<void> {
   const source = String(formData.get("source") ?? "").trim() || "Manual adjustment";
   const reason = String(formData.get("reason") ?? "").trim() || null;
   if (!sku || !delta) return;
+  // Strict: adding needs inventory.add, removing needs inventory.remove.
+  if (!(await requirePerm(delta > 0 ? "inventory.add" : "inventory.remove"))) return;
 
   const sb = supabaseServer();
   const { data: p } = await sb.from("products").select("id,qty").eq("sku", sku).maybeSingle();

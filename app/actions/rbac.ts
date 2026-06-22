@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { ALL_PERMISSIONS } from "@/lib/permissions";
+import { requirePerm } from "@/lib/auth";
 
 function selectedPerms(formData: FormData): string[] {
   return ALL_PERMISSIONS.filter((p) => formData.get(`perm:${p}`) === "on");
@@ -15,6 +16,7 @@ function genPasscode(): string {
 }
 
 export async function createRoleAction(formData: FormData) {
+  if (!(await requirePerm("roles.manage"))) return;
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return;
   await supabaseServer().from("roles").insert({ name, permissions: selectedPerms(formData), passcode: genPasscode() });
@@ -22,6 +24,7 @@ export async function createRoleAction(formData: FormData) {
 }
 
 export async function updateRoleAction(formData: FormData) {
+  if (!(await requirePerm("roles.manage"))) return;
   const id = String(formData.get("id") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
   if (!id || !name) return;
@@ -30,6 +33,7 @@ export async function updateRoleAction(formData: FormData) {
 }
 
 export async function regenerateRolePasscodeAction(formData: FormData) {
+  if (!(await requirePerm("roles.manage"))) return;
   const id = String(formData.get("id"));
   if (!id) return;
   await supabaseServer().from("roles").update({ passcode: genPasscode() }).eq("id", id);
@@ -37,6 +41,7 @@ export async function regenerateRolePasscodeAction(formData: FormData) {
 }
 
 export async function deleteRoleAction(formData: FormData) {
+  if (!(await requirePerm("roles.manage"))) return;
   const id = String(formData.get("id"));
   await supabaseServer().from("roles").delete().eq("id", id);
   revalidatePath("/admin/roles");

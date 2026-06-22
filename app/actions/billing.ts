@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase/server";
+import { requirePerm } from "@/lib/auth";
 
 export async function createEstimateAction(input: { items: { sku: string; qty: number }[]; customer: { name?: string; phone?: string } }): Promise<{ ok: boolean; estimateId?: string; total?: number; error?: string }> {
   if (!input.items?.length) return { ok: false, error: "Add at least one item" };
@@ -26,6 +27,7 @@ export async function convertEstimateAction(formData: FormData) {
  * Decrements stock, posts to the ledger, links the order, then opens the bill.
  */
 export async function billEstimateAction(formData: FormData) {
+  if (!(await requirePerm("estimates.bill"))) redirect("/admin/estimates");
   const id = String(formData.get("id"));
   const billType = String(formData.get("bill_type") ?? "gst") === "cash" ? "cash" : "gst";
   const { data, error } = await supabaseServer().rpc("convert_estimate_v2", { p_estimate_id: id, p_bill_type: billType });
@@ -38,6 +40,7 @@ export async function billEstimateAction(formData: FormData) {
 
 /** Mark an estimate as denied (customer did not want the products). */
 export async function denyEstimateAction(formData: FormData) {
+  if (!(await requirePerm("estimates.deny"))) return;
   const id = String(formData.get("id"));
   await supabaseServer().from("estimates").update({ status: "denied" }).eq("id", id);
   revalidatePath("/admin/estimates");

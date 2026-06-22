@@ -10,6 +10,7 @@ import { generateContentAction, generateAllContentAction } from "@/app/actions/a
 import { GeneratePhotoButton } from "@/components/admin/GeneratePhotoButton";
 import { generateEmbeddingsAction } from "@/app/actions/embeddings";
 import { Pager } from "@/components/admin/Pager";
+import { getSession, can } from "@/lib/auth";
 
 export const metadata = { title: "Owner Console · Catalogue" };
 const PAGE_SIZE = 25;
@@ -26,6 +27,8 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
   ]);
   const ai = aiProvidersStatus();
   const imageReady = geminiConfigured();
+  const session = getSession();
+  const canEdit = can(session, "catalog.edit");
 
   async function genContent(fd: FormData) { "use server"; await generateContentAction(String(fd.get("sku"))); }
   async function genAllContent() { "use server"; await generateAllContentAction(); }
@@ -88,7 +91,7 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
                   <td className="p-3 text-muted">{p.category?.name} · {p.sku}</td>
                   <td className="p-3"><span className={p.qty <= 2 ? "text-rose font-medium" : "text-ink"}>{p.qty}</span></td>
                   <td className="p-3"><span className="font-semibold">{formatPaise(o.price)}</span>{o.hasOffer && <span className="text-xs text-rose ml-1">{o.offerPct}% off</span>}</td>
-                  <td className="p-3"><Link className="px-3 py-1.5 rounded-full bg-ink/5 text-ink text-xs font-medium hover:bg-ink/10 transition-colors" href={`/admin/catalogue/${p.sku}`}>✎ Edit</Link></td>
+                  <td className="p-3">{canEdit ? <Link className="px-3 py-1.5 rounded-full bg-ink/5 text-ink text-xs font-medium hover:bg-ink/10 transition-colors" href={`/admin/catalogue/${p.sku}`}>✎ Edit</Link> : <span className="text-xs text-muted">—</span>}</td>
                   <td className="p-3"><Link className="text-emerald nav-link" href={`/shop/${p.category?.slug}/${p.sku}`}>view ↗</Link></td>
                   <td className="p-3">
                     <form action={genContent} className="flex items-center gap-2">

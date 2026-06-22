@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { computePrices, isValidPriceSet } from "@/lib/pricing";
 import { getPricingFormula } from "@/lib/supabase/queries";
+import { requirePerm } from "@/lib/auth";
 
 /** newline- or comma-separated → clean string[] */
 function parseList(raw: string): string[] {
@@ -34,6 +35,7 @@ function parseSpecs(raw: string): Record<string, string> {
 export type UpdateResult = { ok: boolean; error?: string };
 
 export async function updateProductAction(formData: FormData): Promise<UpdateResult> {
+  if (!(await requirePerm("catalog.edit"))) return { ok: false, error: "Your role can't edit products." };
   const sku = String(formData.get("sku") ?? "").trim();
   if (!sku) return { ok: false, error: "Missing SKU" };
 
