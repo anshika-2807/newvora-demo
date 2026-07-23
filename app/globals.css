@@ -100,3 +100,10 @@ body {
 .barcode-label .bc-name { font-size: 10px; }
 .barcode-label .bc-sku { font-size: 10px; margin-top: 2px; }
 .barcode-label .bc-price { font-size: 11px; }
+
+/* Privacy shield — full-viewport frosted layer (in-store safety) */
+.privacy-overlay {
+  background: rgba(248, 250, 252, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
