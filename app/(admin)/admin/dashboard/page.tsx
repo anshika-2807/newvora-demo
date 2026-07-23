@@ -62,7 +62,7 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
         <div className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
             <p className="text-[11px] tracking-[0.3em] uppercase text-gold-light">Owner Console</p>
-            <h1 className="font-display text-4xl sm:text-5xl text-ivory mt-1">{greet}, Yogendra</h1>
+            <h1 className="font-display text-4xl sm:text-5xl text-ivory mt-1">{greet}, Owner</h1>
             <p className="text-sm text-cream/70 mt-1">Showing <b className="text-ivory">{label}</b> · live from your catalogue &amp; orders</p>
             <p className="text-2xl font-semibold text-ivory mt-3">{formatPaise(d.revenue)} <span className="text-sm font-normal text-cream/60">in revenue · {d.orders} orders</span></p>
           </div>

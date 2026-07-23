@@ -6,7 +6,7 @@ export function Footer({ categories }: { categories: { name: string; slug: strin
       <div className="max-w-7xl mx-auto px-5 py-14 grid md:grid-cols-4 gap-10">
         <div>
           <p className="font-display text-3xl text-ivory">Newvora</p>
-          <p className="text-sm mt-3 text-cream/60 leading-relaxed">Where elegance meets empowerment. Handcrafted artificial jewellery from Delhi, India — for retail &amp; wholesale.</p>
+          <p className="text-sm mt-3 text-cream/60 leading-relaxed">Your storefront and back-office in one system — for retail and wholesale.</p>
           <div className="flex gap-3 mt-5">
             <a href="https://wa.me/918377062790" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"
               className="w-9 h-9 grid place-items-center rounded-full bg-white/10 hover:bg-gold hover:text-ink transition-colors">

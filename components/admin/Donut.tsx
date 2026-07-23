@@ -1,6 +1,6 @@
 import { formatPaise } from "@/lib/pricing";
 
-const COLORS = ["#0F5C4D", "#C8A24C", "#B0506A", "#2E8573", "#6E2238"];
+const COLORS = ["#4F46E5", "#F59E0B", "#7C3AED", "#6366F1", "#312E81"];
 
 export function Donut({ data }: { data: { label: string; value: number }[] }) {
   const total = Math.max(1, data.reduce((s, d) => s + d.value, 0));

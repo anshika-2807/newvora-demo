@@ -18,7 +18,7 @@ export function Header({ categories }: { categories: Cat[] }) {
             <MobileMenu categories={categories} />
             <Link href="/shop" className="leading-none">
               <span className="block font-display text-2xl md:text-3xl text-ink tracking-tight">Newvora</span>
-              <span className="hidden md:block text-[9px] tracking-[0.3em] uppercase text-gold-dark -mt-1">Artificial Jewellery</span>
+              <span className="hidden md:block text-[9px] tracking-[0.3em] uppercase text-gold-dark -mt-1">Online Store</span>
             </Link>
           </div>
 

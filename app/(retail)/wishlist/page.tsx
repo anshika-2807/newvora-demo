@@ -19,7 +19,7 @@ export default function Wishlist() {
       {items.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-muted mb-5">Nothing saved yet. Tap the ♡ on any design to keep it here.</p>
-          <Link href="/shop" className="btn-primary inline-block px-7 py-3 text-sm font-medium">Discover jewellery</Link>
+          <Link href="/shop" className="btn-primary inline-block px-7 py-3 text-sm font-medium">Discover products</Link>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">

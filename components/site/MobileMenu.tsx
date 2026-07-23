@@ -17,7 +17,7 @@ export function MobileMenu({ categories }: { categories: { name: string; slug: s
               <button aria-label="Close" onClick={() => setOpen(false)} className="text-xl">✕</button>
             </div>
             <nav className="space-y-1">
-              <Link href="/shop" onClick={() => setOpen(false)} className="block py-2 text-ink">All Jewellery</Link>
+              <Link href="/shop" onClick={() => setOpen(false)} className="block py-2 text-ink">All Products</Link>
               {categories.map((c) => (
                 <Link key={c.slug} href={`/shop/c/${c.slug}`} onClick={() => setOpen(false)} className="block py-2 text-ink/80">{c.name}</Link>
               ))}

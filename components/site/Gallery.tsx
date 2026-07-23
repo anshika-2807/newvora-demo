@@ -3,10 +3,10 @@ import { useState } from "react";
 import { isRealImage } from "@/components/Placeholder";
 
 const GRADS = [
-  "linear-gradient(135deg,#E7C9D2,#F2EADA,#E2C887)",
-  "linear-gradient(135deg,#2E8573,#E6F0ED,#C8A24C)",
-  "linear-gradient(135deg,#E2C887,#FAF6EF,#2E8573)",
-  "linear-gradient(135deg,#F2EADA,#E7C9D2,#C8A24C)",
+  "linear-gradient(135deg,#DDD6FE,#F1F5F9,#FCD34D)",
+  "linear-gradient(135deg,#6366F1,#EEF0FF,#F59E0B)",
+  "linear-gradient(135deg,#FCD34D,#F8FAFC,#6366F1)",
+  "linear-gradient(135deg,#F1F5F9,#DDD6FE,#F59E0B)",
 ];
 const KINDS = ["Model", "Flat lay", "Close-up", "Angle"];
 

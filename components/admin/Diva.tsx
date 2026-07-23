@@ -16,7 +16,7 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([{ who: "diva", text: "Hi Yogendra, I'm DIVA. I can analyse, navigate, and act — e.g. “how is BD1004 selling?”, “hide the polki choker”, “add 20 to BD1010”, “generate a photo for BD1002”, “open inventory”, “delete BD1099”. Speak or type. You can Stop me or type a new instruction anytime." }]);
+  const [msgs, setMsgs] = useState<Msg[]>([{ who: "diva", text: "Hi! I'm DIVA. I can analyse, navigate, and act — e.g. “how is BD1004 selling?”, “hide a product”, “add 20 to BD1010”, “generate a photo for BD1002”, “open inventory”, “delete BD1099”. Speak or type. You can Stop me or type a new instruction anytime." }]);
   const [steps, setSteps] = useState<Step[]>([]);
   const [awaiting, setAwaiting] = useState<number | null>(null);
   const recRef = useRef<any>(null);
@@ -158,24 +158,24 @@ function DivaAvatar({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id="dv-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#0F5C4D" /><stop offset="1" stopColor="#0A4034" />
+          <stop offset="0" stopColor="#4F46E5" /><stop offset="1" stopColor="#3730A3" />
         </linearGradient>
         <linearGradient id="dv-gold" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#E2C887" /><stop offset="1" stopColor="#C8A24C" />
+          <stop offset="0" stopColor="#FCD34D" /><stop offset="1" stopColor="#F59E0B" />
         </linearGradient>
       </defs>
-      <circle cx="50" cy="50" r="48" fill="url(#dv-bg)" stroke="#C8A24C" strokeWidth="2.5" />
+      <circle cx="50" cy="50" r="48" fill="url(#dv-bg)" stroke="#F59E0B" strokeWidth="2.5" />
       {/* hair */}
-      <path d="M30 48c0-15 9-25 20-25s20 10 20 25c0 6-2 12-4 16-1-10-2-20-8-24-3 6-18 6-22 0-4 5-5 14-6 22-1-4-0-9 0-14z" fill="#241B2E" />
+      <path d="M30 48c0-15 9-25 20-25s20 10 20 25c0 6-2 12-4 16-1-10-2-20-8-24-3 6-18 6-22 0-4 5-5 14-6 22-1-4-0-9 0-14z" fill="#0F172A" />
       {/* face */}
       <path d="M37 44c0 11 6 19 13 19s13-8 13-19c0-9-6-14-13-14s-13 5-13 14z" fill="#F2D7BE" />
       {/* eyes + smile */}
-      <circle cx="45" cy="45" r="1.6" fill="#241B2E" /><circle cx="55" cy="45" r="1.6" fill="#241B2E" />
-      <path d="M46 52c2 2 6 2 8 0" stroke="#A07E2E" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      <circle cx="45" cy="45" r="1.6" fill="#0F172A" /><circle cx="55" cy="45" r="1.6" fill="#0F172A" />
+      <path d="M46 52c2 2 6 2 8 0" stroke="#D97706" strokeWidth="1.4" fill="none" strokeLinecap="round" />
       {/* earrings */}
       <circle cx="37" cy="50" r="2.3" fill="url(#dv-gold)" /><circle cx="63" cy="50" r="2.3" fill="url(#dv-gold)" />
       {/* shoulders + necklace */}
-      <path d="M28 84c2-12 10-18 22-18s20 6 22 18z" fill="#6E2238" />
+      <path d="M28 84c2-12 10-18 22-18s20 6 22 18z" fill="#312E81" />
       <path d="M42 70c3 5 13 5 16 0" stroke="url(#dv-gold)" strokeWidth="2" fill="none" strokeLinecap="round" />
       <circle cx="50" cy="74" r="2.4" fill="url(#dv-gold)" />
     </svg>

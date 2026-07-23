@@ -4,11 +4,11 @@ export type Page = { title: string; intro: string; sections: Section[] };
 export const PAGES: Record<string, Page> = {
   about: {
     title: "About Newvora",
-    intro: "Where elegance meets empowerment — handcrafted artificial jewellery from the heart of Delhi, India.",
+    intro: "A live demo of Newvora — one system that runs your entire store, from the shopfront to the back office.",
     sections: [
-      { h: "Our story", p: "Newvora began in the bustling lanes of Delhi — one of India's largest jewellery wholesale hubs. What started as a family trade has grown into a brand trusted by retailers across the country and loved by thousands of customers." },
-      { h: "Our craft", p: "Every piece blends traditional artistry — Kundan, Meenakari, Temple and Polki work — with modern, trend-ready design. We use premium brass alloys with anti-tarnish plating so your jewellery stays beautiful, lightweight, and comfortable for daily and festive wear." },
-      { h: "Retail & wholesale", p: "We serve both the customer who wants one perfect piece and the retailer sourcing in bulk. Approved retailers unlock factory-direct trade pricing with minimum order quantities, while every shopper enjoys honest pricing, real reviews, and easy returns." },
+      { h: "What this is", p: "This is a working demo store built on Newvora's commerce + operations platform. Everything you see — the catalogue, cart, checkout, reviews, and the owner console behind it — is fully functional, so you can experience exactly how it would run your own business." },
+      { h: "Built for any product business", p: "Whether you sell apparel, accessories, home goods, wellness products, electronics or anything else, the same system adapts to your catalogue. Add products, set retail and wholesale prices, and start selling — online and at the counter." },
+      { h: "Retail & wholesale", p: "Serve the customer who wants a single item and the retailer sourcing in bulk from one platform. Approved retailers unlock trade pricing with minimum order quantities, while every shopper enjoys honest pricing, real reviews, and easy returns." },
     ],
   },
   contact: {
@@ -43,21 +43,21 @@ export const PAGES: Record<string, Page> = {
     title: "Frequently Asked Questions",
     intro: "Quick answers to common questions.",
     sections: [
-      { h: "Is the jewellery real gold?", p: "No — Newvora specialises in premium artificial (imitation) jewellery: brass alloy with anti-tarnish gold/silver plating. It looks luxurious, is lightweight, and is a fraction of the cost of fine jewellery." },
-      { h: "Will it tarnish or turn my skin green?", p: "Our anti-tarnish plating resists discolouration with normal care. Keep pieces away from water, perfume, and sweat, and store them dry to keep them looking their best for longer." },
+      { h: "Is this a real store?", p: "This is a live demo built on the Newvora platform. The storefront and owner console are fully functional so you can try the complete experience — browsing, checkout, billing and inventory — before setting up your own." },
+      { h: "What kinds of products can it sell?", p: "Any product catalogue — apparel, accessories, home goods, wellness, electronics and more. You add your categories and products, set prices, and the store adapts to what you sell." },
       { h: "Do you offer Cash on Delivery?", p: "Yes, COD is available across serviceable pincodes, alongside online payment options." },
-      { h: "Can I order in bulk for my shop?", p: "Absolutely. Apply for a wholesale account on the Wholesale page; once approved by the owner, you'll see factory-direct trade rates and minimum order quantities." },
+      { h: "Can I order in bulk / for my shop?", p: "Yes. Apply for a wholesale account on the Wholesale page; once approved by the owner, you'll see trade rates and minimum order quantities." },
       { h: "How do I track my order?", p: "You'll receive tracking details on WhatsApp once your order is dispatched." },
     ],
   },
   "size-guide": {
-    title: "Size & Length Guide",
-    intro: "Find your perfect fit for every piece.",
+    title: "Product & Buying Guide",
+    intro: "Everything you need to choose with confidence.",
     sections: [
-      { h: "Necklaces", p: "Choker: 30–36 cm, sits at the base of the neck. Princess: 42–48 cm, the most popular everyday length. Matinee: 50–60 cm. Long/Rani Haar: 70 cm+, ideal for bridal and festive looks." },
-      { h: "Bracelets & Kada", p: "Standard: 18–19 cm. For a relaxed fit, measure your wrist and add 1.5–2 cm. Many of our kadas and bangle pairs are available in standard 2.4 and 2.6 sizes." },
-      { h: "Rings", p: "Several of our rings are adjustable. For fixed sizes, measure the inner diameter of a ring that fits you well and match it to our size chart on the product page." },
-      { h: "Anklets (Payal)", p: "Standard: 25–27 cm with an adjustable chain. For a snug fit, measure your ankle and add 2 cm of comfort room." },
+      { h: "Product details", p: "Each product page lists the key details — variants, options, availability and pricing. Check the specifications section for exact information before you order." },
+      { h: "Variants & options", p: "Where a product comes in multiple options (such as colour or size), pick your choice on the product page. Live stock is shown per option so you always know what's available." },
+      { h: "Pricing", p: "Every item shows its retail price, with any discount and savings highlighted. Approved wholesale buyers see trade pricing after signing in." },
+      { h: "Need help choosing?", p: "Message us on WhatsApp with your question and we'll help you pick the right product for your needs." },
     ],
   },
 };

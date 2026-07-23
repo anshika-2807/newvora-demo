@@ -31,7 +31,7 @@ export default function Checkout() {
     return (
       <div className="max-w-2xl mx-auto px-5 py-20 text-center">
         <h1 className="font-display text-4xl text-ink">Your bag is empty</h1>
-        <Link href="/shop" className="btn-primary inline-block mt-6 px-7 py-3 text-sm font-medium">Discover jewellery</Link>
+        <Link href="/shop" className="btn-primary inline-block mt-6 px-7 py-3 text-sm font-medium">Discover products</Link>
       </div>
     );
 

@@ -1,98 +1,103 @@
 -- ============================================================
--- Newvora demo — SEED DATA (catalogue + reviews)
--- Safe to run after newvora-schema.sql. Re-runnable (uses ON CONFLICT / NOT EXISTS).
+-- Newvora demo — SEED DATA (generic multi-domain catalogue)
+-- Safe to run after newvora-schema.sql. Re-runnable.
+-- Resets the demo catalogue, then loads a neutral modern-retail set that
+-- any product business (apparel, home, wellness, tech, etc.) can relate to.
 -- Paste into Supabase -> SQL Editor -> Run.
--- Products render as elegant on-brand tiles even without photos.
 -- ============================================================
+
+-- 0) Reset previous demo catalogue (CASCADE clears dependent demo rows: order items, etc.)
+truncate table reviews, variants, product_images, products, categories restart identity cascade;
 
 -- 1) Pricing formula (one row drives the whole catalogue)
 insert into pricing_settings (wholesale_markup_pct, retail_multiplier, mrp_multiplier, round_to)
 select 12, 2.2, 2.75, 100
 where not exists (select 1 from pricing_settings);
 
--- 2) Categories (slugs match the storefront links)
+-- 2) Categories (neutral, domain-agnostic)
 insert into categories (name, slug) values
-  ('Necklaces','necklace'),
-  ('Earrings','earrings'),
-  ('Bracelets','bracelet'),
-  ('Anklets','anklet'),
-  ('Rings','ring')
+  ('Apparel','apparel'),
+  ('Accessories','accessories'),
+  ('Home & Living','home'),
+  ('Wellness','wellness'),
+  ('Tech','tech')
 on conflict (slug) do nothing;
 
 -- 3) Products (base_wholesale is in paise; status published = visible on storefront)
 insert into products (category_id, sku, name, base_wholesale, qty, status)
 select c.id, v.sku, v.name, v.base, v.qty, 'published'::product_status
 from (values
-  -- necklaces
-  ('necklace','NK-KUN-001','Kundan Rajwadi Necklace Set', 145000, 38),
-  ('necklace','NK-MEE-002','Meenakari Peacock Haar',      132000, 26),
-  ('necklace','NK-TMP-003','Temple Lakshmi Long Haar',    168000, 19),
-  ('necklace','NK-POL-004','Polki Bridal Choker Set',     189000, 12),
-  ('necklace','NK-PRL-005','Pearl Rani Haar',              98000, 44),
-  ('necklace','NK-OXI-006','Oxidised Statement Necklace',  56000, 61),
-  -- earrings
-  ('earrings','ER-KUN-001','Kundan Chandbali Jhumka',      42000, 80),
-  ('earrings','ER-MEE-002','Meenakari Peacock Jhumka',     38000, 72),
-  ('earrings','ER-TMP-003','Temple Coin Jhumka',           47000, 54),
-  ('earrings','ER-PRL-004','Pearl Drop Earrings',          29000, 96),
-  ('earrings','ER-OXI-005','Oxidised Tribal Jhumka',       24000,110),
-  ('earrings','ER-ADS-006','AD Stone Stud Tops',           33000, 68),
-  -- bracelets
-  ('bracelet','BR-KUN-001','Kundan Openable Kada',         62000, 40),
-  ('bracelet','BR-MEE-002','Meenakari Bangle Set (2 pc)',  71000, 33),
-  ('bracelet','BR-PRL-003','Pearl Charm Bracelet',         27000, 88),
-  ('bracelet','BR-OXI-004','Oxidised Broad Cuff',          31000, 57),
-  ('bracelet','BR-ADS-005','AD Tennis Bracelet',           45000, 49),
-  -- anklets
-  ('anklet','AN-OXI-001','Oxidised Ghungroo Payal',        22000,120),
-  ('anklet','AN-SLV-002','Silver-tone Chain Anklet',       18000,140),
-  ('anklet','AN-PRL-003','Pearl Beaded Anklet',            24000, 76),
-  -- rings
-  ('ring','RG-KUN-001','Kundan Cocktail Ring',             26000, 90),
-  ('ring','RG-ADS-002','AD Solitaire Ring',                34000, 63),
-  ('ring','RG-OXI-003','Oxidised Adjustable Ring',         16000,150),
-  ('ring','RG-MEE-004','Meenakari Floral Ring',            21000, 84)
+  -- apparel
+  ('apparel','AP-TSH-001','Classic Cotton T-Shirt',     45000,120),
+  ('apparel','AP-SHR-002','Oxford Button-Down Shirt',   89000, 60),
+  ('apparel','AP-HOD-003','Everyday Fleece Hoodie',    129000, 45),
+  ('apparel','AP-JEN-004','Slim-Fit Jeans',           149000, 50),
+  ('apparel','AP-KUR-005','Cotton Straight Kurta',      79000, 70),
+  -- accessories
+  ('accessories','AC-BAG-001','Canvas Tote Bag',        39000, 90),
+  ('accessories','AC-WAL-002','Leather Bifold Wallet',  69000, 75),
+  ('accessories','AC-BLT-003','Reversible Leather Belt',55000, 80),
+  ('accessories','AC-CAP-004','Classic Baseball Cap',   29000,140),
+  ('accessories','AC-SUN-005','Polarised Sunglasses',   99000, 40),
+  -- home & living
+  ('home','HM-MUG-001','Ceramic Coffee Mug',            25000,200),
+  ('home','HM-CDL-002','Scented Soy Candle',            45000,110),
+  ('home','HM-CSH-003','Linen Cushion Cover',           35000,130),
+  ('home','HM-BOT-004','Insulated Water Bottle',        59000, 95),
+  ('home','HM-LMP-005','Minimal Desk Lamp',            159000, 30),
+  -- wellness
+  ('wellness','WL-SRM-001','Vitamin C Face Serum',      79000, 85),
+  ('wellness','WL-TEA-002','Herbal Green Tea (50 bags)',42000,150),
+  ('wellness','WL-YOG-003','Non-Slip Yoga Mat',        119000, 55),
+  ('wellness','WL-OIL-004','Lavender Essential Oil',    49000,100),
+  -- tech
+  ('tech','TC-EAR-001','Wireless Earbuds',             199000, 60),
+  ('tech','TC-CHG-002','20W Fast Charger',              55000,120),
+  ('tech','TC-CAB-003','Braided USB-C Cable',           25000,220),
+  ('tech','TC-STD-004','Aluminium Laptop Stand',       149000, 40),
+  ('tech','TC-PWR-005','10000mAh Power Bank',          129000, 70)
 ) as v(cat_slug, sku, name, base, qty)
 join categories c on c.slug = v.cat_slug
 on conflict (sku) do nothing;
 
--- 4) Colour variants for a few hero pieces (shows the variant system in the demo)
+-- 4) Variants (colour/size options — shows the variant system)
 insert into variants (product_id, color, sku, qty)
 select p.id, x.color, p.sku || '-' || x.suffix, x.qty
 from (values
-  ('NK-KUN-001','Gold','G',20),
-  ('NK-KUN-001','Silver','S',18),
-  ('ER-KUN-001','Gold','G',45),
-  ('ER-KUN-001','Green','GR',35),
-  ('BR-MEE-002','Red','R',18),
-  ('BR-MEE-002','Blue','B',15)
+  ('AP-TSH-001','Black','BLK',45),
+  ('AP-TSH-001','White','WHT',40),
+  ('AP-TSH-001','Navy','NVY',35),
+  ('AC-BAG-001','Natural','NAT',50),
+  ('AC-BAG-001','Black','BLK',40),
+  ('TC-EAR-001','White','WHT',30),
+  ('TC-EAR-001','Black','BLK',30)
 ) as x(psku, color, suffix, qty)
 join products p on p.sku = x.psku
 on conflict (sku) do nothing;
 
--- 5) Reviews (social proof — ratings + happy-customer quotes)
+-- 5) Reviews (social proof)
 insert into reviews (product_id, author_name, rating, body, created_at)
 select p.id, r.author, r.rating, r.body, now() - (r.days || ' days')::interval
 from (values
-  ('NK-KUN-001','Priya Sharma',5,'Wore it for my sister''s wedding — got so many compliments! Looks far richer than the price.',4),
-  ('NK-KUN-001','Aarti M.',5,'The kundan work is beautiful and it''s surprisingly light to wear.',11),
-  ('NK-MEE-002','Sneha R.',4,'Lovely meenakari colours. Delivery was quick too.',7),
-  ('NK-TMP-003','Lakshmi Iyer',5,'Perfect temple design for festivals. Quality is excellent.',6),
-  ('NK-POL-004','Ritu Bansal',5,'Bridal choker looked stunning in photos. Worth every rupee.',15),
-  ('NK-PRL-005','Meena K.',4,'Elegant pearl haar, great for office parties.',9),
-  ('ER-KUN-001','Divya P.',5,'These jhumkas are my new favourite. Anti-tarnish is real!',3),
-  ('ER-MEE-002','Kavya S.',5,'Colours pop beautifully. Got a matching necklace too.',8),
-  ('ER-PRL-004','Nisha T.',4,'Dainty and comfortable for all-day wear.',12),
-  ('ER-OXI-005','Pooja V.',5,'Love oxidised jewellery and these are top quality.',5),
-  ('BR-KUN-001','Shreya D.',5,'The openable kada fits perfectly and feels premium.',10),
-  ('BR-MEE-002','Anjali G.',4,'Bangle set is gorgeous, colours as shown.',14),
-  ('BR-PRL-003','Tara N.',5,'Cute pearl bracelet, delivered fast.',6),
-  ('AN-OXI-001','Isha B.',5,'Ghungroo payal sounds lovely and looks classy.',9),
-  ('AN-SLV-002','Riya J.',4,'Simple everyday anklet, good value.',13),
-  ('RG-KUN-001','Neha A.',5,'Statement ring that goes with all my ethnic wear.',4),
-  ('RG-ADS-002','Sana Q.',5,'AD stones sparkle like real diamonds. Impressed!',7),
-  ('RG-OXI-003','Megha L.',4,'Adjustable and comfy, great little piece.',16),
-  ('ER-TMP-003','Gauri M.',5,'Temple jhumkas are stunning for the price.',2),
-  ('NK-OXI-006','Bhavna S.',5,'Bold oxidised necklace — perfect with kurtis.',5)
+  ('AP-TSH-001','Rahul V.',5,'Great fit and the fabric is genuinely soft. Bought three more.',3),
+  ('AP-TSH-001','Meera K.',4,'True to size, colour exactly as shown.',9),
+  ('AP-SHR-002','Arjun S.',5,'Crisp shirt, holds up well after washing.',6),
+  ('AP-HOD-003','Nisha T.',5,'So cosy and warm — my go-to for winter.',5),
+  ('AP-JEN-004','Karan M.',4,'Comfortable stretch, good everyday jeans.',12),
+  ('AC-BAG-001','Priya D.',5,'Sturdy tote, roomy enough for groceries and a laptop.',4),
+  ('AC-WAL-002','Sameer R.',5,'Slim, well-stitched leather. Looks premium.',8),
+  ('AC-SUN-005','Ananya P.',4,'Nice polarised lenses, reduce glare well.',7),
+  ('HM-MUG-001','Tara N.',5,'Lovely mug, keeps coffee warm and feels solid.',5),
+  ('HM-CDL-002','Ishita B.',5,'Beautiful scent that fills the room without being heavy.',6),
+  ('HM-BOT-004','Vikram J.',4,'Keeps water cold all day. Slightly heavy but worth it.',11),
+  ('HM-LMP-005','Rohan A.',5,'Clean minimal design, perfect for my desk.',3),
+  ('WL-SRM-001','Divya P.',5,'Skin looks brighter after a couple of weeks. Loved it.',4),
+  ('WL-TEA-002','Sneha R.',4,'Refreshing and light. Good value for 50 bags.',10),
+  ('WL-YOG-003','Pooja V.',5,'Great grip, does not slip even in hot yoga.',6),
+  ('TC-EAR-001','Aditya K.',5,'Impressive sound for the price, pairing is instant.',2),
+  ('TC-CHG-002','Neha A.',5,'Charges my phone super fast. Compact too.',7),
+  ('TC-CAB-003','Manish L.',4,'Braided cable feels durable, good length.',13),
+  ('TC-STD-004','Gaurav S.',5,'Sturdy stand, big improvement for my posture.',5),
+  ('TC-PWR-005','Riya J.',5,'Charges my phone 2-3 times, slim enough for my bag.',4)
 ) as r(sku, author, rating, body, days)
 join products p on p.sku = r.sku;

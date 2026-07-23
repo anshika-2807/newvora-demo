@@ -11,9 +11,9 @@ import { liveOffer } from "@/lib/offers";
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const name = params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
   return {
-    title: `${name} — Artificial Jewellery`,
-    description: `Shop ${name.toLowerCase()} from Newvora, Delhi. Premium artificial ${name.toLowerCase()} at retail & wholesale, with COD and free shipping over ₹999.`,
-    keywords: [name, "artificial jewellery", "Delhi", "India", "wholesale"],
+    title: `${name} — Newvora Store`,
+    description: `Shop ${name.toLowerCase()} from Newvora, Delhi. Quality ${name.toLowerCase()} at retail & wholesale, with COD and free shipping over ₹999.`,
+    keywords: [name, "products", "Delhi", "India", "wholesale"],
   };
 }
 
@@ -54,7 +54,7 @@ export default async function CategoryPage({ params, searchParams }: { params: {
         <header className="text-center my-8">
           <p className="text-gold-dark tracking-[0.25em] uppercase text-xs">Collection</p>
           <h1 className="font-display text-5xl text-ink mt-1">{catName}</h1>
-          <p className="text-muted mt-2">{items.length} designs · live pricing &amp; stock</p>
+          <p className="text-muted mt-2">{items.length} products · live pricing &amp; stock</p>
         </header>
       </Reveal>
 
@@ -78,7 +78,7 @@ export default async function CategoryPage({ params, searchParams }: { params: {
       </div>
 
       {items.length === 0 ? (
-        <p className="text-center text-muted py-12">No designs match these filters. <Link href={`/shop/c/${params.slug}`} className="text-emerald nav-link">Clear filters</Link></p>
+        <p className="text-center text-muted py-12">No products match these filters. <Link href={`/shop/c/${params.slug}`} className="text-emerald nav-link">Clear filters</Link></p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {items.map((p, i) => (<Reveal key={p.sku} delay={(i % 4) * 70}><ProductCard p={p as any} formula={formula} /></Reveal>))}

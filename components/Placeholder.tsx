@@ -12,7 +12,7 @@ export function ProductImage({ src, name, className = "" }: { src?: string | nul
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   return (
     <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-diva-rose/20 via-diva-cream to-diva-gold/20 ${className}`}>
-      <span className="font-serif text-3xl text-diva-ink/40">{initials}</span>
+      <span className="font-display text-3xl text-diva-ink/40">{initials}</span>
     </div>
   );
 }

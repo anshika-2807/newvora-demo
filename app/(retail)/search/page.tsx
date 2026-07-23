@@ -14,7 +14,7 @@ export default async function Search({ searchParams }: { searchParams: { q?: str
       <div className="mb-4"><Back label="Back" /></div>
       <h1 className="font-display text-4xl text-ink">Search</h1>
       <p className="text-muted mb-6">{q ? `${results.length} result${results.length === 1 ? "" : "s"} for "${q}"` : "Type in the search bar to find designs."}</p>
-      {results.length === 0 && q && <p className="text-muted">No matches. Try a category like “necklace” or “kundan”.</p>}
+      {results.length === 0 && q && <p className="text-muted">No matches. Try a different keyword or browse the categories.</p>}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         {results.map((p, i) => <Reveal key={p.sku} delay={(i % 4) * 60}><ProductCard p={p as any} formula={formula} /></Reveal>)}
       </div>

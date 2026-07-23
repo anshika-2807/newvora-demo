@@ -6,7 +6,7 @@ export default async function Approvals() {
   const approvals = await getApprovals();
   return (
     <main className="p-8 max-w-3xl">
-      <h1 className="font-serif text-3xl text-diva-ink mb-1">Approvals</h1>
+      <h1 className="font-display text-3xl text-diva-ink mb-1">Approvals</h1>
       <p className="text-sm text-diva-ink/60 mb-5">Sensitive staff actions wait here for your OTP. Nothing applies without it.</p>
       <div className="space-y-3">
         {approvals.length === 0 && <p className="text-sm text-diva-ink/50">No approval requests.</p>}

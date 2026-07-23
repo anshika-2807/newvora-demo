@@ -4,7 +4,7 @@
  * Used as an automatic FALLBACK when the Gemini image chain fails (e.g. billing/429).
  * For our raw→model-shot pipeline we use the /images/edits endpoint with the owner's
  * raw product photo as the input image, plus `input_fidelity: high` so the model
- * preserves the exact design of the jewellery — critical for a manufacturer.
+ * preserves the exact design of the products — critical for a manufacturer.
  *
  * If there's no reference image we fall back to /images/generations.
  * Returns the same GenImageResult shape as the Gemini provider.
@@ -53,7 +53,7 @@ export async function generateImageOpenAI(opts: {
       form.append("prompt", opts.prompt);
       form.append("size", size);
       form.append("quality", "high");
-      form.append("input_fidelity", "high"); // keep the jewellery design exact
+      form.append("input_fidelity", "high"); // keep the products design exact
       form.append("image[]", new Blob([bytes], { type: mime }), `reference.${ext}`);
       res = await fetch("https://api.openai.com/v1/images/edits", {
         method: "POST",

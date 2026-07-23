@@ -5,20 +5,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        ivory: "#FAF6EF",
-        cream: "#F2EADA",
-        sand: "#E7DBC6",
-        ink: "#241B2E",
-        muted: "#6B6175",
-        emerald: { DEFAULT: "#0F5C4D", dark: "#0A4034", light: "#2E8573", mist: "#E6F0ED" },
-        gold: { DEFAULT: "#C8A24C", light: "#E2C887", dark: "#A07E2E" },
-        rose: { DEFAULT: "#B0506A", light: "#E7C9D2" },
-        wine: "#6E2238",
-        diva: { rose: "#B0506A", gold: "#C8A24C", ink: "#241B2E", cream: "#FAF6EF" },
+        // Modern neutral-premium palette (domain-agnostic). Token names kept
+        // for compatibility with existing classNames; only the values changed.
+        ivory: "#F8FAFC",   // app background (slate-50)
+        cream: "#F1F5F9",   // subtle panel (slate-100)
+        sand: "#E2E8F0",    // borders / dividers (slate-200)
+        ink: "#0F172A",     // primary text (slate-900)
+        muted: "#64748B",   // secondary text (slate-500)
+        emerald: { DEFAULT: "#4F46E5", dark: "#3730A3", light: "#6366F1", mist: "#EEF0FF" }, // primary = indigo
+        gold: { DEFAULT: "#F59E0B", light: "#FCD34D", dark: "#D97706" },                     // accent = amber
+        rose: { DEFAULT: "#7C3AED", light: "#DDD6FE" },                                       // secondary = violet
+        wine: "#312E81",
+        diva: { rose: "#6366F1", gold: "#F59E0B", ink: "#0F172A", cream: "#F8FAFC" },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', "Georgia", "serif"],
-        body: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+        display: ['"Space Grotesk"', "system-ui", "sans-serif"],
+        body: ['"Inter"', "system-ui", "sans-serif"],
       },
       boxShadow: {
         luxe: "0 10px 40px -12px rgba(36,27,46,0.18)",

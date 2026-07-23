@@ -1,10 +1,10 @@
 /**
- * lib/business.ts — Seller profile + GST/invoice helpers (B2B jewellery).
+ * lib/business.ts — Seller profile + GST/invoice helpers (B2B products).
  *
- * EDIT THIS ONE FILE with Yogendra's real registration details and they flow into
+ * EDIT THIS ONE FILE with your real registration details and they flow into
  * every Tax Invoice, Cash Memo and Estimate/Quotation across the console.
  *
- * Imitation/artificial jewellery → HSN 7117, GST 3% (CGST 1.5 + SGST 1.5 intra-state,
+ * Imitation/products → HSN 7117, GST 3% (CGST 1.5 + SGST 1.5 intra-state,
  * or IGST 3% inter-state). Change GST_RATE / HSN if the product mix differs.
  */
 export const BUSINESS = {
@@ -31,7 +31,7 @@ export const BUSINESS = {
 } as const;
 
 export const HSN_JEWELLERY = "7117";
-export const GST_RATE = 3; // percent, for imitation jewellery
+export const GST_RATE = 3; // percent, for products
 
 /** Split an inclusive total (paise) into taxable value + GST at GST_RATE. */
 export function splitGstInclusive(totalPaise: number) {

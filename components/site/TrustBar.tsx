@@ -1,5 +1,5 @@
 const ITEMS = [
-  { icon: "✦", t: "Premium Finish", s: "Anti-tarnish plating" },
+  { icon: "✦", t: "Premium Finish", s: "Quality checked" },
   { icon: "⇆", t: "Easy 7-day Returns", s: "No questions asked" },
   { icon: "❤", t: "50,000+ Happy Customers", s: "Across India" },
   { icon: "₹", t: "COD & Secure Pay", s: "Pay your way" },

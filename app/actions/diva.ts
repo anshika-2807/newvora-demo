@@ -39,7 +39,7 @@ export async function divaPlan(command: string): Promise<DivaPlan> {
 
   const catalog = DIVA_TOOLS.map((t) => `- ${t.name}(${t.params.map((p) => p.name + (p.required ? "*" : "")).join(", ")}) [${t.kind}] — ${t.desc}`).join("\n");
   const system =
-    `You are DIVA, the operations agent inside the Newvora artificial-jewellery admin console (Newvora, Delhi, India). ` +
+    `You are DIVA, the operations agent inside the Newvora store admin console (Newvora, Delhi, India). ` +
     `The console manages a catalogue of products (each has a SKU like BD1000, a price, stock, status published/draft, AI page, photos), ` +
     `online + wholesale + counter(POS) sales, estimates, purchases, suppliers, inventory health, staff roles, and analytics. ` +
     `Turn the owner's command into an ordered plan using ONLY these tools:\n${catalog}\n\n` +
@@ -49,7 +49,7 @@ export async function divaPlan(command: string): Promise<DivaPlan> {
     `"hide"/"take off the store"=hide_product; "show"/"put back"=show_product; "delete/remove a product"=delete_product. ` +
     `Examples:\n` +
     `"how's BD1004 doing?" -> [{"tool":"product_analytics","args":{"sku":"BD1004"},"label":"Analyse BD1004"}]\n` +
-    `"hide the polki choker BD1003 and tell me sales this week" -> [{"tool":"hide_product","args":{"sku":"BD1003"}},{"tool":"analyze_sales","args":{"days":7}}]\n` +
+    `"hide product BD1003 and tell me sales this week" -> [{"tool":"hide_product","args":{"sku":"BD1003"}},{"tool":"analyze_sales","args":{"days":7}}]\n` +
     `"add 30 to BD1010 then open inventory" -> [{"tool":"add_stock","args":{"sku":"BD1010","qty":30}},{"tool":"open_page","args":{"page":"inventory"}}]\n\n` +
     `Respond ONLY as compact JSON: {"reply": "<one friendly sentence>", "steps": [{"tool":"<name>","args":{...},"label":"<short label>"}]}. ` +
     `If nothing matches, return empty steps and explain in reply.`;

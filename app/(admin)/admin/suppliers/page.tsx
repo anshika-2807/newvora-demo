@@ -35,7 +35,7 @@ export default async function Suppliers({ searchParams }: { searchParams: { q?: 
           <input name="state" placeholder="State" className={fld} />
           <input name="gstin" placeholder="GSTIN" className={fld} />
           <input name="address" placeholder="Address" className={`${fld} sm:col-span-2`} />
-          <input name="notes" placeholder="Notes (e.g. specialises in kundan)" className={fld} />
+          <input name="notes" placeholder="Notes (e.g. preferred supplier, lead time)" className={fld} />
         </div>
         <button className="btn-primary px-5 py-2.5 text-sm font-medium mt-3">Save</button>
       </form>

@@ -29,7 +29,7 @@ export function Assistant() {
         <div className="fixed bottom-24 right-5 z-50 w-[92vw] max-w-sm bg-ivory rounded-2xl shadow-luxe border border-sand flex flex-col overflow-hidden animate-[fadeUp_.3s_ease]" style={{ height: "min(70vh, 520px)" }}>
           <div className="bg-ink text-cream px-4 py-3 flex items-center gap-2">
             <span className="h-8 w-8 rounded-full bg-gold/20 grid place-items-center text-gold-light">✦</span>
-            <div><p className="font-medium text-sm leading-none">Diva</p><p className="text-[11px] text-cream/60">Your jewellery concierge</p></div>
+            <div><p className="font-medium text-sm leading-none">Diva</p><p className="text-[11px] text-cream/60">Your products concierge</p></div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {msgs.map((m, i) => (

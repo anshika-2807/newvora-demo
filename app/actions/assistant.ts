@@ -6,7 +6,7 @@ import { formatPaise } from "@/lib/pricing";
 
 export async function askAssistantAction(message: string): Promise<{ ok: boolean; reply: string }> {
   const msg = (message ?? "").trim().slice(0, 500);
-  if (!msg) return { ok: true, reply: "Ask me anything about our jewellery — styles, prices, what's in stock, or gifting ideas ✨" };
+  if (!msg) return { ok: true, reply: "Ask me anything about our products — styles, prices, what's in stock, or gifting ideas ✨" };
 
   const { products, formula } = await getStorefront();
   const lines = products.slice(0, 40).map((p) => {
@@ -14,9 +14,9 @@ export async function askAssistantAction(message: string): Promise<{ ok: boolean
     return `${p.category.name} — ${p.name} — ${formatPaise(o.price)} (was ${formatPaise(o.mrp)})${p.qty > 0 ? "" : " [out of stock]"}`;
   });
   const system =
-    `You are "Diva", the warm, concise shopping assistant for Newvora, a premium artificial-jewellery boutique in Delhi, India (retail & wholesale). ` +
-    `Help customers discover pieces and answer questions on price, stock, materials (brass alloy, anti-tarnish plating), care, shipping (free over ₹999), Cash on Delivery, and 7-day returns. ` +
-    `Recommend ONLY from the catalogue below, mention the price, and keep replies short (2-4 sentences). If asked something unrelated, gently steer back to jewellery. Use at most one emoji.\n\nCATALOGUE:\n` +
+    `You are "Diva", the warm, concise shopping assistant for Newvora, a online store in Delhi, India (retail & wholesale). ` +
+    `Help customers discover products and answer questions on price, stock, product details, care, shipping (free over ₹999), Cash on Delivery, and 7-day returns.` +
+    `Recommend ONLY from the catalogue below, mention the price, and keep replies short (2-4 sentences). If asked something unrelated, gently steer back to products. Use at most one emoji.\n\nCATALOGUE:\n` +
     lines.join("\n");
 
   try {

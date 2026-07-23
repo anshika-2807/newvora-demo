@@ -143,11 +143,11 @@ export function ProductEditor({
           </div>
           <div>
             <label className={label}>Tags <span className="text-muted/70">(one per line or comma-separated — shown as chips & used for filtering)</span></label>
-            <textarea name="tags" defaultValue={product.tags} rows={4} className={field} placeholder={"Necklace\nKundan\nwedding"} />
+            <textarea name="tags" defaultValue={product.tags} rows={4} className={field} placeholder={"Category\nFeature\noccasion"} />
           </div>
           <div>
             <label className={label}>Specifications <span className="text-muted/70">(one per line, format “Key: Value”)</span></label>
-            <textarea name="specs" defaultValue={product.specs} rows={6} className={`${field} font-mono text-[13px]`} placeholder={"Material: Brass alloy\nPlating: Anti-tarnish gold-tone\nOccasion: Wedding, festive"} />
+            <textarea name="specs" defaultValue={product.specs} rows={6} className={`${field} font-mono text-[13px]`} placeholder={"Material: ...\nSize / Options: ...\nWarranty: ..."} />
           </div>
         </div>
       </section>
@@ -167,7 +167,7 @@ export function ProductEditor({
           </div>
           <div>
             <label className={label}>Keywords <span className="text-muted/70">(one per line or comma-separated)</span></label>
-            <textarea name="keywords" defaultValue={product.keywords} rows={4} className={field} placeholder={"Kundan necklace\nartificial jewellery Delhi\nnecklace for wedding"} />
+            <textarea name="keywords" defaultValue={product.keywords} rows={4} className={field} placeholder={"product name online\nbuy category India\ncategory wholesale"} />
           </div>
         </div>
       </section>
