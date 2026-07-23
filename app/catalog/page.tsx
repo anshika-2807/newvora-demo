@@ -6,7 +6,7 @@ import { ProductImage } from "@/components/Placeholder";
 import { CatalogShareBar } from "@/components/site/CatalogShareBar";
 import { BUSINESS } from "@/lib/business";
 
-export const metadata = { title: "Catalogue — Aggarwal Jwellers" };
+export const metadata = { title: "Catalogue — Newvora" };
 
 export default async function Catalog({ searchParams }: { searchParams: { category?: string } }) {
   const category = searchParams.category ?? "all";

@@ -8,15 +8,15 @@
  * or IGST 3% inter-state). Change GST_RATE / HSN if the product mix differs.
  */
 export const BUSINESS = {
-  brand: "Aggarwal Jwellers",
-  legalName: "Yogendra Industries",
-  address: "Sadar Bazar, Rui Mandi, Delhi 110006",
+  brand: "Newvora",
+  legalName: "Newvora",
+  address: "Delhi, India",
   stateName: "Delhi",
   stateCode: "07", // GST state code for Delhi
   gstin: "07ABCDE1234F1Z5", // ← replace with the real GSTIN
   pan: "ABCDE1234F",        // ← replace with the real PAN
-  phone: "+91 98731 51767",
-  email: "hello@aggarwaljwellers.in",
+  phone: "+91 83770 62790",
+  email: "hello@newvora.in",
   bank: {
     name: "HDFC Bank",
     account: "50200000000000",
