@@ -4,9 +4,9 @@ export type Page = { title: string; intro: string; sections: Section[] };
 export const PAGES: Record<string, Page> = {
   about: {
     title: "About Newvora",
-    intro: "Where elegance meets empowerment — handcrafted artificial jewellery from the heart of Sadar Bazar, Delhi.",
+    intro: "Where elegance meets empowerment — handcrafted artificial jewellery from the heart of Delhi, India.",
     sections: [
-      { h: "Our story", p: "Newvora, began in the bustling lanes of Rui Mandi, Sadar Bazar — one of India's largest jewellery wholesale hubs. What started as a family trade has grown into a brand trusted by retailers across the country and loved by thousands of customers." },
+      { h: "Our story", p: "Newvora began in the bustling lanes of Delhi — one of India's largest jewellery wholesale hubs. What started as a family trade has grown into a brand trusted by retailers across the country and loved by thousands of customers." },
       { h: "Our craft", p: "Every piece blends traditional artistry — Kundan, Meenakari, Temple and Polki work — with modern, trend-ready design. We use premium brass alloys with anti-tarnish plating so your jewellery stays beautiful, lightweight, and comfortable for daily and festive wear." },
       { h: "Retail & wholesale", p: "We serve both the customer who wants one perfect piece and the retailer sourcing in bulk. Approved retailers unlock factory-direct trade pricing with minimum order quantities, while every shopper enjoys honest pricing, real reviews, and easy returns." },
     ],
@@ -15,9 +15,9 @@ export const PAGES: Record<string, Page> = {
     title: "Contact Us",
     intro: "We're here to help — reach out any time.",
     sections: [
-      { h: "WhatsApp & Orders", p: "Message us on WhatsApp at +91 98731 51767 for orders, stock checks, and wholesale enquiries — it's the fastest way to reach us." },
+      { h: "WhatsApp & Orders", p: "Message us on WhatsApp at +91 83770 62790 for orders, stock checks, and wholesale enquiries — it's the fastest way to reach us." },
       { h: "Call", p: "Phone: +91 95820 02623, Monday to Saturday, 10:00 AM – 8:00 PM IST." },
-      { h: "Visit", p: "Newvora, Sadar Bazar, Rui Mandi, Delhi 110006, India." },
+      { h: "Visit", p: "Newvora, Delhi, India." },
       { h: "Wholesale", p: "Retailers can apply for a trade account from the Wholesale page; the owner approves each account before trade pricing is unlocked." },
     ],
   },

@@ -39,7 +39,7 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
         <div className="relative max-w-2xl">
           <p className="text-gold-light tracking-[0.3em] uppercase text-xs">Newvora · Trade</p>
           <h1 className="font-display text-5xl mt-2">Wholesale Portal</h1>
-          <p className="text-cream/70 mt-3">Factory-direct rates from Sadar Bazar. {products.length} designs live · {formatPaise(totalValue)} stock on hand. Approved retailers sign in to see trade prices and order.</p>
+          <p className="text-cream/70 mt-3">Factory-direct rates from Delhi. {products.length} designs live · {formatPaise(totalValue)} stock on hand. Approved retailers sign in to see trade prices and order.</p>
         </div>
       </section>
 
@@ -56,7 +56,7 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
         <div className="bg-emerald-mist/60 rounded-2xl p-7 border border-emerald/20">
           <h2 className="font-display text-2xl text-emerald-dark mb-2">Become a wholesale partner</h2>
           <p className="text-sm text-emerald-dark/80">Trade pricing is unlocked only after we verify your shop — this protects everyone's margins. To get an access code, message us with your shop name and GST number:</p>
-          <a href="https://wa.me/919873151767" target="_blank" rel="noopener" className="btn-gold inline-block px-6 py-3 text-sm font-medium mt-4">Request access on WhatsApp</a>
+          <a href="https://wa.me/918377062790" target="_blank" rel="noopener" className="btn-gold inline-block px-6 py-3 text-sm font-medium mt-4">Request access on WhatsApp</a>
         </div>
       </div>
     </div>

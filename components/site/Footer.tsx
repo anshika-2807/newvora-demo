@@ -6,9 +6,9 @@ export function Footer({ categories }: { categories: { name: string; slug: strin
       <div className="max-w-7xl mx-auto px-5 py-14 grid md:grid-cols-4 gap-10">
         <div>
           <p className="font-display text-3xl text-ivory">Newvora</p>
-          <p className="text-sm mt-3 text-cream/60 leading-relaxed">Where elegance meets empowerment. Handcrafted artificial jewellery from Sadar Bazar, Delhi — for retail &amp; wholesale.</p>
+          <p className="text-sm mt-3 text-cream/60 leading-relaxed">Where elegance meets empowerment. Handcrafted artificial jewellery from Delhi, India — for retail &amp; wholesale.</p>
           <div className="flex gap-3 mt-5">
-            <a href="https://wa.me/919873151767" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"
+            <a href="https://wa.me/918377062790" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"
               className="w-9 h-9 grid place-items-center rounded-full bg-white/10 hover:bg-gold hover:text-ink transition-colors">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.5-.3.3c-.2.2-.3.4-.2.6.2.4.8 1.3 1.6 2 1 .9 1.9 1.2 2.2 1.3.2.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.2.1.7-.1 1.4z"/></svg>
             </a>
@@ -50,7 +50,7 @@ export function Footer({ categories }: { categories: { name: string; slug: strin
             <input placeholder="Your email" className="flex-1 rounded-l-full px-4 py-2 text-sm text-ink outline-none" />
             <button className="btn-gold rounded-l-none px-4 text-sm font-medium">Join</button>
           </form>
-          <p className="text-xs text-cream/50 mt-4">WhatsApp orders: +91 98731 51767</p>
+          <p className="text-xs text-cream/50 mt-4">WhatsApp orders: +91 83770 62790</p>
         </div>
       </div>
       <div className="border-t border-white/10">

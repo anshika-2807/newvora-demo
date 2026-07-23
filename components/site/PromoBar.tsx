@@ -2,7 +2,7 @@ const MESSAGES = [
   "✦ Flat 20% OFF on everything",
   "✦ Free shipping over ₹999",
   "✦ Cash on Delivery available",
-  "✦ Handcrafted in Sadar Bazar, Delhi",
+  "✦ Handcrafted in Delhi, India",
   "✦ Wholesale rates for retailers",
 ];
 export function PromoBar() {

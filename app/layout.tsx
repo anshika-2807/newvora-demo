@@ -4,8 +4,8 @@ import { Analytics } from "@/components/Analytics";
 import { ToastProvider } from "@/components/ui/Toast";
 
 export const metadata: Metadata = {
-  title: { default: "Newvora — Artificial Jewellery, Sadar Bazar Delhi", template: "%s | Newvora" },
-  description: "Premium artificial jewellery — Kundan, Meenakari, Temple & more. Retail & wholesale from Newvora, Sadar Bazar, Delhi.",
+  title: { default: "Newvora — Artificial Jewellery, Delhi", template: "%s | Newvora" },
+  description: "Premium artificial jewellery — Kundan, Meenakari, Temple & more. Retail & wholesale from Newvora, Delhi, India.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

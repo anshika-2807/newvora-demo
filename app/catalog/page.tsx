@@ -20,7 +20,7 @@ export default async function Catalog({ searchParams }: { searchParams: { catego
       <div className="bg-ink text-cream catalog-dark">
         <div className="max-w-6xl mx-auto px-5 py-7 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-gold-light">{BUSINESS.legalName} · Sadar Bazar, Delhi</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-gold-light">{BUSINESS.legalName} · Delhi, India</p>
             <h1 className="font-display text-4xl text-ivory mt-1">{BUSINESS.brand}</h1>
             <p className="text-cream/70 text-sm mt-1">{catName} · {products.length} designs · WhatsApp {BUSINESS.phone}</p>
           </div>

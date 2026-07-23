@@ -32,7 +32,7 @@ export default async function ProductPage({ params }: Params) {
   const o = liveOffer(p.base_wholesale, formula);
   const w = computePrices(p.base_wholesale, formula);
   const waText = `Please place an order for ${p.name} (SKU:${p.sku})`;
-  const waHref = `https://wa.me/919873151767?text=${encodeURIComponent(waText)}`;
+  const waHref = `https://wa.me/918377062790?text=${encodeURIComponent(waText)}`;
   
 
   const jsonLd = {

@@ -19,10 +19,10 @@ const schema = z.object({
 function prompt(p: ProductLike) {
   const colors = (p.colors ?? []).join(", ");
   return [
-    `You are a senior e-commerce copywriter for "Newvora", a premium artificial-jewellery brand in Sadar Bazar, Rui Mandi, Delhi (retail + wholesale).`,
+    `You are a senior e-commerce copywriter for "Newvora", a premium artificial-jewellery brand in Delhi, India (retail + wholesale).`,
     `Write a high-converting product page as STRICT JSON with keys: title, description, specs (object of label->value), tags (array), seo (object: metaTitle, metaDescription, keywords array).`,
     `Product name: ${p.name}. SKU: ${p.sku}. Category: ${p.categoryName ?? "Jewellery"}.${colors ? ` Available colours: ${colors}.` : ""}`,
-    `Rules: description 70-110 words, warm and aspirational; naturally weave in Google-friendly search terms (the category, the style e.g. Kundan/Meenakari/Temple/Polki/Pearl/Oxidised if applicable, occasions like wedding/festive/party/daily wear, and location terms "Sadar Bazar", "Delhi", "artificial jewellery online India"). Mention craftsmanship, brass alloy + anti-tarnish plating, lightweight comfort, COD and easy returns.`,
+    `Rules: description 70-110 words, warm and aspirational; naturally weave in Google-friendly search terms (the category, the style e.g. Kundan/Meenakari/Temple/Polki/Pearl/Oxidised if applicable, occasions like wedding/festive/party/daily wear, and location terms "Delhi", "India", "artificial jewellery online India"). Mention craftsmanship, brass alloy + anti-tarnish plating, lightweight comfort, COD and easy returns.`,
     `specs (object) MUST include: SKU, Category, Material, Plating, Work/Style, Occasion, Care (and Colours if provided).`,
     `tags: 8-12 short search tags mixing category, style, occasion, material.`,
     `seo.metaTitle <= 60 chars; seo.metaDescription <= 155 chars and compelling; seo.keywords 8-12 long-tail phrases such as "<category> for wedding", "<style> <category>", "artificial jewellery online", "imitation jewellery Delhi".`,

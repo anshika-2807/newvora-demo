@@ -20,7 +20,7 @@ export type ProductLike = {
   generated_content?: GeneratedContent | null;
 };
 
-const LOCATION = ["Sadar Bazar", "Rui Mandi", "Delhi", "artificial jewellery wholesale Delhi", "imitation jewellery online India"];
+const LOCATION = ["Delhi", "India", "NCR", "artificial jewellery wholesale Delhi", "imitation jewellery online India"];
 const OCCASIONS = ["wedding", "festive", "party wear", "daily wear", "gifting"];
 
 function styleHints(name: string): string[] {
@@ -43,7 +43,7 @@ export function templateContent(p: ProductLike): GeneratedContent {
   const colorPhrase = p.colors && p.colors.length ? ` Available in ${p.colors.join(", ")}.` : "";
   const styleWord = styles[0] ? `${styles[0]} ` : "";
   const description =
-    `${p.name} — a ${styleWord}artificial ${catL} handcrafted by Newvora in Sadar Bazar, Delhi.${colorPhrase} ` +
+    `${p.name} — a ${styleWord}artificial ${catL} handcrafted by Newvora in Delhi, India.${colorPhrase} ` +
     `Made on a brass-alloy base with anti-tarnish gold-tone plating, it's lightweight, skin-friendly and finished for a premium look. ` +
     `Perfect for weddings, festive occasions and party wear, and an easy gift. Shop ${catL} online with COD, free shipping over ₹999, and easy 7-day returns.`;
 
@@ -75,7 +75,7 @@ export function templateContent(p: ProductLike): GeneratedContent {
     tags,
     seo: {
       metaTitle: `${p.name} | ${cat} | Newvora Delhi`.slice(0, 60),
-      metaDescription: `Buy ${p.name} (${p.sku}) — ${styleWord}${catL} at retail & wholesale from Newvora, Sadar Bazar Delhi. COD, free shipping over ₹999.`.slice(0, 158),
+      metaDescription: `Buy ${p.name} (${p.sku}) — ${styleWord}${catL} at retail & wholesale from Newvora, Delhi. COD, free shipping over ₹999.`.slice(0, 158),
       keywords,
     },
   };

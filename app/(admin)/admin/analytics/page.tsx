@@ -55,7 +55,7 @@ export default function Analytics() {
         <Card href={`${SITE}/robots.txt`} title="Robots" sub="What search engines can crawl" />
         <Card href={`${SITE}/faq`} title="Trust pages" sub="About, Shipping, Returns, FAQ, Size guide" />
       </div>
-      <p className="text-xs text-muted mt-4">Every product page already ships with location-aware SEO (Sadar Bazar, Delhi) and structured data, so your designs are discoverable on Google.</p>
+      <p className="text-xs text-muted mt-4">Every product page already ships with location-aware SEO (Delhi, India) and structured data, so your designs are discoverable on Google.</p>
     </main>
   );
 }

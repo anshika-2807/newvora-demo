@@ -21,7 +21,7 @@ export const BUSINESS = {
     name: "HDFC Bank",
     account: "50200000000000",
     ifsc: "HDFC0000123",
-    branch: "Sadar Bazar, Delhi",
+    branch: "Delhi, India",
   },
   terms: [
     "Goods once sold are subject to our return policy.",
