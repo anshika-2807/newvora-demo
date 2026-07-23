@@ -101,3 +101,10 @@ from (values
   ('TC-PWR-005','Riya J.',5,'Charges my phone 2-3 times, slim enough for my bag.',4)
 ) as r(sku, author, rating, body, days)
 join products p on p.sku = r.sku;
+
+-- 6) Demo coupons (so discount codes work out of the box)
+insert into vouchers (code, kind, value, min_order, cap, channel, usage_limit, active) values
+  ('WELCOME10','percent',10,      0,   null,'retail',  null, true),
+  ('FLAT100',  'flat',   10000, 99900, null,'retail',  null, true),
+  ('SAVE15',   'percent',15,  150000, 30000,'all',      500, true)
+on conflict (code) do nothing;

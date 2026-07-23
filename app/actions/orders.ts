@@ -1,14 +1,16 @@
 "use server";
 import { supabaseServer } from "@/lib/supabase/server";
 import { sendPurchase } from "@/lib/ga4";
+import { applyVoucherToOrder } from "@/lib/vouchers";
 
 export type PlaceOrderInput = {
   items: { sku: string; qty: number; color?: string }[];
   customer: { name: string; phone: string; address: string; pincode: string; city?: string };
   payment: "cod" | "online";
+  voucherCode?: string;
 };
 
-export async function placeOrderAction(input: PlaceOrderInput): Promise<{ ok: boolean; orderId?: string; total?: number; error?: string }> {
+export async function placeOrderAction(input: PlaceOrderInput): Promise<{ ok: boolean; orderId?: string; total?: number; discount?: number; error?: string }> {
   if (!input.items?.length) return { ok: false, error: "Cart is empty" };
   if (!input.customer?.name || !input.customer?.phone || !input.customer?.address) return { ok: false, error: "Please fill name, phone and address" };
   const sb = supabaseServer();
@@ -19,9 +21,18 @@ export async function placeOrderAction(input: PlaceOrderInput): Promise<{ ok: bo
     p_payment: input.payment,
   });
   if (error) return { ok: false, error: error.message };
-  const orderId = (data as any)?.order_id, total = (data as any)?.total;
+  const orderId = (data as any)?.order_id;
+  let total = (data as any)?.total;
+
+  // Apply a discount code if provided (re-validated + redeemed server-side).
+  let discount = 0;
+  if (input.voucherCode) {
+    discount = await applyVoucherToOrder(orderId, input.voucherCode, "retail");
+    if (discount > 0) total = total - discount;
+  }
+
   await sendPurchase({ orderId, valuePaise: total, channel: "retail", items: input.items.map((i) => ({ sku: i.sku, qty: i.qty })) });
-  return { ok: true, orderId, total };
+  return { ok: true, orderId, total, discount };
 }
 
 export async function posSaleAction(input: {

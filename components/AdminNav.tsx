@@ -32,6 +32,7 @@ const GROUPS: { title: string; links: L[] }[] = [
     { href: "/admin/suppliers", label: "Suppliers", icon: "⚒", perm: "suppliers.manage" },
     { href: "/admin/reviews", label: "Reviews", icon: "★", perm: "reviews.respond" },
     { href: "/admin/abandoned", label: "Abandoned carts", icon: "⊘", perm: "marketing.manage" },
+    { href: "/admin/vouchers", label: "Coupons", icon: "％", perm: "marketing.manage" },
   ]},
   { title: "Growth", links: [
     { href: "/admin/reels", label: "Reels", icon: "▷", perm: "reels.manage" },

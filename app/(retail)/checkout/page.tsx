@@ -6,6 +6,7 @@ import { useCart } from "@/components/cart/CartContext";
 import { formatPaise } from "@/lib/pricing";
 import { Back } from "@/components/site/Back";
 import { placeOrderAction } from "@/app/actions/orders";
+import { checkVoucherAction } from "@/app/actions/vouchers";
 
 export default function Checkout() {
   const { items, total, clear } = useCart();
@@ -14,13 +15,27 @@ export default function Checkout() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [f, setF] = useState({ name: "", phone: "", address: "", pincode: "", city: "" });
+  const [code, setCode] = useState("");
+  const [coupon, setCoupon] = useState<{ ok: boolean; discount: number; msg: string } | null>(null);
+  const [checking, setChecking] = useState(false);
   const shipping = total >= 99900 || total === 0 ? 0 : 5000;
+  const discount = coupon?.ok ? coupon.discount : 0;
+  const grand = Math.max(0, total - discount) + shipping;
+
+  async function applyCode() {
+    if (!code.trim()) return;
+    setChecking(true);
+    const res = await checkVoucherAction(code, total);
+    setChecking(false);
+    setCoupon({ ok: res.ok, discount: res.discountPaise, msg: res.message });
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault(); setErr(""); setBusy(true);
     const res = await placeOrderAction({
       items: items.map((i) => ({ sku: i.sku, qty: i.qty, color: i.color })),
       customer: f, payment,
+      voucherCode: coupon?.ok ? code : undefined,
     });
     setBusy(false);
     if (!res.ok) { setErr(res.error ?? "Something went wrong"); return; }
@@ -62,7 +77,7 @@ export default function Checkout() {
           </div>
           {err && <p className="text-sm text-rose">{err}</p>}
           <button disabled={busy} className="btn-primary w-full py-3.5 text-sm font-medium disabled:opacity-60">
-            {busy ? "Placing order…" : `Place order · ${formatPaise(total + shipping)}`}
+            {busy ? "Placing order…" : `Place order · ${formatPaise(grand)}`}
           </button>
         </form>
 
@@ -76,10 +91,24 @@ export default function Checkout() {
               </div>
             ))}
           </div>
-          <div className="border-t border-sand pt-3 space-y-1 text-sm">
+          {/* Coupon */}
+          <div className="border-t border-sand pt-3">
+            <div className="flex gap-2">
+              <input value={code} onChange={(e) => { setCode(e.target.value.toUpperCase()); setCoupon(null); }}
+                placeholder="Discount code" className="flex-1 rounded-xl border border-sand px-3 py-2 text-sm uppercase bg-white outline-none focus:border-emerald" />
+              <button type="button" onClick={applyCode} disabled={checking || !code.trim()}
+                className="px-4 py-2 rounded-xl border border-emerald text-emerald text-sm font-medium hover:bg-emerald-mist disabled:opacity-50">
+                {checking ? "…" : "Apply"}
+              </button>
+            </div>
+            {coupon && <p className={`text-xs mt-1.5 ${coupon.ok ? "text-emerald" : "text-rose"}`}>{coupon.msg}</p>}
+          </div>
+
+          <div className="border-t border-sand pt-3 space-y-1 text-sm mt-3">
             <div className="flex justify-between text-muted"><span>Subtotal</span><span>{formatPaise(total)}</span></div>
+            {discount > 0 && <div className="flex justify-between text-emerald"><span>Discount {coupon?.ok ? `(${code})` : ""}</span><span>−{formatPaise(discount)}</span></div>}
             <div className="flex justify-between text-muted"><span>Shipping</span><span>{shipping === 0 ? "Free" : formatPaise(shipping)}</span></div>
-            <div className="flex justify-between font-semibold text-ink pt-1"><span>Total</span><span>{formatPaise(total + shipping)}</span></div>
+            <div className="flex justify-between font-semibold text-ink pt-1"><span>Total</span><span>{formatPaise(grand)}</span></div>
           </div>
         </div>
       </div>
