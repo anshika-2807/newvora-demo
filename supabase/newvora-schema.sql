@@ -362,6 +362,16 @@ create table if not exists public.supplier_payments (
   created_at timestamptz not null default now()
 );
 
+-- ensure pricing_settings has the build-up columns bd_price() reads (added out-of-band originally)
+alter table public.pricing_settings
+  add column if not exists use_buildup            boolean not null default false,
+  add column if not exists shipping_pct           numeric not null default 0,
+  add column if not exists reseller_pct           numeric not null default 0,
+  add column if not exists customer_discount_pct  numeric not null default 0,
+  add column if not exists mrp_pct                numeric not null default 0,
+  add column if not exists packing_flat           integer not null default 0,
+  add column if not exists promotion_flat         integer not null default 0;
+
 -- ================= 0002_subcategories.sql =================
 -- Newvora — 0002: Category hierarchy (subcategories) + product↔subcategory mapping.
 --
