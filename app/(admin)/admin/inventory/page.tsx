@@ -39,7 +39,7 @@ export default async function Inventory({ searchParams }: { searchParams: { dead
 
       <StockAdjust />
 
-      <form className="flex flex-wrap items-end gap-3 mb-4 bg-white rounded-2xl p-4 shadow-card border border-sand">
+      <form className="flex flex-wrap items-end gap-3 mb-4 bg-surface rounded-2xl p-4 shadow-card border border-sand">
         <label className="text-sm text-muted">Dead after (days)
           <input name="deadDays" defaultValue={deadDays} type="number" className="mt-1 block w-28 rounded-xl border border-sand px-3 py-2 text-ink" />
         </label>
@@ -47,7 +47,7 @@ export default async function Inventory({ searchParams }: { searchParams: { dead
           <input name="lowQty" defaultValue={lowQty} type="number" className="mt-1 block w-28 rounded-xl border border-sand px-3 py-2 text-ink" />
         </label>
         <input name="q" defaultValue={searchParams.q ?? ""} placeholder="Search name or SKU…" className="flex-1 min-w-[160px] rounded-xl border border-sand px-4 py-2 text-sm outline-none focus:border-emerald" />
-        <button className="px-4 py-2 rounded-xl bg-ink text-white text-sm">Apply</button>
+        <button className="px-4 py-2 rounded-xl bg-ink text-ivory text-sm">Apply</button>
       </form>
 
       <div className="flex flex-wrap gap-2 mb-4">
@@ -55,10 +55,10 @@ export default async function Inventory({ searchParams }: { searchParams: { dead
           <Link key={c} href={`/admin/inventory?deadDays=${deadDays}&lowQty=${lowQty}&cls=${c}`}
             className={`px-3 py-1.5 rounded-full text-sm capitalize ${BADGE[c]} ${cls === c ? "ring-2 ring-ink/20" : ""}`}>{c} · {counts[c] ?? 0}</Link>
         ))}
-        <Link href={`/admin/inventory?deadDays=${deadDays}&lowQty=${lowQty}`} className="px-3 py-1.5 rounded-full text-sm bg-white border border-sand text-muted">All · {rows.length}</Link>
+        <Link href={`/admin/inventory?deadDays=${deadDays}&lowQty=${lowQty}`} className="px-3 py-1.5 rounded-full text-sm bg-surface border border-sand text-muted">All · {rows.length}</Link>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left">
             <tr><th className="p-3">Product</th><th className="p-3">Category</th><th className="p-3">Qty</th><th className="p-3">Last movement</th><th className="p-3">Health</th><th className="p-3">Visibility</th><th className="p-3 text-right">Actions</th></tr>

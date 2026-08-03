@@ -15,7 +15,7 @@ export default async function Roles() {
       <p className="text-sm text-muted mb-2">Discord-style granular control. Grant exactly what a role can do — e.g. a stock clerk who can <b>add</b> stock but never <b>remove</b> it.</p>
       <p className="text-sm text-muted mb-6 bg-emerald-mist/60 rounded-xl px-4 py-2.5">Each role has its own <b>passcode</b> (below). Share it with that staff member — they sign in at the same console login page with it and see only their permitted sections. Your owner passcode always unlocks everything.</p>
 
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-8">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mb-8">
         <h2 className="font-medium text-ink mb-4">Create a role</h2>
         <RoleForm action={createRoleAction} submitLabel="Create role" />
       </div>
@@ -24,7 +24,7 @@ export default async function Roles() {
       <div className="space-y-4">
         {roles.length === 0 && <p className="text-sm text-muted">No roles yet.</p>}
         {roles.map((r: any) => (
-          <details key={r.id} className="bg-white rounded-2xl shadow-card overflow-hidden">
+          <details key={r.id} className="bg-surface rounded-2xl shadow-card overflow-hidden">
             <summary className="px-5 py-4 cursor-pointer flex items-center justify-between list-none gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">

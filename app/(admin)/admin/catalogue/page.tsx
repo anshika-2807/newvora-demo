@@ -40,7 +40,7 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
   const Pill = ({ on, label }: { on: boolean; label: string }) => (
     <span className={`text-xs px-2.5 py-1 rounded-full ${on ? "bg-emerald-mist text-emerald-dark" : "bg-cream text-muted"}`}>{on ? "●" : "○"} {label}</span>
   );
-  const sel = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald";
+  const sel = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald";
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen">
@@ -65,7 +65,7 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
 
       {/* search + filters */}
       <form action="/admin/catalogue" className="flex flex-wrap gap-2 mb-4">
-        <input name="q" defaultValue={q} placeholder="Search name or SKU…" className="rounded-xl border border-sand bg-white px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[180px]" />
+        <input name="q" defaultValue={q} placeholder="Search name or SKU…" className="rounded-xl border border-sand bg-surface px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[180px]" />
         <select name="category" defaultValue={category} className={sel}>
           <option value="all">All categories</option>
           {categories.map((c) => <option key={c.id} value={c.slug}>{c.name}</option>)}
@@ -73,11 +73,11 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
         <select name="status" defaultValue={status} className={sel}>
           <option value="all">All statuses</option><option value="published">Published</option><option value="draft">Draft</option><option value="flagged">Flagged</option>
         </select>
-        <button className="px-4 py-2 rounded-xl bg-ink text-white text-sm">Search</button>
+        <button className="px-4 py-2 rounded-xl bg-ink text-ivory text-sm">Search</button>
         {(q || category !== "all" || status !== "all") && <Link href="/admin/catalogue" className="px-3 py-2 text-sm text-muted hover:text-ink">Clear</Link>}
       </form>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left">
             <tr>

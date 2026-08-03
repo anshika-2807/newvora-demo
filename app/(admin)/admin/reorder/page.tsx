@@ -11,7 +11,7 @@ export default async function Reorder() {
       <h1 className="font-display text-4xl text-ink mb-1">AI Reorder Planner</h1>
       <p className="text-sm text-muted mb-6">Let the inventory agent draft what to restock and what to clear — then approve, and the right person is notified automatically.</p>
       <ReorderClient candidateCount={cands.length} />
-      <div className="mt-8 bg-white rounded-2xl p-5 shadow-card">
+      <div className="mt-8 bg-surface rounded-2xl p-5 shadow-card">
         <h2 className="font-medium text-ink mb-3">Items the agent is watching</h2>
         <table className="w-full text-sm">
           <thead className="text-muted text-left"><tr><th className="py-1">Product</th><th className="py-1">Qty</th><th className="py-1">Last sold</th><th className="py-1">Status</th></tr></thead>

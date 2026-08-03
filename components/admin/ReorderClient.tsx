@@ -37,7 +37,7 @@ export function ReorderClient({ candidateCount }: { candidateCount: number }) {
       {recs.length > 0 && (
         <div className="grid md:grid-cols-2 gap-4">
           {recs.map((r) => (
-            <div key={r.sku} className="bg-white rounded-2xl p-5 shadow-card">
+            <div key={r.sku} className="bg-surface rounded-2xl p-5 shadow-card">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-ink">{r.name}</p>

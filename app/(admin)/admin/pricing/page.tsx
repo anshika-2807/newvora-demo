@@ -18,7 +18,7 @@ export default async function PricingPage() {
       {canEdit ? (
         <PricingFormulaEditor initial={formula} action={savePricingFormulaAction} />
       ) : (
-        <div className="rounded-2xl border border-sand bg-white p-6 text-muted">
+        <div className="rounded-2xl border border-sand bg-surface p-6 text-muted">
           You don't have permission to edit pricing. Ask the owner for the <code>catalog.edit</code> role.
         </div>
       )}

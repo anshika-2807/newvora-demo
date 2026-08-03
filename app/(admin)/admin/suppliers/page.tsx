@@ -16,8 +16,8 @@ export default async function Suppliers({ searchParams }: { searchParams: { q?: 
   const page = Math.max(1, parseInt(searchParams.page ?? "1", 10) || 1);
   const [all, cities] = await Promise.all([getSuppliersList({ q, kind, city }), getSupplierCities()]);
   const rows = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const sel = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald";
-  const fld = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald w-full";
+  const sel = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald";
+  const fld = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald w-full";
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen max-w-5xl">
@@ -25,7 +25,7 @@ export default async function Suppliers({ searchParams }: { searchParams: { q?: 
       <p className="text-sm text-muted mb-5">Your sourcing book — organised by location, searchable, with GST details for purchase bills.</p>
 
       {/* Add form */}
-      <form action={upsertSupplierAction} className="bg-white rounded-2xl p-5 shadow-card mb-5 border border-sand">
+      <form action={upsertSupplierAction} className="bg-surface rounded-2xl p-5 shadow-card mb-5 border border-sand">
         <h2 className="font-medium text-ink mb-3">Add supplier / vendor</h2>
         <div className="grid sm:grid-cols-3 gap-3">
           <input name="name" placeholder="Name / firm *" className={fld} required />
@@ -42,14 +42,14 @@ export default async function Suppliers({ searchParams }: { searchParams: { q?: 
 
       {/* Filters */}
       <form action="/admin/suppliers" className="flex flex-wrap gap-2 mb-4">
-        <input name="q" defaultValue={q} placeholder="Search name / phone / GSTIN…" className="rounded-xl border border-sand bg-white px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[160px]" />
+        <input name="q" defaultValue={q} placeholder="Search name / phone / GSTIN…" className="rounded-xl border border-sand bg-surface px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[160px]" />
         <select name="kind" defaultValue={kind} className={sel}><option value="all">All types</option><option value="supplier">Suppliers</option><option value="vendor">Vendors</option></select>
         <select name="city" defaultValue={city} className={sel}><option value="all">All cities</option>{cities.map((c) => <option key={c} value={c}>{c}</option>)}</select>
-        <button className="px-4 py-2 rounded-xl bg-ink text-white text-sm">Filter</button>
+        <button className="px-4 py-2 rounded-xl bg-ink text-ivory text-sm">Filter</button>
         {(q || kind !== "all" || city !== "all") && <Link href="/admin/suppliers" className="px-3 py-2 text-sm text-muted hover:text-ink">Clear</Link>}
       </form>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr>
             <th className="p-3">Name</th><th className="p-3">Type</th><th className="p-3">Location</th><th className="p-3">Phone</th><th className="p-3">GSTIN</th><th className="p-3"></th>

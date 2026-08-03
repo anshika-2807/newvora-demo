@@ -15,12 +15,12 @@ export default function PricingFormulaEditor({
 
   const preview = computePrices(Math.round(sample * 100), f);
   const set = (k: keyof PricingFormula, v: number) => { setF({ ...f, [k]: v }); setSaved(false); };
-  const inp = "w-full h-11 rounded-xl border border-sand px-3 text-[15px] bg-white outline-none focus:border-emerald";
+  const inp = "w-full h-11 rounded-xl border border-sand px-3 text-[15px] bg-surface outline-none focus:border-emerald";
 
   return (
     <form
       action={async (fd) => { await action(fd); setSaved(true); }}
-      className="rounded-2xl border border-sand bg-white p-6 shadow-card"
+      className="rounded-2xl border border-sand bg-surface p-6 shadow-card"
     >
       <h2 className="font-medium text-ink">Pricing formula</h2>
       <p className="text-sm text-muted mt-1 mb-5">
@@ -56,11 +56,11 @@ export default function PricingFormulaEditor({
         <div className="flex items-center gap-2 text-sm text-muted mb-3">
           <span>Live preview for a base cost of ₹</span>
           <input type="number" min="1" value={sample} onChange={(e) => setSample(Number(e.target.value) || 0)}
-            className="w-24 h-9 rounded-lg border border-sand px-2 text-sm bg-white outline-none focus:border-emerald" />
+            className="w-24 h-9 rounded-lg border border-sand px-2 text-sm bg-surface outline-none focus:border-emerald" />
         </div>
         <div className="grid grid-cols-3 gap-3 text-center">
           {[["Wholesale", preview.wholesaleRate], ["Retail", preview.retailPrice], ["MRP", preview.mrp]].map(([label, val]) => (
-            <div key={label as string} className="rounded-lg bg-white border border-sand py-3">
+            <div key={label as string} className="rounded-lg bg-surface border border-sand py-3">
               <p className="text-[11px] uppercase tracking-wide text-muted">{label as string}</p>
               <p className="text-lg font-semibold text-ink mt-0.5">{formatPaise(val as number)}</p>
             </div>

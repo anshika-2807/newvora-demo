@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center bg-ivory">
-      <span className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-4 py-1.5 text-xs font-medium text-muted shadow-card mb-8">
+      <span className="inline-flex items-center gap-2 rounded-full border border-sand bg-surface px-4 py-1.5 text-xs font-medium text-muted shadow-card mb-8">
         <span className="h-2 w-2 rounded-full bg-emerald-light animate-pulse" />
         Live demo · storefront + business console
       </span>
@@ -20,7 +20,7 @@ export default function Home() {
 
       <div className="flex flex-wrap gap-4 justify-center mt-10">
         <Link href="/shop" className="btn-primary px-7 py-3.5 text-sm font-semibold">Explore the store →</Link>
-        <Link href="/admin/catalogue" className="px-7 py-3.5 rounded-full border border-sand bg-white text-ink text-sm font-semibold hover:border-emerald hover:text-emerald transition">
+        <Link href="/admin/catalogue" className="px-7 py-3.5 rounded-full border border-sand bg-surface text-ink text-sm font-semibold hover:border-emerald hover:text-emerald transition">
           Open the business console
         </Link>
       </div>
@@ -32,7 +32,7 @@ export default function Home() {
           ["Inventory", "Live stock & reorder"],
           ["AI assistant", "Runs the shop by chat"],
         ].map(([t, d]) => (
-          <div key={t} className="rounded-2xl border border-sand bg-white p-5 shadow-card">
+          <div key={t} className="rounded-2xl border border-sand bg-surface p-5 shadow-card">
             <p className="font-display text-sm font-semibold text-ink">{t}</p>
             <p className="text-xs text-muted mt-1 leading-relaxed">{d}</p>
           </div>

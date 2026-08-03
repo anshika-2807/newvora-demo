@@ -12,7 +12,7 @@ export default async function Inbox() {
       <h1 className="font-display text-4xl text-ink mb-1">Notifications</h1>
       <p className="text-sm text-muted mb-6">Every human-required step lands here and pings the assigned person — nothing passes silently.</p>
 
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">
         <h2 className="font-medium text-ink mb-3">Inbox</h2>
         <div className="space-y-2">
           {notifs.length === 0 && <p className="text-sm text-muted">No notifications.</p>}
@@ -29,7 +29,7 @@ export default async function Inbox() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-card">
+      <div className="bg-surface rounded-2xl p-6 shadow-card">
         <h2 className="font-medium text-ink mb-3">Who owns what (assignment registry)</h2>
         <table className="w-full text-sm">
           <thead className="text-muted text-left"><tr><th className="py-1">Responsibility</th><th className="py-1">Owner</th><th className="py-1">Backup</th><th className="py-1">Channel</th><th className="py-1">SLA</th></tr></thead>

@@ -10,7 +10,7 @@ export function WishlistButton({ item, className = "" }: { item: WishItem; class
   return (
     <button aria-label={active ? "Remove from wishlist" : "Save to wishlist"} title={active ? "Saved" : "Save to wishlist"}
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(item); toast(active ? "Removed from wishlist" : "Saved to wishlist", active ? "info" : "success"); }}
-      className={`${className} grid place-items-center ${active ? "bg-rose text-white" : "bg-white/85 text-rose hover:bg-rose hover:text-white"}`}>
+      className={`${className} grid place-items-center ${active ? "bg-rose text-white" : "bg-surface/85 text-rose hover:bg-rose hover:text-white"}`}>
       <IconHeart className={`w-4 h-4 ${active ? "fill-current" : ""}`} />
     </button>
   );

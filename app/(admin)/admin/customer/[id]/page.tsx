@@ -14,7 +14,7 @@ export default async function CustomerDetail({ params }: { params: { id: string 
   if (!data) notFound();
   const { customer: c, orders, totalSpent, orderCount } = data;
   const canManage = can(getSession(), "customers.manage");
-  const fld = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald w-full";
+  const fld = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald w-full";
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen max-w-4xl">
@@ -25,15 +25,15 @@ export default async function CustomerDetail({ params }: { params: { id: string 
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <div className="bg-white rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Orders</p><p className="text-xl font-semibold mt-1">{orderCount}</p></div>
-        <div className="bg-white rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Total spent</p><p className="text-xl font-semibold mt-1 text-emerald">{formatPaise(totalSpent)}</p></div>
-        <div className="bg-white rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Outstanding</p><p className={`text-xl font-semibold mt-1 ${c.credit_balance ? "text-rose" : "text-ink"}`}>{formatPaise(c.credit_balance ?? 0)}</p></div>
-        <div className="bg-white rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">GSTIN</p><p className="text-sm font-medium mt-1 break-all">{c.gstin || "—"}</p></div>
+        <div className="bg-surface rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Orders</p><p className="text-xl font-semibold mt-1">{orderCount}</p></div>
+        <div className="bg-surface rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Total spent</p><p className="text-xl font-semibold mt-1 text-emerald">{formatPaise(totalSpent)}</p></div>
+        <div className="bg-surface rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">Outstanding</p><p className={`text-xl font-semibold mt-1 ${c.credit_balance ? "text-rose" : "text-ink"}`}>{formatPaise(c.credit_balance ?? 0)}</p></div>
+        <div className="bg-surface rounded-2xl p-4 shadow-card"><p className="text-xs uppercase tracking-wide text-muted">GSTIN</p><p className="text-sm font-medium mt-1 break-all">{c.gstin || "—"}</p></div>
       </div>
 
       {/* Wholesale access */}
       {c.type === "wholesale" && canManage && (
-        <div className="bg-white rounded-2xl p-5 shadow-card mb-4 border border-gold/30">
+        <div className="bg-surface rounded-2xl p-5 shadow-card mb-4 border border-gold/30">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="font-medium text-ink">Wholesale portal access</h2>
@@ -58,7 +58,7 @@ export default async function CustomerDetail({ params }: { params: { id: string 
 
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Profile / edit */}
-        <div className="bg-white rounded-2xl p-5 shadow-card">
+        <div className="bg-surface rounded-2xl p-5 shadow-card">
           <h2 className="font-medium text-ink mb-3">Profile</h2>
           {canManage ? (
             <form action={upsertCustomerAction} className="space-y-3">
@@ -90,7 +90,7 @@ export default async function CustomerDetail({ params }: { params: { id: string 
         </div>
 
         {/* Order history */}
-        <div className="bg-white rounded-2xl p-5 shadow-card">
+        <div className="bg-surface rounded-2xl p-5 shadow-card">
           <h2 className="font-medium text-ink mb-3">Order history</h2>
           {orders.length === 0 ? <p className="text-sm text-muted">No orders yet for this customer.</p> : (
             <div className="overflow-x-auto"><table className="w-full text-sm">

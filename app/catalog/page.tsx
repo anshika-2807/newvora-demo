@@ -30,9 +30,9 @@ export default async function Catalog({ searchParams }: { searchParams: { catego
 
       {/* Category chips */}
       <div className="no-print max-w-6xl mx-auto px-5 pt-5 flex flex-wrap gap-2">
-        <Link href="/catalog" className={`px-3.5 py-1.5 rounded-full text-sm ${category === "all" ? "bg-ink text-white" : "bg-white border border-sand text-muted hover:border-gold"}`}>All</Link>
+        <Link href="/catalog" className={`px-3.5 py-1.5 rounded-full text-sm ${category === "all" ? "bg-ink text-ivory" : "bg-surface border border-sand text-muted hover:border-gold"}`}>All</Link>
         {categories.map((c) => (
-          <Link key={c.slug} href={`/catalog?category=${c.slug}`} className={`px-3.5 py-1.5 rounded-full text-sm ${category === c.slug ? "bg-ink text-white" : "bg-white border border-sand text-muted hover:border-gold"}`}>{c.name}</Link>
+          <Link key={c.slug} href={`/catalog?category=${c.slug}`} className={`px-3.5 py-1.5 rounded-full text-sm ${category === c.slug ? "bg-ink text-ivory" : "bg-surface border border-sand text-muted hover:border-gold"}`}>{c.name}</Link>
         ))}
       </div>
 
@@ -43,7 +43,7 @@ export default async function Catalog({ searchParams }: { searchParams: { catego
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {products.map((p) => (
-              <div key={p.sku} className="bg-white rounded-2xl overflow-hidden border border-sand shadow-card break-inside-avoid">
+              <div key={p.sku} className="bg-surface rounded-2xl overflow-hidden border border-sand shadow-card break-inside-avoid">
                 <div className="aspect-[4/5] bg-cream relative">
                   {p.image ? <img src={p.image} alt={p.name} className="w-full h-full object-cover" /> : <ProductImage name={p.name} />}
                   {p.hasOffer && <span className="absolute top-2 left-2 bg-rose text-white text-[10px] px-2 py-0.5 rounded-full">{p.offerPct}% OFF</span>}

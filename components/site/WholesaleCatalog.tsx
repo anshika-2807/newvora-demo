@@ -30,7 +30,7 @@ export function WholesaleCatalog({ products, customerName }: { products: P[]; cu
 
   if (done) {
     return (
-      <div className="rounded-3xl bg-white border border-sand shadow-card p-10 text-center max-w-lg mx-auto">
+      <div className="rounded-3xl bg-surface border border-sand shadow-card p-10 text-center max-w-lg mx-auto">
         <p className="text-5xl mb-3">✓</p>
         <h2 className="font-display text-3xl text-ink">Order placed</h2>
         <p className="text-muted mt-2">Wholesale order <b className="text-ink">{done.id.slice(0, 8).toUpperCase()}</b> for <b className="text-emerald">{formatPaise(done.total)}</b> is in. We'll be in touch to confirm dispatch.</p>
@@ -52,7 +52,7 @@ export function WholesaleCatalog({ products, customerName }: { products: P[]; cu
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr>
             <th className="p-4">Design</th><th className="p-4">SKU</th><th className="p-4">Category</th><th className="p-4">Stock</th>

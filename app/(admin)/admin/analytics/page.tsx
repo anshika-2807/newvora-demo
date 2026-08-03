@@ -11,7 +11,7 @@ const ga = (path: string) => (PID ? `${gaBase}${path}` : "https://analytics.goog
 function Card({ href, title, sub, accent }: { href: string; title: string; sub: string; accent?: boolean }) {
   return (
     <a href={href} target="_blank" rel="noreferrer"
-      className={`block rounded-2xl p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-luxe ${accent ? "bg-ink text-cream" : "bg-white"}`}>
+      className={`block rounded-2xl p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-luxe ${accent ? "bg-ink text-cream" : "bg-surface"}`}>
       <p className={`font-medium ${accent ? "text-ivory" : "text-ink"}`}>{title} <span className="opacity-60">↗</span></p>
       <p className={`text-sm mt-1 ${accent ? "text-cream/70" : "text-muted"}`}>{sub}</p>
     </a>
@@ -45,7 +45,7 @@ export default function Analytics() {
           ["Top products & drop-offs", "What gets viewed, added to cart, and bought — and where shoppers leave."],
           ["Every sale counted", "Online, COD and counter (POS) sales all report in — even ones that don't happen in a browser."],
         ].map(([t, s]) => (
-          <div key={t} className="bg-white rounded-2xl p-5 shadow-card"><p className="font-medium text-ink">{t}</p><p className="text-sm text-muted mt-1">{s}</p></div>
+          <div key={t} className="bg-surface rounded-2xl p-5 shadow-card"><p className="font-medium text-ink">{t}</p><p className="text-sm text-muted mt-1">{s}</p></div>
         ))}
       </div>
 

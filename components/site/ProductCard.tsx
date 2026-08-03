@@ -18,7 +18,7 @@ export function ProductCard({ p, formula, index = 0 }: { p: CardProduct; formula
   const low = p.qty > 0 && p.qty <= 3;
   return (
     <Link href={`/shop/${p.category.slug}/${p.sku}`}
-      className="group relative block rounded-2xl bg-white shadow-card hover:shadow-luxe transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+      className="group relative block rounded-2xl bg-surface shadow-card hover:shadow-luxe transition-all duration-300 hover:-translate-y-1 overflow-hidden">
       <div className="relative aspect-[4/5] overflow-hidden bg-cream">
         <div className="card-img h-full w-full"><ProductImage name={p.name} /></div>
 

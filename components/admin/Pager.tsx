@@ -38,7 +38,7 @@ export function Pager({
         className={`${btn} ${page === 1 ? "border-sand text-muted/40 pointer-events-none" : "border-sand text-ink hover:border-gold"}`}>‹</Link>
       {start > 1 && <><Link href={href(1)} className={`${btn} border-sand text-ink hover:border-gold`}>1</Link>{start > 2 && <span className="text-muted px-1">…</span>}</>}
       {win.map((p) => (
-        <Link key={p} href={href(p)} className={`${btn} ${p === page ? "border-ink bg-ink text-white" : "border-sand text-ink hover:border-gold"}`}>{p}</Link>
+        <Link key={p} href={href(p)} className={`${btn} ${p === page ? "border-ink bg-ink text-ivory" : "border-sand text-ink hover:border-gold"}`}>{p}</Link>
       ))}
       {end < pages && <>{end < pages - 1 && <span className="text-muted px-1">…</span>}<Link href={href(pages)} className={`${btn} border-sand text-ink hover:border-gold`}>{pages}</Link></>}
       <Link href={href(Math.min(pages, page + 1))} aria-disabled={page === pages}

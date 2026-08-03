@@ -26,7 +26,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
   const [log, setLog] = useState<LogLine[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald transition-colors";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald transition-colors";
   const catName = cats.find((c) => c.id === catId)?.name;
   const push = (line: LogLine) => setLog((l) => [...l, line]);
   const patchLast = (status: "ok" | "err", text?: string) => setLog((l) => l.map((x, i) => i === l.length - 1 ? { text: text ?? x.text, status } : x));
@@ -104,7 +104,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
 
   return (
     <div className="max-w-3xl">
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-5">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mb-5">
         <label className="text-sm font-medium text-ink">Step 1 · Choose a category <span className="text-rose">*</span></label>
         <p className="text-xs text-muted mb-2">Everything you upload goes under this category — no misclassification.</p>
         <div className="flex gap-2">
@@ -117,17 +117,17 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
         {showNewCat && (
           <div className="flex gap-2 mt-2">
             <input value={newCat} onChange={(e) => setNewCat(e.target.value)} placeholder="New category name (e.g. Maang Tikka)" className={input} />
-            <button type="button" onClick={createCat} disabled={busy} className="px-4 rounded-xl bg-ink text-white text-sm whitespace-nowrap disabled:opacity-50">Create</button>
+            <button type="button" onClick={createCat} disabled={busy} className="px-4 rounded-xl bg-ink text-ivory text-sm whitespace-nowrap disabled:opacity-50">Create</button>
           </div>
         )}
       </div>
 
-      <div className={`bg-white rounded-2xl p-6 shadow-card transition-opacity ${catId ? "" : "opacity-40 pointer-events-none"}`}>
+      <div className={`bg-surface rounded-2xl p-6 shadow-card transition-opacity ${catId ? "" : "opacity-40 pointer-events-none"}`}>
         <div className="flex items-center justify-between mb-4">
           <label className="text-sm font-medium text-ink">Step 2 · Add designs</label>
           <div className="flex gap-1 bg-cream rounded-full p-1">
             {(["single", "bulk"] as const).map((m) => (
-              <button key={m} onClick={() => setMode(m)} className={`px-3 py-1 rounded-full text-xs ${mode === m ? "bg-ink text-white" : "text-muted"}`}>{m === "single" ? "Single" : "List / Sheet"}</button>
+              <button key={m} onClick={() => setMode(m)} className={`px-3 py-1 rounded-full text-xs ${mode === m ? "bg-ink text-ivory" : "text-muted"}`}>{m === "single" ? "Single" : "List / Sheet"}</button>
             ))}
           </div>
         </div>

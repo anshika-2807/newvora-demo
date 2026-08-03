@@ -42,7 +42,7 @@ export default async function CategoryPage({ params, searchParams }: { params: {
     Object.entries(m).forEach(([k, v]) => { if (v) p.set(k, String(v)); });
     return `/shop/c/${params.slug}?${p.toString()}`;
   };
-  const inp = "rounded-lg border border-sand px-3 py-1.5 text-sm bg-white outline-none focus:border-emerald w-24";
+  const inp = "rounded-lg border border-sand px-3 py-1.5 text-sm bg-surface outline-none focus:border-emerald w-24";
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-8">
@@ -58,13 +58,13 @@ export default async function CategoryPage({ params, searchParams }: { params: {
         </header>
       </Reveal>
 
-      <div className="bg-white rounded-2xl shadow-card p-4 mb-6 flex flex-wrap items-end gap-4">
+      <div className="bg-surface rounded-2xl shadow-card p-4 mb-6 flex flex-wrap items-end gap-4">
         <form className="flex items-end gap-2" action={`/shop/c/${params.slug}`}>
           <input type="hidden" name="sort" value={searchParams.sort ?? ""} />
           <input type="hidden" name="stock" value={searchParams.stock ?? ""} />
           <label className="text-xs text-muted">Min ₹<input name="min" defaultValue={searchParams.min} inputMode="numeric" className={`${inp} block mt-1`} /></label>
           <label className="text-xs text-muted">Max ₹<input name="max" defaultValue={searchParams.max} inputMode="numeric" className={`${inp} block mt-1`} /></label>
-          <button className="px-4 py-1.5 rounded-full bg-ink text-white text-sm">Apply</button>
+          <button className="px-4 py-1.5 rounded-full bg-ink text-ivory text-sm">Apply</button>
         </form>
         <Link href={qs({ stock: inStockOnly ? undefined : "1" })}
           className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${inStockOnly ? "border-emerald bg-emerald-mist text-emerald" : "border-sand text-muted hover:border-emerald"}`}>In stock only</Link>

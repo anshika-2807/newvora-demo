@@ -33,14 +33,14 @@ export function Assistant() {
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {msgs.map((m, i) => (
-              <div key={i} className={`max-w-[85%] text-sm rounded-2xl px-3.5 py-2.5 ${m.role === "user" ? "ml-auto bg-emerald text-white" : "bg-white text-ink shadow-sm"}`}>{m.text}</div>
+              <div key={i} className={`max-w-[85%] text-sm rounded-2xl px-3.5 py-2.5 ${m.role === "user" ? "ml-auto bg-emerald text-white" : "bg-surface text-ink shadow-sm"}`}>{m.text}</div>
             ))}
-            {busy && <div className="bg-white text-muted text-sm rounded-2xl px-3.5 py-2.5 shadow-sm w-16"><span className="animate-pulse">· · ·</span></div>}
+            {busy && <div className="bg-surface text-muted text-sm rounded-2xl px-3.5 py-2.5 shadow-sm w-16"><span className="animate-pulse">· · ·</span></div>}
             <div ref={endRef} />
           </div>
           <div className="p-3 border-t border-sand flex gap-2">
             <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") send(); }}
-              placeholder="Ask Diva…" className="flex-1 rounded-full border border-sand px-4 py-2 text-sm bg-white outline-none focus:border-emerald" />
+              placeholder="Ask Diva…" className="flex-1 rounded-full border border-sand px-4 py-2 text-sm bg-surface outline-none focus:border-emerald" />
             <button onClick={send} disabled={busy} className="btn-primary px-4 py-2 text-sm disabled:opacity-50">Send</button>
           </div>
         </div>

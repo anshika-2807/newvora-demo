@@ -16,7 +16,7 @@ const SOURCES = [
 export function StockAdjust() {
   const [open, setOpen] = useState(false);
   const [sign, setSign] = useState<1 | -1>(1);
-  const fld = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald";
+  const fld = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald";
 
   return (
     <div className="mb-4">
@@ -24,7 +24,7 @@ export function StockAdjust() {
         {open ? "× Close" : "± Adjust stock"}
       </button>
       {open && (
-        <form action={adjustStockAction} className="mt-3 bg-white rounded-2xl p-4 shadow-card border border-sand grid sm:grid-cols-5 gap-3 items-end">
+        <form action={adjustStockAction} className="mt-3 bg-surface rounded-2xl p-4 shadow-card border border-sand grid sm:grid-cols-5 gap-3 items-end">
           <label className="text-xs text-muted sm:col-span-1">SKU<input name="sku" placeholder="BD1000" className={`${fld} w-full mt-1`} required /></label>
           <div className="text-xs text-muted">
             Direction
@@ -50,7 +50,7 @@ function QtyInput({ sign }: { sign: 1 | -1 }) {
   return (
     <>
       <input type="hidden" name="delta" value={sign * Math.max(1, Math.abs(n))} />
-      <QtyField value={n} onChange={setN} className="rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald w-full mt-1" />
+      <QtyField value={n} onChange={setN} className="rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald w-full mt-1" />
     </>
   );
 }

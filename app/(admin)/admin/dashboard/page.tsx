@@ -21,7 +21,7 @@ function presetRange(preset: string): { from: string; to: string } {
 
 function Tile({ label, children, sub, accent, icon, bar }: { label: string; children: React.ReactNode; sub?: string; accent?: string; icon?: string; bar?: string }) {
   return (
-    <div className="relative bg-white rounded-2xl p-5 shadow-card hover:shadow-luxe transition-all hover:-translate-y-0.5 overflow-hidden">
+    <div className="relative bg-surface rounded-2xl p-5 shadow-card hover:shadow-luxe transition-all hover:-translate-y-0.5 overflow-hidden">
       <span className={`absolute left-0 top-0 bottom-0 w-1 ${bar ?? "bg-emerald"}`} />
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase tracking-wide text-muted">{label}</p>
@@ -46,7 +46,7 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
   const label = custom
     ? `${new Date(from).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })} – ${new Date(to).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}`
     : (PRESETS.find((p) => p.key === preset)?.label ?? "This month");
-  const sel = "rounded-lg border border-sand bg-white px-2.5 py-1.5 text-sm outline-none focus:border-emerald";
+  const sel = "rounded-lg border border-sand bg-surface px-2.5 py-1.5 text-sm outline-none focus:border-emerald";
   const hour = new Date().getHours();
   const greet = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
@@ -67,16 +67,16 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
             <p className="text-2xl font-semibold text-ivory mt-3">{formatPaise(d.revenue)} <span className="text-sm font-normal text-cream/60">in revenue · {d.orders} orders</span></p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex gap-1 bg-white/10 rounded-full p-1">
+            <div className="flex gap-1 bg-surface/10 rounded-full p-1">
               {PRESETS.map((p) => (
                 <a key={p.key} href={`/admin/dashboard?preset=${p.key}`}
                   className={`px-3.5 py-1.5 rounded-full text-sm transition-colors ${!custom && preset === p.key ? "bg-ivory text-ink" : "text-cream/80 hover:text-white"}`}>{p.label}</a>
               ))}
             </div>
-            <form action="/admin/dashboard" className="flex items-center gap-1.5 bg-white/10 rounded-full p-1.5">
-              <input type="date" name="from" defaultValue={fromDate} className={`${sel} bg-white/90`} />
+            <form action="/admin/dashboard" className="flex items-center gap-1.5 bg-surface/10 rounded-full p-1.5">
+              <input type="date" name="from" defaultValue={fromDate} className={`${sel} bg-surface/90`} />
               <span className="text-cream/60 text-xs">→</span>
-              <input type="date" name="to" defaultValue={toDate} className={`${sel} bg-white/90`} />
+              <input type="date" name="to" defaultValue={toDate} className={`${sel} bg-surface/90`} />
               <button className="px-3 py-1.5 rounded-full bg-gold text-ink text-sm font-medium">Apply</button>
             </form>
           </div>
@@ -103,14 +103,14 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4 mb-5">
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-card">
+        <div className="lg:col-span-2 bg-surface rounded-2xl p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-medium text-ink">Revenue trend</h2>
             <span className="text-xs text-muted">8 weeks</span>
           </div>
           <BarChart data={a.weekly} />
         </div>
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-ink mb-4">Sales by channel</h2>
           <Donut data={a.channels.map((c) => ({ label: c.channel, value: c.revenue }))} />
         </div>
@@ -124,7 +124,7 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
       </div>
 
       <div className="grid md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-ink mb-4">Revenue by category</h2>
           <div className="space-y-3">
             {a.categories.map((c, i) => {
@@ -138,7 +138,7 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
             })}
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-rose mb-4">🔴 Dead stock — act now</h2>
           <ul className="text-sm divide-y divide-sand/60">
             {d.deadList.length === 0 ? <li className="py-2 text-muted">None 🎉</li> : d.deadList.map((p) => (
@@ -146,7 +146,7 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
             ))}
           </ul>
         </div>
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-gold-dark mb-4">⭐ Top sellers</h2>
           <ul className="text-sm divide-y divide-sand/60">
             {a.topProducts.map((p) => (

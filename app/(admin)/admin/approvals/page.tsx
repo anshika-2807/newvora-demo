@@ -11,7 +11,7 @@ export default async function Approvals() {
       <div className="space-y-3">
         {approvals.length === 0 && <p className="text-sm text-diva-ink/50">No approval requests.</p>}
         {approvals.map((a: any) => (
-          <div key={a.id} className="bg-white rounded-xl p-5 shadow-sm">
+          <div key={a.id} className="bg-surface rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium text-diva-ink">{a.action.replace("_", " ")}</p>

@@ -13,7 +13,7 @@ export function Donut({ data }: { data: { label: string; value: number }[] }) {
     <div className="flex items-center gap-6">
       <div className="relative donut-in" style={{ width: 132, height: 132 }}>
         <div className="rounded-full" style={{ width: 132, height: 132, background: `conic-gradient(${stops})` }} />
-        <div className="absolute inset-0 m-auto rounded-full bg-white grid place-items-center" style={{ width: 78, height: 78 }}>
+        <div className="absolute inset-0 m-auto rounded-full bg-surface grid place-items-center" style={{ width: 78, height: 78 }}>
           <div className="text-center"><p className="text-[10px] text-muted">Total</p><p className="text-sm font-semibold text-ink">{formatPaise(total)}</p></div>
         </div>
       </div>

@@ -25,7 +25,7 @@ export default async function SalesRecords({ searchParams }: { searchParams: { p
   const to = searchParams.to ?? "";
   const { rows, total } = await getOrdersPage({ page, pageSize: PAGE_SIZE, q, channel, from: from || undefined, to: to ? to + "T23:59:59" : undefined });
   const pageSum = rows.reduce((s: number, r: any) => s + (r.total ?? 0), 0);
-  const sel = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald";
+  const sel = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald";
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen">
@@ -33,15 +33,15 @@ export default async function SalesRecords({ searchParams }: { searchParams: { p
       <p className="text-sm text-muted mb-5">Every sale across all channels. Click an order to open its bill &amp; full detail.</p>
 
       <form action="/admin/sales" className="flex flex-wrap gap-2 mb-4 items-center">
-        <input name="q" defaultValue={q} placeholder="Search customer / phone…" className="rounded-xl border border-sand bg-white px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[160px]" />
+        <input name="q" defaultValue={q} placeholder="Search customer / phone…" className="rounded-xl border border-sand bg-surface px-4 py-2 text-sm outline-none focus:border-emerald flex-1 min-w-[160px]" />
         <select name="channel" defaultValue={channel} className={sel}>{CHANNELS.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}</select>
         <label className="text-xs text-muted flex items-center gap-1">From <input type="date" name="from" defaultValue={from} className={sel} /></label>
         <label className="text-xs text-muted flex items-center gap-1">To <input type="date" name="to" defaultValue={to} className={sel} /></label>
-        <button className="px-4 py-2 rounded-xl bg-ink text-white text-sm">Filter</button>
+        <button className="px-4 py-2 rounded-xl bg-ink text-ivory text-sm">Filter</button>
         {(q || channel !== "all" || from || to) && <Link href="/admin/sales" className="px-3 py-2 text-sm text-muted hover:text-ink">Clear</Link>}
       </form>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr>
             <th className="p-3">Invoice / Order</th><th className="p-3">Date</th><th className="p-3">Customer</th><th className="p-3">Channel</th><th className="p-3">Bill</th><th className="p-3">Status</th><th className="p-3 text-right">Amount</th>

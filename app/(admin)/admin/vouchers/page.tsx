@@ -12,7 +12,7 @@ export default async function AdminVouchers() {
   }
   const { data } = await supabaseServer().from("vouchers").select("*").order("created_at", { ascending: false });
   const vouchers = (data as any[]) ?? [];
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
 
   return (
     <main className="p-8 bg-cream/40 min-h-screen max-w-4xl">
@@ -20,7 +20,7 @@ export default async function AdminVouchers() {
       <p className="text-sm text-muted mb-6">Create codes customers apply at checkout. Discounts are re-checked on the server and flow through to totals, GST and the day-book automatically.</p>
 
       {/* Create */}
-      <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">
         <h2 className="font-medium text-ink mb-3">Create a coupon</h2>
         <form action={createVoucherAction} className="grid sm:grid-cols-2 gap-3">
           <label className="text-sm text-muted">Code
@@ -66,7 +66,7 @@ export default async function AdminVouchers() {
       </div>
 
       {/* List */}
-      <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-surface rounded-2xl shadow-card overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-cream/60 text-muted text-xs uppercase tracking-wide">
             <tr>

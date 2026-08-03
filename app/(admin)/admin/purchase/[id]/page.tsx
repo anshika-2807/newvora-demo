@@ -14,7 +14,7 @@ export default async function PurchaseDetail({ params }: { params: { id: string 
   const { purchase: p, items, deletionPending, suppliers } = data;
   const canEdit = can(getSession(), "purchases.create");
   const ref = p.bill_no || String(p.id).slice(0, 8).toUpperCase();
-  const fld = "rounded-xl border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-emerald";
+  const fld = "rounded-xl border border-sand bg-surface px-3 py-2 text-sm outline-none focus:border-emerald";
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen max-w-3xl">
@@ -23,7 +23,7 @@ export default async function PurchaseDetail({ params }: { params: { id: string 
       <p className="text-sm text-muted mb-5">{p.supplier?.name}{p.supplier?.city ? ` · ${p.supplier.city}` : ""} · {new Date(p.created_at).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}</p>
 
       {/* Items */}
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card mb-5">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card mb-5">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr><th className="p-3">Supplier item</th><th className="p-3">Mapped SKU</th><th className="p-3 text-right">Qty</th><th className="p-3 text-right">Unit cost</th><th className="p-3 text-right">Line</th></tr></thead>
           <tbody>
@@ -45,7 +45,7 @@ export default async function PurchaseDetail({ params }: { params: { id: string 
       {canEdit && (
         <div className="grid md:grid-cols-2 gap-4">
           {/* Edit metadata (low-risk, direct) */}
-          <div className="bg-white rounded-2xl p-5 shadow-card">
+          <div className="bg-surface rounded-2xl p-5 shadow-card">
             <h2 className="font-medium text-ink mb-3">Edit bill details</h2>
             <form action={updatePurchaseAction} className="space-y-3">
               <input type="hidden" name="id" value={p.id} />
@@ -58,7 +58,7 @@ export default async function PurchaseDetail({ params }: { params: { id: string 
           </div>
 
           {/* Delete = sensitive → approval + OTP */}
-          <div className="bg-white rounded-2xl p-5 shadow-card border border-rose/20">
+          <div className="bg-surface rounded-2xl p-5 shadow-card border border-rose/20">
             <h2 className="font-medium text-ink mb-1">Delete purchase</h2>
             <p className="text-xs text-muted mb-3">Deleting reverses the stock it added and the ledger entry. For safety this needs the <b>owner's OTP</b> on the Approvals page — it isn't applied instantly.</p>
             {deletionPending ? (

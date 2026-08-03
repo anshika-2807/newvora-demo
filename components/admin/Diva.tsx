@@ -94,7 +94,7 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
 
       {/* Panel */}
       {open && (
-        <div className="no-print fixed inset-0 sm:inset-auto sm:bottom-5 sm:right-5 z-50 sm:w-[400px] sm:h-[600px] sm:max-h-[85vh] bg-white sm:rounded-3xl shadow-luxe flex flex-col overflow-hidden border border-sand">
+        <div className="no-print fixed inset-0 sm:inset-auto sm:bottom-5 sm:right-5 z-50 sm:w-[400px] sm:h-[600px] sm:max-h-[85vh] bg-surface sm:rounded-3xl shadow-luxe flex flex-col overflow-hidden border border-sand">
           <div className="flex items-center gap-3 px-4 py-3 bg-ink text-cream">
             <DivaAvatar className="w-10 h-10" />
             <div className="flex-1">
@@ -107,12 +107,12 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
           <div ref={logRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-cream/30">
             {msgs.map((m, i) => (
               <div key={i} className={`flex ${m.who === "owner" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-sm ${m.who === "owner" ? "bg-emerald text-white" : "bg-white text-ink shadow-card"}`}>{m.text}</div>
+                <div className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-sm ${m.who === "owner" ? "bg-emerald text-white" : "bg-surface text-ink shadow-card"}`}>{m.text}</div>
               </div>
             ))}
 
             {steps.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-card p-3 space-y-1.5">
+              <div className="bg-surface rounded-2xl shadow-card p-3 space-y-1.5">
                 <p className="text-[10px] uppercase tracking-widest text-muted mb-1">Plan</p>
                 {steps.map((s, i) => (
                   <div key={i} className="text-sm">
@@ -133,7 +133,7 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
             )}
           </div>
 
-          <div className="p-3 border-t border-sand bg-white">
+          <div className="p-3 border-t border-sand bg-surface">
             {busy && (
               <button onClick={stopRun} className="w-full mb-2 py-1.5 rounded-full bg-rose/10 text-rose text-xs font-medium hover:bg-rose/20 transition-colors">■ Stop</button>
             )}

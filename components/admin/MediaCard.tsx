@@ -54,7 +54,7 @@ export function MediaCard({ p, geminiReady }: { p: P; geminiReady: boolean }) {
   async function hero(id: string) { const fd = new FormData(); fd.set("id", id); fd.set("productId", p.id); await setHeroImageAction(fd); toast("Hero image set"); router.refresh(); }
 
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-card">
+    <div className="bg-surface rounded-2xl p-5 shadow-card">
       <div className="flex items-center justify-between mb-3">
         <div><p className="font-medium text-ink">{p.name}</p><p className="text-xs text-muted">{p.category} · {p.sku}</p></div>
         {hasModel && <span className="text-[11px] px-2 py-1 rounded-full bg-emerald-mist text-emerald-dark">AI photo ✓</span>}

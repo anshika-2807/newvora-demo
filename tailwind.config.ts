@@ -1,26 +1,46 @@
 import type { Config } from "tailwindcss";
 
 export default {
+  darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        // Modern neutral-premium palette (domain-agnostic). Token names kept
-        // for compatibility with existing classNames; only the values changed.
-        ivory: "#F8FAFC",   // app background (slate-50)
-        cream: "#F1F5F9",   // subtle panel (slate-100)
-        sand: "#E2E8F0",    // borders / dividers (slate-200)
-        ink: "#0F172A",     // primary text (slate-900)
-        muted: "#64748B",   // secondary text (slate-500)
-        emerald: { DEFAULT: "#4F46E5", dark: "#3730A3", light: "#6366F1", mist: "#EEF0FF" }, // primary = indigo
-        gold: { DEFAULT: "#F59E0B", light: "#FCD34D", dark: "#D97706" },                     // accent = amber
-        rose: { DEFAULT: "#7C3AED", light: "#DDD6FE" },                                       // secondary = violet
-        wine: "#312E81",
-        diva: { rose: "#6366F1", gold: "#F59E0B", ink: "#0F172A", cream: "#F8FAFC" },
+        // Tokens are CSS variables (space-separated RGB) so a single `.dark` class
+        // on <html> flips the whole app. Values live in app/globals.css (:root + .dark).
+        // Token names kept for compatibility with existing classNames.
+        ivory: "rgb(var(--c-ivory) / <alpha-value>)",     // app background
+        cream: "rgb(var(--c-cream) / <alpha-value>)",     // subtle panel
+        sand: "rgb(var(--c-sand) / <alpha-value>)",       // borders / dividers
+        surface: "rgb(var(--c-surface) / <alpha-value>)", // cards (replaces bg-white)
+        ink: "rgb(var(--c-ink) / <alpha-value>)",         // primary text
+        muted: "rgb(var(--c-muted) / <alpha-value>)",     // secondary text
+        emerald: {
+          DEFAULT: "rgb(var(--c-primary) / <alpha-value>)",
+          dark: "rgb(var(--c-primary-dark) / <alpha-value>)",
+          light: "rgb(var(--c-primary-light) / <alpha-value>)",
+          mist: "rgb(var(--c-primary-mist) / <alpha-value>)",
+        },
+        gold: {
+          DEFAULT: "rgb(var(--c-gold) / <alpha-value>)",
+          light: "rgb(var(--c-gold-light) / <alpha-value>)",
+          dark: "rgb(var(--c-gold-dark) / <alpha-value>)",
+        },
+        rose: {
+          DEFAULT: "rgb(var(--c-rose) / <alpha-value>)",
+          light: "rgb(var(--c-rose-light) / <alpha-value>)",
+        },
+        wine: "rgb(var(--c-wine) / <alpha-value>)",
+        diva: {
+          rose: "rgb(var(--c-primary) / <alpha-value>)",
+          gold: "rgb(var(--c-gold) / <alpha-value>)",
+          ink: "rgb(var(--c-ink) / <alpha-value>)",
+          cream: "rgb(var(--c-ivory) / <alpha-value>)",
+        },
       },
       fontFamily: {
         display: ['"Space Grotesk"', "system-ui", "sans-serif"],
-        body: ['"Inter"', "system-ui", "sans-serif"],
+        body: ['"DM Sans"', "system-ui", "sans-serif"],
       },
       boxShadow: {
         luxe: "0 10px 40px -12px rgba(36,27,46,0.18)",

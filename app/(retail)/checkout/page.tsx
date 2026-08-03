@@ -50,7 +50,7 @@ export default function Checkout() {
       </div>
     );
 
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald transition-colors";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald transition-colors";
   return (
     <div className="max-w-5xl mx-auto px-5 py-8">
       <div className="mb-4"><Back label="Back to shopping" /></div>
@@ -81,7 +81,7 @@ export default function Checkout() {
           </button>
         </form>
 
-        <div className="bg-white rounded-2xl p-6 shadow-card h-fit">
+        <div className="bg-surface rounded-2xl p-6 shadow-card h-fit">
           <h2 className="font-medium text-ink mb-4">Order summary</h2>
           <div className="space-y-3 mb-4">
             {items.map((i) => (
@@ -95,7 +95,7 @@ export default function Checkout() {
           <div className="border-t border-sand pt-3">
             <div className="flex gap-2">
               <input value={code} onChange={(e) => { setCode(e.target.value.toUpperCase()); setCoupon(null); }}
-                placeholder="Discount code" className="flex-1 rounded-xl border border-sand px-3 py-2 text-sm uppercase bg-white outline-none focus:border-emerald" />
+                placeholder="Discount code" className="flex-1 rounded-xl border border-sand px-3 py-2 text-sm uppercase bg-surface outline-none focus:border-emerald" />
               <button type="button" onClick={applyCode} disabled={checking || !code.trim()}
                 className="px-4 py-2 rounded-xl border border-emerald text-emerald text-sm font-medium hover:bg-emerald-mist disabled:opacity-50">
                 {checking ? "…" : "Apply"}

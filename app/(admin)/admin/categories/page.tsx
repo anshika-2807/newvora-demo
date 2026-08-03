@@ -19,13 +19,13 @@ export default async function Categories() {
       <p className="text-sm text-muted mb-6">Organise your catalogue. Categories appear in the storefront menu instantly.</p>
 
       <form action={createCategoryAction} className="flex gap-2 mb-6">
-        <input name="name" placeholder="New category name (e.g. Maang Tikka)" className="flex-1 rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald" />
+        <input name="name" placeholder="New category name (e.g. Maang Tikka)" className="flex-1 rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald" />
         <button className="btn-primary px-6 text-sm font-medium">Create</button>
       </form>
 
       <div className="grid sm:grid-cols-2 gap-3">
         {((cats as any[]) ?? []).map((c) => (
-          <div key={c.id} className="bg-white rounded-2xl p-5 shadow-card flex items-center justify-between gap-3 hover:shadow-luxe transition-shadow">
+          <div key={c.id} className="bg-surface rounded-2xl p-5 shadow-card flex items-center justify-between gap-3 hover:shadow-luxe transition-shadow">
             <div className="min-w-0"><p className="font-medium text-ink truncate">{c.name}</p><p className="text-xs text-muted">/shop/c/{c.slug}</p></div>
             <div className="flex items-center gap-3 shrink-0">
               <span className="text-sm text-emerald font-medium">{counts.get(c.id) ?? 0} designs</span>

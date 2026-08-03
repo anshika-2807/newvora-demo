@@ -26,7 +26,7 @@ export type EditorProduct = {
 
 const label = "block text-xs font-medium text-muted mb-1.5";
 const field =
-  "w-full rounded-xl border border-sand bg-white px-3.5 py-2.5 text-sm text-ink focus:border-emerald focus:ring-2 focus:ring-emerald/20 outline-none transition";
+  "w-full rounded-xl border border-sand bg-surface px-3.5 py-2.5 text-sm text-ink focus:border-emerald focus:ring-2 focus:ring-emerald/20 outline-none transition";
 
 export function ProductEditor({
   product,
@@ -66,7 +66,7 @@ export function ProductEditor({
       <input type="hidden" name="sku" value={product.sku} />
 
       {/* CORE DETAILS */}
-      <section className="rounded-2xl border border-sand bg-white p-5 shadow-card">
+      <section className="rounded-2xl border border-sand bg-surface p-5 shadow-card">
         <h2 className="font-display text-xl text-ink mb-4">Core details</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
@@ -129,7 +129,7 @@ export function ProductEditor({
       </section>
 
       {/* STOREFRONT CONTENT */}
-      <section className="rounded-2xl border border-sand bg-white p-5 shadow-card">
+      <section className="rounded-2xl border border-sand bg-surface p-5 shadow-card">
         <h2 className="font-display text-xl text-ink mb-1">Storefront content</h2>
         <p className="text-xs text-muted mb-4">What the customer reads on the product page.</p>
         <div className="space-y-4">
@@ -153,7 +153,7 @@ export function ProductEditor({
       </section>
 
       {/* SEO */}
-      <section className="rounded-2xl border border-sand bg-white p-5 shadow-card">
+      <section className="rounded-2xl border border-sand bg-surface p-5 shadow-card">
         <h2 className="font-display text-xl text-ink mb-1">SEO &amp; Google</h2>
         <p className="text-xs text-muted mb-4">How this page appears in Google search and gets found.</p>
         <div className="space-y-4">

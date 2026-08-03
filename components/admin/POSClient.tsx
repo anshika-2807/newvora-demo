@@ -63,10 +63,10 @@ export function POSClient({ products }: { products: P[] }) {
     router.push(`/admin/invoice/${res.orderId}`);
   }
 
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
   return (
     <div className="grid lg:grid-cols-2 gap-6">
-      <div className="bg-white rounded-2xl p-6 shadow-card">
+      <div className="bg-surface rounded-2xl p-6 shadow-card">
         <h2 className="font-medium text-ink mb-3">Add items</h2>
 
         {/* Barcode scan */}
@@ -85,7 +85,7 @@ export function POSClient({ products }: { products: P[] }) {
         <div className="relative">
           <input className={input} placeholder="…or search by name / SKU" value={q} onChange={(e) => setQ(e.target.value)} />
           {matches.length > 0 && (
-            <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
+            <div className="absolute z-10 left-0 right-0 mt-1 bg-surface rounded-xl shadow-luxe border border-sand overflow-hidden">
               {matches.map((p) => (
                 <button key={p.sku} onClick={() => addLine(p)} className="w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-mist flex justify-between">
                   <span>{p.name} <span className="text-muted">· {p.sku}</span></span><span className="text-ink">{formatPaise(p.price)}</span>
@@ -114,7 +114,7 @@ export function POSClient({ products }: { products: P[] }) {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-card h-fit">
+      <div className="bg-surface rounded-2xl p-6 shadow-card h-fit">
         <h2 className="font-medium text-ink mb-3">Customer &amp; payment</h2>
         <div className="space-y-3">
           {/* Bill type */}

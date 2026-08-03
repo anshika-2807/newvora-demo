@@ -57,7 +57,7 @@ export function ReelPlayer({ videoUrl, caption }: { videoUrl: string | null; cap
       <button onClick={() => { const m = !muted; setMuted(m); if (vid.current) vid.current.muted = m; }} className="relative w-full h-full block group" aria-label="Toggle sound">
         <video ref={vid} src={src} muted={muted} loop playsInline preload="metadata" className="w-full h-full object-cover" />
         <span className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent pointer-events-none" />
-        <span className="absolute bottom-3 right-3 h-8 w-8 rounded-full bg-white/85 grid place-items-center text-ink text-xs">{muted ? "🔇" : "🔊"}</span>
+        <span className="absolute bottom-3 right-3 h-8 w-8 rounded-full bg-surface/85 grid place-items-center text-ink text-xs">{muted ? "🔇" : "🔊"}</span>
         <span className="absolute bottom-3 left-3 right-12 text-cream text-sm font-medium drop-shadow text-left">{caption}</span>
       </button>
     );
@@ -66,7 +66,7 @@ export function ReelPlayer({ videoUrl, caption }: { videoUrl: string | null; cap
   return (
     <div className="relative w-full h-full" style={{ background: "linear-gradient(160deg,#0F172A,#4F46E5,#F59E0B)" }}>
       <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
-      <span className="absolute top-3 left-3 h-9 w-9 rounded-full bg-white/85 grid place-items-center text-ink">▶</span>
+      <span className="absolute top-3 left-3 h-9 w-9 rounded-full bg-surface/85 grid place-items-center text-ink">▶</span>
       <p className="absolute bottom-3 left-3 right-3 text-cream text-sm font-medium drop-shadow">{caption}</p>
     </div>
   );

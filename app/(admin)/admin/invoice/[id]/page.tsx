@@ -44,7 +44,7 @@ export default async function Invoice({ params }: { params: { id: string } }) {
           <PrintButton />
         </div>
 
-        <div className="print-area bg-white rounded-2xl shadow-card p-5 sm:p-8 text-[13px]" id="invoice">
+        <div className="print-area bg-surface rounded-2xl shadow-card p-5 sm:p-8 text-[13px]" id="invoice">
           {/* Title bar */}
           <div className="text-center pb-3 mb-3 border-b-2 border-ink/80 relative">
             <p className="text-[15px] font-bold tracking-wide text-ink">{docTitle}</p>
@@ -165,7 +165,7 @@ export default async function Invoice({ params }: { params: { id: string } }) {
         {(can(session, "billing.sell") || can(session, "billing.gst")) && (
           <div className="no-print grid sm:grid-cols-2 gap-4 mt-5">
             {can(session, "billing.sell") && balanceDue > 0 && (
-              <div className="bg-white rounded-2xl p-5 shadow-card">
+              <div className="bg-surface rounded-2xl p-5 shadow-card">
                 <h2 className="font-medium text-ink mb-1">Record a payment</h2>
                 <p className="text-xs text-muted mb-3">Balance due {formatPaise(balanceDue)}. Log an advance or part-payment.</p>
                 <form action={recordPaymentAction} className="flex items-center gap-2">
@@ -177,7 +177,7 @@ export default async function Invoice({ params }: { params: { id: string } }) {
               </div>
             )}
             {can(session, "billing.gst") && !isCash && (
-              <div className="bg-white rounded-2xl p-5 shadow-card">
+              <div className="bg-surface rounded-2xl p-5 shadow-card">
                 <h2 className="font-medium text-ink mb-1">Document type</h2>
                 <p className="text-xs text-muted mb-3">Currently a <b>{isProforma ? "Proforma" : "Tax Invoice"}</b>. {isProforma ? "Finalise to issue a numbered tax invoice." : ""}</p>
                 <form action={setDocTypeAction}>

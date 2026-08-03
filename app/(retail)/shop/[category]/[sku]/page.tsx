@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: Params) {
           {reviews.list.length === 0 && <p className="text-sm text-muted">Be the first to review this design.</p>}
           {reviews.list.map((r) => (
             <Reveal key={r.id}>
-              <div className="bg-white rounded-2xl p-5 shadow-card">
+              <div className="bg-surface rounded-2xl p-5 shadow-card">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-ink">{r.author_name} <span className="text-muted font-normal text-xs">· verified buyer</span></p>
                   <Stars rating={r.rating} />

@@ -24,7 +24,7 @@ export function ReviewResponder({ reviews }: { reviews: R[] }) {
   return (
     <div className="space-y-4">
       {reviews.map((r) => (
-        <div key={r.id} className="bg-white rounded-2xl p-5 shadow-card">
+        <div key={r.id} className="bg-surface rounded-2xl p-5 shadow-card">
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium text-ink">{r.author_name} <span className="text-gold text-sm">{"★".repeat(r.rating)}</span></p>
@@ -34,10 +34,10 @@ export function ReviewResponder({ reviews }: { reviews: R[] }) {
           </div>
           <p className="text-sm text-ink/80 mt-2">“{r.body}”</p>
           <textarea value={drafts[r.id] ?? ""} onChange={(e) => setDrafts((d) => ({ ...d, [r.id]: e.target.value }))}
-            placeholder="Your reply…" rows={2} className="w-full mt-3 rounded-xl border border-sand px-3 py-2 text-sm bg-white outline-none focus:border-emerald" />
+            placeholder="Your reply…" rows={2} className="w-full mt-3 rounded-xl border border-sand px-3 py-2 text-sm bg-surface outline-none focus:border-emerald" />
           <div className="flex gap-2 mt-2">
             <button onClick={() => draft(r.id)} disabled={busy === r.id} className="px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-xs font-medium hover:bg-emerald/20 disabled:opacity-50">{busy === r.id ? "Drafting…" : "✨ AI draft"}</button>
-            <button onClick={() => save(r.id)} className="px-4 py-1.5 rounded-full bg-ink text-white text-xs font-medium">Publish reply</button>
+            <button onClick={() => save(r.id)} className="px-4 py-1.5 rounded-full bg-ink text-ivory text-xs font-medium">Publish reply</button>
           </div>
         </div>
       ))}

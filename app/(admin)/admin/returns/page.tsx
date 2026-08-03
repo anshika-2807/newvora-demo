@@ -13,7 +13,7 @@ export default async function Returns() {
       <ReturnClient orders={orders as any} />
 
       <h2 className="font-medium text-ink mb-3">Recent returns</h2>
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr><th className="p-3">Ref</th><th className="p-3">Qty</th><th className="p-3">Reason</th><th className="p-3">When</th></tr></thead>
           <tbody>

@@ -15,7 +15,7 @@ export function ExpandableReport({
   const deep = `/admin/sales?channel=${channelKey}${from ? `&from=${from}` : ""}${to ? `&to=${to}` : ""}`;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div className="bg-surface rounded-2xl shadow-card overflow-hidden">
       <button onClick={() => setOpen((o) => !o)} className="w-full text-left p-5 hover:bg-cream/30 transition-colors">
         <div className="flex items-center justify-between">
           <div>

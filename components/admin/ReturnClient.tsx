@@ -22,9 +22,9 @@ export function ReturnClient({ orders }: { orders: Order[] }) {
     if (res.ok) { setMsg(`✓ Return recorded · ${res.qty} pcs restored to stock`); setSel(""); setQty({}); setReason(""); }
     else setMsg(`✕ ${res.error}`);
   }
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+    <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">
       <h2 className="font-medium text-ink mb-3">Record a sales return</h2>
       <select className={input} value={sel} onChange={(e) => { setSel(e.target.value); setQty({}); }}>
         <option value="">Select an order…</option>

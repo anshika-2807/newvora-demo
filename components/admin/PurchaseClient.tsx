@@ -15,7 +15,7 @@ export function PurchaseClient({ suppliers, products }: { suppliers: Sup[]; prod
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const input = "rounded-xl border border-sand px-3 py-2 text-sm bg-white outline-none focus:border-emerald";
+  const input = "rounded-xl border border-sand px-3 py-2 text-sm bg-surface outline-none focus:border-emerald";
   const set = (i: number, patch: Partial<Line>) => setLines((p) => p.map((l, idx) => idx === i ? { ...l, ...patch } : l));
   const suggest = (q: string) => q.trim() ? products.filter((p) => (p.name + p.sku).toLowerCase().includes(q.toLowerCase())).slice(0, 6) : [];
   const total = lines.reduce((s, l) => s + (Number(l.qty) || 0) * (Number(l.cost) || 0), 0);
@@ -32,7 +32,7 @@ export function PurchaseClient({ suppliers, products }: { suppliers: Sup[]; prod
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+    <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">
       <div className="grid sm:grid-cols-2 gap-3 mb-4">
         <select className={input} value={supplierId} onChange={(e) => setSupplierId(e.target.value)}>
           <option value="">Select supplier…</option>
@@ -51,7 +51,7 @@ export function PurchaseClient({ suppliers, products }: { suppliers: Sup[]; prod
               {l.mappedName ? (
                 <p className="text-[11px] text-emerald-dark mt-0.5">→ {l.mappedName} <button onClick={() => set(i, { mappedProductId: "", mappedName: "" })} className="text-muted underline ml-1">change</button></p>
               ) : openIdx === i && suggest(l.supplierSku).length > 0 && (
-                <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
+                <div className="absolute z-10 left-0 right-0 mt-1 bg-surface rounded-xl shadow-luxe border border-sand overflow-hidden">
                   {suggest(l.supplierSku).map((p) => (
                     <button key={p.id} onClick={() => { set(i, { mappedProductId: p.id, mappedName: `${p.name} (${p.sku})` }); setOpenIdx(null); }}
                       className="w-full text-left px-3 py-2 text-sm hover:bg-emerald-mist">{p.name} <span className="text-muted">· {p.sku}</span></button>

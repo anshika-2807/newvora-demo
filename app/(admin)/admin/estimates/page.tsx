@@ -46,17 +46,17 @@ export default async function Estimates({ searchParams }: { searchParams: { tab?
       <div className="flex flex-wrap items-center gap-2 mb-3">
         {TABS.map((t) => (
           <Link key={t.key} href={`/admin/estimates?tab=${t.key}`}
-            className={`px-3.5 py-1.5 rounded-full text-sm transition-colors ${tab.key === t.key ? "bg-ink text-white" : "bg-white border border-sand text-muted hover:border-gold"}`}>
+            className={`px-3.5 py-1.5 rounded-full text-sm transition-colors ${tab.key === t.key ? "bg-ink text-ivory" : "bg-surface border border-sand text-muted hover:border-gold"}`}>
             {t.label} <span className="opacity-60">{counts[t.key] ?? 0}</span>
           </Link>
         ))}
         <form className="ml-auto" action="/admin/estimates">
           <input type="hidden" name="tab" value={tab.key} />
-          <input name="q" defaultValue={searchParams.q ?? ""} placeholder="Search customer / ref…" className="rounded-full border border-sand px-4 py-1.5 text-sm bg-white outline-none focus:border-emerald w-56" />
+          <input name="q" defaultValue={searchParams.q ?? ""} placeholder="Search customer / ref…" className="rounded-full border border-sand px-4 py-1.5 text-sm bg-surface outline-none focus:border-emerald w-56" />
         </form>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-sand bg-white shadow-card">
+      <div className="overflow-x-auto rounded-2xl border border-sand bg-surface shadow-card">
         <table className="w-full text-sm">
           <thead className="bg-cream text-muted text-left"><tr>
             <th className="p-3">Ref</th><th className="p-3">Customer</th><th className="p-3">Total</th><th className="p-3">Status</th><th className="p-3 text-right">Actions</th>

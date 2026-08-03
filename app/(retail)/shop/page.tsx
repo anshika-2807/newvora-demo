@@ -62,7 +62,7 @@ export default async function Shop() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {cats.map((c, i) => (
             <Reveal key={c.slug} delay={i * 70}>
-              <Link href={`/shop/c/${c.slug}`} className="group block rounded-2xl overflow-hidden bg-white shadow-card hover:shadow-luxe transition-all hover:-translate-y-1">
+              <Link href={`/shop/c/${c.slug}`} className="group block rounded-2xl overflow-hidden bg-surface shadow-card hover:shadow-luxe transition-all hover:-translate-y-1">
                 <div className="aspect-square overflow-hidden"><div className="card-img h-full w-full"><ProductImage name={c.name} /></div></div>
                 <p className="text-center py-3 text-sm font-medium text-ink group-hover:text-emerald transition-colors">{c.name}</p>
               </Link>
@@ -124,7 +124,7 @@ export default async function Shop() {
           <div className="grid md:grid-cols-3 gap-5">
             {reviews.map((r, i) => (
               <Reveal key={r.id} delay={i * 90}>
-                <div className="bg-white rounded-2xl p-6 shadow-card h-full">
+                <div className="bg-surface rounded-2xl p-6 shadow-card h-full">
                   <Stars rating={r.rating} size="md" />
                   <p className="text-ink/80 mt-3 leading-relaxed">“{r.body}”</p>
                   <p className="text-sm font-medium text-ink mt-4">{r.author_name} <span className="text-muted font-normal">· verified buyer</span></p>

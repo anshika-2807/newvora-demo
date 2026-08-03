@@ -58,7 +58,7 @@ export default async function EditProduct({ params }: { params: { sku: string } 
       />
 
       {/* Variants — colours/sizes with their own SKU & stock */}
-      <section className="max-w-3xl mt-6 bg-white rounded-2xl border border-sand p-5 shadow-card">
+      <section className="max-w-3xl mt-6 bg-surface rounded-2xl border border-sand p-5 shadow-card">
         <h2 className="font-display text-xl text-ink mb-1">Variants</h2>
         <p className="text-xs text-muted mb-4">Add colour/size options — each gets its own SKU and stock count. Variant stock totals: <b className="text-ink">{(p.variants ?? []).reduce((s: number, v: any) => s + (v.qty ?? 0), 0)}</b> pcs.</p>
 

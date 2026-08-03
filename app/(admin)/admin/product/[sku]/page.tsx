@@ -12,7 +12,7 @@ export const metadata = { title: "Owner Console · Product 360" };
 
 function Stat({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-card">
+    <div className="bg-surface rounded-2xl p-4 shadow-card">
       <p className="text-xs uppercase tracking-wide text-muted">{label}</p>
       <p className={`text-xl font-semibold mt-1 ${accent ?? "text-ink"}`}>{value}</p>
     </div>
@@ -62,7 +62,7 @@ export default async function Product360({ params }: { params: { sku: string } }
 
       {/* Details */}
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-2xl p-5 shadow-card">
+        <div className="bg-surface rounded-2xl p-5 shadow-card">
           <h2 className="font-medium text-ink mb-3">Pricing</h2>
           <div className="text-sm space-y-1.5">
             <div className="flex justify-between"><span className="text-muted">Retail price</span><span className="font-medium">{formatPaise(o.price)}</span></div>
@@ -71,7 +71,7 @@ export default async function Product360({ params }: { params: { sku: string } }
             <div className="flex justify-between"><span className="text-muted">Type</span><span className="capitalize">{p.type}</span></div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-5 shadow-card">
+        <div className="bg-surface rounded-2xl p-5 shadow-card">
           <h2 className="font-medium text-ink mb-3">Photos &amp; content</h2>
           <p className="text-sm text-muted">{(p.images ?? []).length} photo(s) · AI page {gc.title ? "written ✓" : "not yet"}</p>
           {tags.length > 0 && <div className="flex flex-wrap gap-1.5 mt-3">{tags.slice(0, 10).map((t) => <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-mist text-emerald-dark">{t}</span>)}</div>}
@@ -79,7 +79,7 @@ export default async function Product360({ params }: { params: { sku: string } }
       </div>
 
       {gc.description && (
-        <div className="bg-white rounded-2xl p-5 shadow-card mt-4">
+        <div className="bg-surface rounded-2xl p-5 shadow-card mt-4">
           <h2 className="font-medium text-ink mb-2">Description</h2>
           <p className="text-sm text-ink/80 leading-relaxed">{gc.description}</p>
         </div>

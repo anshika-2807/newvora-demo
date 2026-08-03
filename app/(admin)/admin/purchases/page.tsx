@@ -16,11 +16,11 @@ export default async function Purchases() {
       <PurchaseClient suppliers={suppliers} products={products} />
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-ink mb-3">Add supplier</h2>
           <form action={createSupplierAction} className="space-y-2">
-            <input name="name" placeholder="Supplier name" className="w-full rounded-xl border border-sand px-3 py-2 text-sm bg-white outline-none focus:border-emerald" />
-            <input name="city" placeholder="City (e.g. Mumbai)" className="w-full rounded-xl border border-sand px-3 py-2 text-sm bg-white outline-none focus:border-emerald" />
+            <input name="name" placeholder="Supplier name" className="w-full rounded-xl border border-sand px-3 py-2 text-sm bg-surface outline-none focus:border-emerald" />
+            <input name="city" placeholder="City (e.g. Mumbai)" className="w-full rounded-xl border border-sand px-3 py-2 text-sm bg-surface outline-none focus:border-emerald" />
             <button className="btn-primary px-5 py-2 text-sm font-medium">Add</button>
           </form>
           <div className="mt-4 text-sm space-y-1">
@@ -28,7 +28,7 @@ export default async function Purchases() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-card">
+        <div className="bg-surface rounded-2xl p-6 shadow-card">
           <h2 className="font-medium text-ink mb-3">Recent purchases</h2>
           <table className="w-full text-sm">
             <thead className="text-muted text-left"><tr><th className="py-1">Bill</th><th className="py-1">Supplier</th><th className="py-1 text-right">Total</th></tr></thead>

@@ -66,7 +66,7 @@ function NavInner({ collapsed, onNavigate, perms }: { collapsed: boolean; onNavi
             <div className="space-y-0.5">
               {g.links.map((l) => (
                 <Link key={l.href} href={l.href} onClick={onNavigate} title={collapsed ? l.label : undefined}
-                  className={`group flex items-center gap-3 rounded-xl text-sm transition-all ${collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5 hover:translate-x-0.5"} ${isActive(l.href) ? "bg-white/15 text-ivory" : "text-cream/85 hover:bg-white/10"}`}>
+                  className={`group flex items-center gap-3 rounded-xl text-sm transition-all ${collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5 hover:translate-x-0.5"} ${isActive(l.href) ? "bg-surface/15 text-ivory" : "text-cream/85 hover:bg-surface/10"}`}>
                   <span className="w-5 text-center text-gold-light shrink-0">{l.icon}</span>
                   {!collapsed && <span className="truncate">{l.label}</span>}
                 </Link>
@@ -80,7 +80,7 @@ function NavInner({ collapsed, onNavigate, perms }: { collapsed: boolean; onNavi
         <div className="space-y-0.5">
           {EXTERNAL.map((l) => (
             <Link key={l.href} href={l.href} target="_blank" onClick={onNavigate} title={collapsed ? l.label : undefined}
-              className={`group flex items-center gap-3 rounded-xl text-sm text-cream/70 hover:bg-white/10 transition-all ${collapsed ? "justify-center py-2.5" : "px-3 py-2.5"}`}>
+              className={`group flex items-center gap-3 rounded-xl text-sm text-cream/70 hover:bg-surface/10 transition-all ${collapsed ? "justify-center py-2.5" : "px-3 py-2.5"}`}>
               <span className="w-5 text-center text-gold-light/70 shrink-0">{l.icon}</span>
               {!collapsed && <><span className="truncate">{l.label}</span><span className="ml-auto opacity-0 group-hover:opacity-100">↗</span></>}
             </Link>

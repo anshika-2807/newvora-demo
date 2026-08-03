@@ -27,7 +27,7 @@ export default async function EstimatePrint({ params }: { params: { id: string }
           <PrintButton />
         </div>
 
-        <div className="print-area bg-white rounded-2xl shadow-card p-5 sm:p-8 text-[13px]" id="estimate">
+        <div className="print-area bg-surface rounded-2xl shadow-card p-5 sm:p-8 text-[13px]" id="estimate">
           <div className="text-center pb-3 mb-3 border-b-2 border-ink/80">
             <p className="text-[15px] font-bold tracking-wide text-ink">ESTIMATE / QUOTATION</p>
             <p className="text-[10px] text-muted">This is not a tax invoice. Prices valid for 7 days.</p>

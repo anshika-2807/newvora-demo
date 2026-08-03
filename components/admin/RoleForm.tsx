@@ -20,7 +20,7 @@ export function RoleForm({
       {[...checked].map((k) => <input key={k} type="hidden" name={`perm:${k}`} value="on" />)}
 
       <input name="name" defaultValue={initialName} placeholder="Role name (e.g. Counter Staff)" required
-        className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald" />
+        className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald" />
 
       <div className={`grid gap-3 ${compact ? "" : "sm:grid-cols-2"}`}>
         {PERMISSION_GROUPS.map((g) => {

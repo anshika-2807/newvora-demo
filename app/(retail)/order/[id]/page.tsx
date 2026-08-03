@@ -20,7 +20,7 @@ export default async function OrderConfirm({ params }: { params: { id: string } 
         <p className="text-muted mt-2">Your order is confirmed. We&apos;ll WhatsApp you the tracking shortly.</p>
         <p className="text-xs text-muted mt-1">Order ID: {String(order.id).slice(0, 8).toUpperCase()}</p>
       </div>
-      <div className="bg-white rounded-2xl p-6 shadow-card mt-8">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mt-8">
         <div className="space-y-3">
           {items.map((it: any, idx: number) => (
             <div key={idx} className="flex justify-between text-sm">
@@ -33,7 +33,7 @@ export default async function OrderConfirm({ params }: { params: { id: string } 
           <span>Total ({order.payment_mode?.toUpperCase()})</span><span>{formatPaise(order.total)}</span>
         </div>
       </div>
-      <div className="bg-white rounded-2xl p-6 shadow-card mt-6" data-x="order-timeline">
+      <div className="bg-surface rounded-2xl p-6 shadow-card mt-6" data-x="order-timeline">
         <h2 className="font-medium text-ink mb-4">Order status</h2>
         <div className="flex items-center">
           {["Confirmed", "Packed", "Shipped", "Delivered"].map((step, i) => (

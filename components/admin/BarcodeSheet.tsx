@@ -15,16 +15,16 @@ export function BarcodeSheet({ products }: { products: P[] }) {
   const setCount = (sku: string, n: number) => setItems((prev) => prev.map((x) => x.sku === sku ? { ...x, count: Math.max(1, Math.floor(n || 1)) } : x));
   const rm = (sku: string) => setItems((prev) => prev.filter((x) => x.sku !== sku));
   const labels = items.flatMap((it) => Array.from({ length: it.count }, () => it));
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
 
   return (
     <div>
-      <div className="bg-white rounded-2xl p-5 shadow-card mb-5 no-print">
+      <div className="bg-surface rounded-2xl p-5 shadow-card mb-5 no-print">
         <h2 className="font-medium text-ink mb-3">Add SKUs to print</h2>
         <div className="relative mb-3">
           <input className={input} placeholder="Search product by name or SKU…" value={q} onChange={(e) => setQ(e.target.value)} />
           {matches.length > 0 && (
-            <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
+            <div className="absolute z-10 left-0 right-0 mt-1 bg-surface rounded-xl shadow-luxe border border-sand overflow-hidden">
               {matches.map((p) => (
                 <button key={p.sku} onClick={() => add(p)} className="w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-mist flex justify-between">
                   <span>{p.name} <span className="text-muted">· {p.sku}</span></span><span>{formatPaise(p.price)}</span>
@@ -56,7 +56,7 @@ export function BarcodeSheet({ products }: { products: P[] }) {
         <div className="print-area">
           <div className="barcode-grid grid grid-cols-4 sm:grid-cols-6">
             {labels.map((it, i) => (
-              <div key={i} className="barcode-label border border-sand text-center bg-white break-inside-avoid">
+              <div key={i} className="barcode-label border border-sand text-center bg-surface break-inside-avoid">
                 <p className="bc-name font-semibold text-ink truncate">{it.name}</p>
                 <Barcode value={it.sku} height={30} unit={1.1} />
                 <p className="bc-sku tracking-widest text-ink">{it.sku}</p>

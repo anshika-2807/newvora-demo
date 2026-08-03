@@ -2,20 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+/* ===== Theme tokens (space-separated RGB channels). Light = :root, Dark = .dark ===== */
+:root {
+  color-scheme: light;
+  --c-ivory: 248 250 252;   --c-cream: 241 245 249;   --c-sand: 226 232 240;   --c-surface: 255 255 255;
+  --c-ink: 15 23 42;        --c-muted: 100 116 139;
+  --c-primary: 14 165 233;  --c-primary-dark: 2 132 199;  --c-primary-light: 56 189 248;  --c-primary-mist: 224 242 254;
+  --c-gold: 245 158 11;     --c-gold-light: 252 211 77;   --c-gold-dark: 217 119 6;
+  --c-rose: 225 29 72;      --c-rose-light: 254 205 211;  --c-wine: 49 46 129;
+  --c-on-primary: 255 255 255;
+}
+.dark {
+  color-scheme: dark;
+  --c-ivory: 10 10 12;      --c-cream: 16 16 19;      --c-sand: 38 38 44;      --c-surface: 22 22 26;
+  --c-ink: 232 237 242;     --c-muted: 132 148 162;
+  --c-primary: 56 189 248;  --c-primary-dark: 14 165 233;  --c-primary-light: 125 211 252;  --c-primary-mist: 12 42 56;
+  --c-gold: 252 211 77;     --c-gold-light: 253 230 138;   --c-gold-dark: 245 158 11;
+  --c-rose: 248 113 113;    --c-rose-light: 252 165 165;   --c-wine: 127 29 29;
+  --c-on-primary: 6 19 26;
+}
 
 html { scroll-behavior: smooth; }
 body {
-  background: #F8FAFC;
-  color: #0F172A;
-  font-family: var(--font-body, "Plus Jakarta Sans"), system-ui, sans-serif;
+  background: rgb(var(--c-ivory));
+  color: rgb(var(--c-ink));
+  font-family: var(--font-body, "DM Sans"), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 .font-display { font-family: "Space Grotesk", system-ui, sans-serif; }
 
-/* gold gradient text */
+/* accent gradient text */
 .text-gold-gradient {
-  background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
+  background: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-primary-light)), rgb(var(--c-primary)));
   background-size: 200% auto;
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -31,23 +49,23 @@ body {
 .nav-link { position: relative; }
 .nav-link::after {
   content: ""; position: absolute; left: 0; bottom: -4px; height: 1.5px; width: 0;
-  background: #F59E0B; transition: width .3s ease;
+  background: rgb(var(--c-primary)); transition: width .3s ease;
 }
 .nav-link:hover::after { width: 100%; }
 
 /* premium button */
 .btn-primary {
-  background: #4F46E5; color: #fff; border-radius: 9999px;
+  background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); border-radius: 9999px;
   transition: transform .2s ease, box-shadow .25s ease, background .25s ease;
 }
-.btn-primary:hover { background: #3730A3; transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgba(79,70,229,.4); }
+.btn-primary:hover { background: rgb(var(--c-primary-dark)); transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgb(var(--c-primary) / .4); }
 .btn-primary:active { transform: translateY(0) scale(.98); }
 
 .btn-gold {
-  background: #F59E0B; color: #0F172A; border-radius: 9999px;
+  background: rgb(var(--c-gold)); color: #0a0a0a; border-radius: 9999px;
   transition: transform .2s ease, box-shadow .25s ease, filter .25s ease;
 }
-.btn-gold:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 10px 28px -8px rgba(245,158,11,.5); }
+.btn-gold:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 10px 28px -8px rgb(var(--c-gold) / .5); }
 .btn-gold:active { transform: translateY(0) scale(.98); }
 
 /* product card image zoom */

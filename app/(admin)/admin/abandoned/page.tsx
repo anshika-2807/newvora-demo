@@ -19,7 +19,7 @@ export default async function Abandoned() {
           const items = (c.items ?? []) as { name: string; qty: number; price: number }[];
           const wa = c.phone ? `https://wa.me/${String(c.phone).replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${c.customer_name || "there"}! You left some beautiful pieces in your Newvora bag. Complete your order and enjoy 20% off ✨`)}` : null;
           return (
-            <div key={c.id} className="bg-white rounded-2xl p-5 shadow-card flex items-center justify-between gap-4">
+            <div key={c.id} className="bg-surface rounded-2xl p-5 shadow-card flex items-center justify-between gap-4">
               <div className="min-w-0">
                 <p className="font-medium text-ink">{c.customer_name || "Anonymous visitor"} <span className="text-xs text-muted">· {ago(c.created_at)}</span></p>
                 <p className="text-sm text-muted truncate">{items.map((i) => `${i.name} ×${i.qty}`).join(", ")}</p>

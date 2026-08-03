@@ -44,11 +44,11 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
       </section>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <form action={wholesaleLoginAction} className="bg-white rounded-2xl shadow-card p-7 border border-sand">
+        <form action={wholesaleLoginAction} className="bg-surface rounded-2xl shadow-card p-7 border border-sand">
           <h2 className="font-display text-2xl text-ink mb-1">Retailer sign in</h2>
           <p className="text-xs text-muted mb-5">Use the phone number and access code your supplier gave you.</p>
-          <input name="phone" placeholder="Registered phone number" className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald mb-3" />
-          <input name="code" placeholder="Access code" className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald uppercase tracking-widest" />
+          <input name="phone" placeholder="Registered phone number" className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald mb-3" />
+          <input name="code" placeholder="Access code" className="w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald uppercase tracking-widest" />
           {searchParams.error && <p className="text-sm text-rose mt-2">Wrong phone or code, or your account isn't approved yet.</p>}
           <button className="btn-primary w-full mt-4 py-3 text-sm font-medium">Sign in to trade prices</button>
         </form>

@@ -26,7 +26,7 @@ export function Header({ categories }: { categories: Cat[] }) {
             <div className="relative group">
               <button className="nav-link py-2">Shop by Category</button>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
-                <div className="bg-white rounded-2xl shadow-luxe p-4 grid grid-cols-2 gap-1 w-[360px] border border-sand/60">
+                <div className="bg-surface rounded-2xl shadow-luxe p-4 grid grid-cols-2 gap-1 w-[360px] border border-sand/60">
                   {categories.map((c) => (
                     <Link key={c.slug} href={`/shop/c/${c.slug}`}
                       className="px-3 py-2 rounded-lg text-ink/80 hover:bg-emerald-mist hover:text-emerald transition-colors">

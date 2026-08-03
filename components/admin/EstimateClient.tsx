@@ -15,7 +15,7 @@ export function EstimateClient({ products }: { products: P[] }) {
   const matches = useMemo(() => q.trim() ? products.filter((p) => (p.name + p.sku).toLowerCase().includes(q.toLowerCase())).slice(0, 6) : [], [q, products]);
   const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
   const add = (p: P) => { setLines((prev) => prev.find((l) => l.sku === p.sku) ? prev.map((l) => l.sku === p.sku ? { ...l, qty: l.qty + 1 } : l) : [...prev, { ...p, qty: 1 }]); setQ(""); };
-  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-white outline-none focus:border-emerald";
+  const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
   async function save() {
     setBusy(true); setMsg("");
     const res = await createEstimateAction({ items: lines.map((l) => ({ sku: l.sku, qty: l.qty })), customer: { name, phone } });
@@ -24,12 +24,12 @@ export function EstimateClient({ products }: { products: P[] }) {
     else setMsg(`✕ ${res.error}`);
   }
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-card mb-6">
+    <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">
       <h2 className="font-medium text-ink mb-3">New estimate / quotation</h2>
       <div className="relative mb-3">
         <input className={input} placeholder="Search product to add…" value={q} onChange={(e) => setQ(e.target.value)} />
         {matches.length > 0 && (
-          <div className="absolute z-10 left-0 right-0 mt-1 bg-white rounded-xl shadow-luxe border border-sand overflow-hidden">
+          <div className="absolute z-10 left-0 right-0 mt-1 bg-surface rounded-xl shadow-luxe border border-sand overflow-hidden">
             {matches.map((p) => <button key={p.sku} onClick={() => add(p)} className="w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-mist flex justify-between"><span>{p.name} <span className="text-muted">· {p.sku}</span></span><span>{formatPaise(p.price)}</span></button>)}
           </div>
         )}

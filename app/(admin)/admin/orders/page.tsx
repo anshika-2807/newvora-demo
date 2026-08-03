@@ -29,7 +29,7 @@ export default async function AdminOrders() {
       <p className="text-sm text-muted mb-6">Fulfil online orders end to end — accept &amp; pack, ship, then mark delivered. Each step updates the customer's live tracking timeline.</p>
 
       {orders.length === 0 && (
-        <div className="bg-white rounded-2xl p-10 text-center text-muted shadow-card">
+        <div className="bg-surface rounded-2xl p-10 text-center text-muted shadow-card">
           No website orders yet. Place one from the storefront checkout to see it appear here.
         </div>
       )}
@@ -41,7 +41,7 @@ export default async function AdminOrders() {
           const cancelled = stage === "cancelled";
           const phone = String(o.customer_phone ?? "").replace(/\D/g, "");
           return (
-            <div key={o.id} className="bg-white rounded-2xl p-5 shadow-card">
+            <div key={o.id} className="bg-surface rounded-2xl p-5 shadow-card">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <p className="font-mono text-sm font-semibold text-ink">#{String(o.id).slice(0, 8).toUpperCase()}</p>
