@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon";
 import { useToast } from "@/components/ui/Toast";
 import {
   createProductWithImageAction, createOneRowAction, aiParseRowsAction,
@@ -156,7 +157,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
               <label className="text-sm font-medium text-ink">Raw product photo <span className="text-muted font-normal">(optional — AI turns it into a model photo later)</span></label>
               <input ref={fileRef} type="file" accept="image/*" className="mt-1 block w-full text-sm text-ink file:mr-3 file:rounded-full file:border-0 file:bg-emerald file:text-white file:px-4 file:py-2 file:text-sm file:cursor-pointer" />
             </div>
-            <button onClick={addSingle} disabled={busy} className="btn-primary px-6 py-2.5 text-sm font-medium disabled:opacity-60">{busy ? "Working…" : "✨ Add design"}</button>
+            <button onClick={addSingle} disabled={busy} className="btn-primary px-6 py-2.5 text-sm font-medium disabled:opacity-60">{busy ? "Working…" : <span className="inline-flex items-center gap-2"><Icon name="sparkles" className="w-4 h-4" />Add design</span>}</button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -164,7 +165,7 @@ export function UploadClient({ categories }: { categories: Cat[] }) {
             <input type="file" accept=".csv,text/csv,.txt" onChange={(e) => { const f = e.target.files?.[0]; if (f) { const r = new FileReader(); r.onload = () => setCsv(String(r.result || "")); r.readAsText(f); } }}
               className="block w-full text-sm text-ink file:mr-3 file:rounded-full file:border-0 file:bg-emerald file:text-white file:px-4 file:py-2 file:text-sm file:cursor-pointer" />
             <textarea className={`${input} font-mono text-xs`} rows={6} placeholder={"Cotton Shirt, 850, 12, configurable, Red|Green|Blue\nLeather Wallet 160 rs 40pcs\nCeramic Mug - 540 - 25 - red,green"} value={csv} onChange={(e) => setCsv(e.target.value)} />
-            <button onClick={buildFromList} disabled={busy} className="btn-primary px-6 py-2.5 text-sm font-medium disabled:opacity-60">{busy ? "Building…" : "✨ Build inventory with AI"}</button>
+            <button onClick={buildFromList} disabled={busy} className="btn-primary px-6 py-2.5 text-sm font-medium disabled:opacity-60">{busy ? "Building…" : <span className="inline-flex items-center gap-2"><Icon name="sparkles" className="w-4 h-4" />Build inventory with AI</span>}</button>
           </div>
         )}
 

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useWishlist } from "@/components/wishlist/WishlistContext";
+import { Icon } from "@/components/ui/Icon";
 import { useCart } from "@/components/cart/CartContext";
 import { useToast } from "@/components/ui/Toast";
 import { formatPaise } from "@/lib/pricing";
@@ -18,7 +19,7 @@ export default function Wishlist() {
       <p className="text-muted mb-6">{items.length} saved {items.length === 1 ? "piece" : "pieces"}</p>
       {items.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-muted mb-5">Nothing saved yet. Tap the ♡ on any design to keep it here.</p>
+          <p className="text-muted mb-5">Nothing saved yet. Tap the <Icon name="heart" className="w-4 h-4 inline align-text-bottom" /> on any design to keep it here.</p>
           <Link href="/shop" className="btn-primary inline-block px-7 py-3 text-sm font-medium">Discover products</Link>
         </div>
       ) : (

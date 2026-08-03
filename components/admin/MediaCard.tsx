@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/Toast";
 import { uploadProductImageAction, deleteProductImageAction, setHeroImageAction } from "@/app/actions/media";
 import { generateOneAction } from "@/app/actions/images";
 import { compressImage } from "@/lib/image";
+import { Icon } from "@/components/ui/Icon";
 
 type Img = { id: string; path: string; kind: string | null; sort: number };
 type P = { id: string; sku: string; name: string; category: string; images: Img[] };
@@ -42,7 +43,7 @@ export function MediaCard({ p, geminiReady }: { p: P; geminiReady: boolean }) {
     setBusy("gen");
     const res = await generateOneAction(p.sku);
     setBusy("");
-    if (res.ok) { toast(`Model photo generated for ${p.sku} ✓`); router.refresh(); }
+    if (res.ok) { toast(`Model photo generated for ${p.sku}`); router.refresh(); }
     else {
       const friendly = GEN_MSG[res.reason ?? ""];
       const detail = res.error ? ` — ${res.error}` : "";
@@ -57,7 +58,7 @@ export function MediaCard({ p, geminiReady }: { p: P; geminiReady: boolean }) {
     <div className="bg-surface rounded-2xl p-5 shadow-card">
       <div className="flex items-center justify-between mb-3">
         <div><p className="font-medium text-ink">{p.name}</p><p className="text-xs text-muted">{p.category} · {p.sku}</p></div>
-        {hasModel && <span className="text-[11px] px-2 py-1 rounded-full bg-emerald-mist text-emerald-dark">AI photo ✓</span>}
+        {hasModel && <span className="text-[11px] px-2 py-1 rounded-full bg-emerald-mist text-emerald-dark inline-flex items-center gap-1"><Icon name="check" className="w-3 h-3" />AI photo</span>}
       </div>
 
       {p.images.length > 0 ? (
@@ -81,7 +82,7 @@ export function MediaCard({ p, geminiReady }: { p: P; geminiReady: boolean }) {
         <button onClick={() => rawRef.current?.click()} disabled={busy === "flatlay"} className="px-3 py-1.5 rounded-full border border-sand text-ink text-xs font-medium hover:border-emerald transition-colors disabled:opacity-50">{busy === "flatlay" ? "Uploading…" : hasRaw ? "Replace raw photo" : "Upload raw photo"}</button>
 
         <button onClick={generate} disabled={busy === "gen" || !hasRaw} title={!geminiReady ? "Add GEMINI_API_KEY to enable" : !hasRaw ? "Upload a raw photo first" : ""}
-          className="px-3 py-1.5 rounded-full bg-gold/15 text-gold-dark text-xs font-medium hover:bg-gold/25 transition-colors disabled:opacity-50">{busy === "gen" ? "Generating…" : "✨ Generate model photo"}</button>
+          className="px-3 py-1.5 rounded-full bg-gold/15 text-gold-dark text-xs font-medium hover:bg-gold/25 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5">{busy === "gen" ? "Generating…" : <><Icon name="sparkles" className="w-3.5 h-3.5" />Generate model photo</>}</button>
 
         <input ref={angleRef} type="file" accept="image/*" className="hidden" onChange={(e) => upload(e.target.files?.[0], "angle")} />
         <button onClick={() => angleRef.current?.click()} disabled={busy === "angle"} className="px-3 py-1.5 rounded-full border border-sand text-ink text-xs font-medium hover:border-emerald transition-colors disabled:opacity-50">{busy === "angle" ? "Uploading…" : "+ Add angle"}</button>

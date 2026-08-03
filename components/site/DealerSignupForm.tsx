@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { dealerSignupAction } from "@/app/actions/dealer";
+import { Icon } from "@/components/ui/Icon";
 
 export function DealerSignupForm() {
   const [busy, setBusy] = useState(false);
@@ -17,7 +18,7 @@ export function DealerSignupForm() {
 
   if (done) return (
     <div className="text-center py-2">
-      <p className="text-4xl">🤝</p>
+      <Icon name="handshake" className="w-10 h-10 mx-auto block text-emerald" />
       <h3 className="font-display text-xl text-emerald-dark mt-1">Application received</h3>
       <p className="text-sm text-emerald-dark/80 mt-1">We'll verify your shop and send an access code. Once approved, sign in with your phone number and code.</p>
     </div>

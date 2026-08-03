@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { formatPaise } from "@/lib/pricing";
 import { Barcode } from "@/components/admin/Barcode";
 import { QtyField } from "@/components/admin/QtyField";
+import { Icon } from "@/components/ui/Icon";
 
 type P = { sku: string; name: string; price: number };
 
@@ -40,12 +41,12 @@ export function BarcodeSheet({ products }: { products: P[] }) {
             <label className="text-xs text-muted flex items-center gap-1"># labels
               <QtyField value={it.count} onChange={(n) => setCount(it.sku, n)} className="w-16 rounded-lg border border-sand px-2 py-1 text-center" />
             </label>
-            <button onClick={() => rm(it.sku)} className="text-muted hover:text-rose">✕</button>
+            <button onClick={() => rm(it.sku)} className="text-muted hover:text-rose" aria-label="Remove"><Icon name="x" className="w-4 h-4" /></button>
           </div>
         ))}
         {labels.length > 0 && (
           <div className="flex items-center gap-3 mt-4">
-            <button onClick={() => window.print()} className="btn-primary px-6 py-2.5 text-sm font-medium">🖶 Print {labels.length} label{labels.length === 1 ? "" : "s"}</button>
+            <button onClick={() => window.print()} className="btn-primary px-6 py-2.5 text-sm font-medium inline-flex items-center gap-2"><Icon name="print" className="w-4 h-4" />Print {labels.length} label{labels.length === 1 ? "" : "s"}</button>
             <span className="text-xs text-muted">{labels.length} labels · ~{Math.ceil(labels.length / 64)} A4 sheet{Math.ceil(labels.length / 64) === 1 ? "" : "s"} (64 per sheet)</span>
           </div>
         )}

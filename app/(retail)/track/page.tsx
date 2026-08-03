@@ -3,13 +3,14 @@ import { findOrderForTracking } from "@/lib/supabase/queries";
 import { formatPaise } from "@/lib/pricing";
 import { orderStage, stageIndex } from "@/lib/orderStatus";
 import { Back } from "@/components/site/Back";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata = { title: "Track your order" };
 
 const dt = (v?: string | null) =>
   v ? new Date(v).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : undefined;
 
-function Step({ done, active, icon, title, sub }: { done: boolean; active?: boolean; icon: string; title: string; sub?: string }) {
+function Step({ done, active, icon, title, sub }: { done: boolean; active?: boolean; icon: React.ReactNode; title: string; sub?: string }) {
   return (
     <div className="flex items-start gap-3">
       <div className={`h-9 w-9 rounded-full flex items-center justify-center text-base shrink-0 ${done ? "bg-emerald text-white" : active ? "bg-gold/20 text-gold-dark" : "bg-ink/5 text-muted"}`}>{icon}</div>
@@ -60,10 +61,10 @@ export default async function TrackOrder({ searchParams }: { searchParams: { cod
             <div className="bg-rose/10 text-rose rounded-xl p-4 text-sm font-medium">This order was cancelled. Any payment made will be refunded — WhatsApp us with your order code for anything at all.</div>
           ) : (
             <div>
-              <Step done icon="🛍" title="Order placed" sub={dt(order.created_at)} />
-              <Step done={idx >= 1} active={idx === 0} icon="✓" title="Confirmed & being packed" sub={idx >= 1 ? "We're preparing your order" : "Waiting for confirmation"} />
-              <Step done={idx >= 2} active={idx === 1} icon="📦" title="Shipped" sub={dt(order.dispatched_at)} />
-              <Step done={idx >= 3} active={idx === 2} icon="🏠" title={`Delivered${order.payment_mode === "cod" && idx < 3 ? " · pay cash on delivery" : ""}`} sub={dt(order.delivered_at)} />
+              <Step done icon={<Icon name="bag" className="w-4 h-4" />} title="Order placed" sub={dt(order.created_at)} />
+              <Step done={idx >= 1} active={idx === 0} icon={<Icon name="check" className="w-4 h-4" />} title="Confirmed & being packed" sub={idx >= 1 ? "We're preparing your order" : "Waiting for confirmation"} />
+              <Step done={idx >= 2} active={idx === 1} icon={<Icon name="package" className="w-4 h-4" />} title="Shipped" sub={dt(order.dispatched_at)} />
+              <Step done={idx >= 3} active={idx === 2} icon={<Icon name="home" className="w-4 h-4" />} title={`Delivered${order.payment_mode === "cod" && idx < 3 ? " · pay cash on delivery" : ""}`} sub={dt(order.delivered_at)} />
             </div>
           )}
         </div>

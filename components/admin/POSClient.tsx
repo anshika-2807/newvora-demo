@@ -44,7 +44,7 @@ export function POSClient({ products }: { products: P[] }) {
       addLine(p);
       setScanMsg({ text: `✓ ${p.name} added · ${p.qty} in stock${p.qty <= 0 ? " (OUT OF STOCK)" : ""}`, ok: p.qty > 0 });
     } else {
-      setScanMsg({ text: `✕ No product with SKU “${code}”`, ok: false });
+      setScanMsg({ text: `No product with SKU “${code}”`, ok: false });
     }
     setScan("");
     scanRef.current?.focus();

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useToast } from "@/components/ui/Toast";
+import { Icon } from "@/components/ui/Icon";
 import { draftReviewReplyAction, saveReviewReplyAction } from "@/app/actions/reputation";
 
 type R = { id: string; author_name: string; rating: number; body: string; response: string | null; product: { name: string } };
@@ -36,7 +37,7 @@ export function ReviewResponder({ reviews }: { reviews: R[] }) {
           <textarea value={drafts[r.id] ?? ""} onChange={(e) => setDrafts((d) => ({ ...d, [r.id]: e.target.value }))}
             placeholder="Your reply…" rows={2} className="w-full mt-3 rounded-xl border border-sand px-3 py-2 text-sm bg-surface outline-none focus:border-emerald" />
           <div className="flex gap-2 mt-2">
-            <button onClick={() => draft(r.id)} disabled={busy === r.id} className="px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-xs font-medium hover:bg-emerald/20 disabled:opacity-50">{busy === r.id ? "Drafting…" : "✨ AI draft"}</button>
+            <button onClick={() => draft(r.id)} disabled={busy === r.id} className="px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-xs font-medium hover:bg-emerald/20 disabled:opacity-50">{busy === r.id ? "Drafting…" : <span className="inline-flex items-center gap-1.5"><Icon name="sparkles" className="w-3.5 h-3.5" />AI draft</span>}</button>
             <button onClick={() => save(r.id)} className="px-4 py-1.5 rounded-full bg-ink text-ivory text-xs font-medium">Publish reply</button>
           </div>
         </div>

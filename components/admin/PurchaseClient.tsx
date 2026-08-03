@@ -28,7 +28,7 @@ export function PurchaseClient({ suppliers, products }: { suppliers: Sup[]; prod
     });
     setBusy(false);
     if (res.ok) { setMsg(`✓ Purchase recorded (${formatPaise(res.total ?? 0)}) — mapped items added to stock.`); setLines([{ supplierSku: "", mappedProductId: "", mappedName: "", qty: "", cost: "" }]); setBillNo(""); }
-    else setMsg(`✕ ${res.error}`);
+    else setMsg(`${res.error}`);
   }
 
   return (

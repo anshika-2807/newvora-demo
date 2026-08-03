@@ -9,6 +9,7 @@ import { setProductVisibilityAction } from "@/app/actions/catalog";
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
 import { MediaCard } from "@/components/admin/MediaCard";
 import { geminiConfigured } from "@/lib/ai/gemini";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata = { title: "Owner Console · Product 360" };
 
@@ -59,7 +60,7 @@ export default async function Product360({ params }: { params: { sku: string } }
       {/* Quick actions */}
       <div className="flex flex-wrap gap-2 mb-6">
         <Link href={`/shop/${p.category?.slug}/${p.sku}`} target="_blank" className="px-4 py-2 rounded-full bg-ink/5 text-ink text-sm hover:bg-ink/10">View on store ↗</Link>
-        {can(session, "catalog.edit") && <Link href={`/admin/catalogue/${p.sku}`} className="px-4 py-2 rounded-full bg-ink/5 text-ink text-sm hover:bg-ink/10">✎ Edit</Link>}
+        {can(session, "catalog.edit") && <Link href={`/admin/catalogue/${p.sku}`} className="px-4 py-2 rounded-full bg-ink/5 text-ink text-sm hover:bg-ink/10 inline-flex items-center gap-1.5"><Icon name="edit" className="w-4 h-4" />Edit</Link>}
         {can(session, "catalog.publish") && (
           <form action={setProductVisibilityAction}>
             <input type="hidden" name="sku" value={p.sku} />
@@ -67,7 +68,7 @@ export default async function Product360({ params }: { params: { sku: string } }
             <button className="px-4 py-2 rounded-full bg-gold/15 text-gold-dark text-sm hover:bg-gold/25">{published ? "Hide from store" : "Show on store"}</button>
           </form>
         )}
-        {can(session, "catalog.delete") && <DeleteProductButton sku={p.sku} className="px-4 py-2 rounded-full bg-rose/10 text-rose text-sm hover:bg-rose/20" label="🗑 Delete" />}
+        {can(session, "catalog.delete") && <DeleteProductButton sku={p.sku} className="px-4 py-2 rounded-full bg-rose/10 text-rose text-sm hover:bg-rose/20" />}
       </div>
 
       {/* Details */}

@@ -21,7 +21,7 @@ export function EstimateClient({ products }: { products: P[] }) {
     const res = await createEstimateAction({ items: lines.map((l) => ({ sku: l.sku, qty: l.qty })), customer: { name, phone } });
     setBusy(false);
     if (res.ok) { setMsg(`✓ Estimate saved (${formatPaise(res.total ?? 0)}) — find it below to bill or hold.`); setLines([]); setName(""); setPhone(""); }
-    else setMsg(`✕ ${res.error}`);
+    else setMsg(`${res.error}`);
   }
   return (
     <div className="bg-surface rounded-2xl p-6 shadow-card mb-6">

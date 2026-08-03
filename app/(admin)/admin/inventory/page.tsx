@@ -84,7 +84,7 @@ export default async function Inventory({ searchParams }: { searchParams: { dead
                         <button className="px-2.5 py-1 rounded-full bg-gold/15 text-gold-dark text-xs hover:bg-gold/25">{r.status === "published" ? "Hide" : "Show"}</button>
                       </form>
                     )}
-                    {can(session, "catalog.delete") && <DeleteProductButton sku={r.sku} className="px-2.5 py-1 rounded-full bg-rose/10 text-rose text-xs hover:bg-rose/20" label="🗑" />}
+                    {can(session, "catalog.delete") && <DeleteProductButton sku={r.sku} className="px-2.5 py-1 rounded-full bg-rose/10 text-rose text-xs hover:bg-rose/20" iconOnly />}
                   </div>
                 </td>
               </tr>

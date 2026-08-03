@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useToast } from "@/components/ui/Toast";
+import { Icon } from "@/components/ui/Icon";
 import { generateReorderPlanAction, approveReorderAction, type Rec } from "@/app/actions/reorder";
 
 const URG: Record<string, string> = { high: "bg-rose text-white", medium: "bg-gold/20 text-gold-dark", low: "bg-emerald-mist text-emerald-dark" };
@@ -28,7 +29,7 @@ export function ReorderClient({ candidateCount }: { candidateCount: number }) {
     <div>
       <div className="flex items-center gap-3 mb-5">
         <button onClick={generate} disabled={busy} className="btn-primary px-5 py-2.5 text-sm font-medium disabled:opacity-50">
-          {busy ? "Thinking…" : "✨ Generate AI reorder plan"}
+          {busy ? "Thinking…" : <span className="inline-flex items-center gap-2"><Icon name="sparkles" className="w-4 h-4" />Generate AI reorder plan</span>}
         </button>
         <span className="text-sm text-muted">{candidateCount} items need attention</span>
         {provider && <span className="text-xs text-muted">· drafted by {provider === "rules" ? "rule engine (no AI key)" : provider}</span>}

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Icon } from "@/components/ui/Icon";
 import { useToast } from "@/components/ui/Toast";
 import { divaPlan, divaRun } from "@/app/actions/diva";
 
@@ -138,7 +139,7 @@ export function Diva({ roleName = "Owner" }: { roleName?: string }) {
               <button onClick={stopRun} className="w-full mb-2 py-1.5 rounded-full bg-rose/10 text-rose text-xs font-medium hover:bg-rose/20 transition-colors">■ Stop</button>
             )}
             <div className="flex items-center gap-2">
-              <button onClick={toggleMic} title="Speak" className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center transition-colors ${listening ? "bg-rose text-white animate-pulse" : "bg-cream text-ink hover:bg-emerald-mist"}`}>🎤</button>
+              <button onClick={toggleMic} title="Speak" className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center transition-colors ${listening ? "bg-rose text-white animate-pulse" : "bg-cream text-ink hover:bg-emerald-mist"}`}><Icon name="mic" className="w-5 h-5" /></button>
               <input
                 value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()}
                 placeholder={busy ? "Type to redirect DIVA…" : listening ? "Listening…" : "Tell DIVA what to do…"}

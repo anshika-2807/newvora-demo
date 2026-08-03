@@ -6,6 +6,7 @@ import { AnimatedNumber } from "@/components/admin/AnimatedNumber";
 import { BarChart } from "@/components/admin/BarChart";
 import { Donut } from "@/components/admin/Donut";
 import { ExpandableReport } from "@/components/admin/ExpandableReport";
+import { Icon } from "@/components/ui/Icon";
 
 const CH_LABEL: Record<string, string> = { retail: "Online retail", wholesale: "Wholesale", pos: "Counter (POS)" };
 const PRESETS = [{ key: "today", label: "Today" }, { key: "week", label: "This week" }, { key: "month", label: "This month" }];
@@ -19,13 +20,13 @@ function presetRange(preset: string): { from: string; to: string } {
   return { from: start.toISOString(), to: now.toISOString() };
 }
 
-function Tile({ label, children, sub, accent, icon, bar }: { label: string; children: React.ReactNode; sub?: string; accent?: string; icon?: string; bar?: string }) {
+function Tile({ label, children, sub, accent, icon, bar }: { label: string; children: React.ReactNode; sub?: string; accent?: string; icon?: React.ReactNode; bar?: string }) {
   return (
     <div className="relative bg-surface rounded-2xl p-5 shadow-card hover:shadow-luxe transition-all hover:-translate-y-0.5 overflow-hidden">
       <span className={`absolute left-0 top-0 bottom-0 w-1 ${bar ?? "bg-emerald"}`} />
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase tracking-wide text-muted">{label}</p>
-        {icon && <span className="text-gold-dark/70 text-lg">{icon}</span>}
+        {icon && <span className="text-gold-dark/70">{icon}</span>}
       </div>
       <p className={`text-2xl font-semibold mt-1 ${accent ?? "text-ink"}`}>{children}</p>
       {sub && <p className="text-xs text-muted mt-1">{sub}</p>}
@@ -85,9 +86,9 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
         <Tile label="Revenue" icon="₹" accent="text-emerald" bar="bg-emerald" sub={`${d.orders} orders`}><AnimatedNumber value={d.revenue / 100} prefix="₹" /></Tile>
-        <Tile label="Orders" icon="❑" bar="bg-gold" sub={`${d.pos} POS · ${d.cod} COD`}><AnimatedNumber value={d.orders} /></Tile>
-        <Tile label="Approved Retailers" icon="♚" bar="bg-wine" sub={`${d.pendingApprovals} pending`}><AnimatedNumber value={d.retailers} /></Tile>
-        <Tile label="Pending Approvals" icon="✓" accent={d.pendingApprovals ? "text-gold-dark" : undefined} bar={d.pendingApprovals ? "bg-gold-dark" : "bg-sand"} sub="needs owner OTP"><AnimatedNumber value={d.pendingApprovals} /></Tile>
+        <Tile label="Orders" icon={<Icon name="receipt" className="w-5 h-5" />} bar="bg-gold" sub={`${d.pos} POS · ${d.cod} COD`}><AnimatedNumber value={d.orders} /></Tile>
+        <Tile label="Approved Retailers" icon={<Icon name="users" className="w-5 h-5" />} bar="bg-wine" sub={`${d.pendingApprovals} pending`}><AnimatedNumber value={d.retailers} /></Tile>
+        <Tile label="Pending Approvals" icon={<Icon name="check" className="w-5 h-5" />} accent={d.pendingApprovals ? "text-gold-dark" : undefined} bar={d.pendingApprovals ? "bg-gold-dark" : "bg-sand"} sub="needs owner OTP"><AnimatedNumber value={d.pendingApprovals} /></Tile>
       </div>
 
       {/* Expandable channel reports — headline number, click to see the full report for the range */}
@@ -139,15 +140,15 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
           </div>
         </div>
         <div className="bg-surface rounded-2xl p-6 shadow-card">
-          <h2 className="font-medium text-rose mb-4">🔴 Dead stock — act now</h2>
+          <h2 className="font-medium text-rose mb-4 flex items-center gap-2"><Icon name="flag" className="w-4 h-4" />Dead stock — act now</h2>
           <ul className="text-sm divide-y divide-sand/60">
-            {d.deadList.length === 0 ? <li className="py-2 text-muted">None 🎉</li> : d.deadList.map((p) => (
+            {d.deadList.length === 0 ? <li className="py-2 text-muted">None</li> : d.deadList.map((p) => (
               <li key={p.sku} className="flex justify-between py-2"><span>{p.name}</span><span className="text-muted">{p.qty} pcs</span></li>
             ))}
           </ul>
         </div>
         <div className="bg-surface rounded-2xl p-6 shadow-card">
-          <h2 className="font-medium text-gold-dark mb-4">⭐ Top sellers</h2>
+          <h2 className="font-medium text-gold-dark mb-4 flex items-center gap-2"><Icon name="star" className="w-4 h-4" />Top sellers</h2>
           <ul className="text-sm divide-y divide-sand/60">
             {a.topProducts.map((p) => (
               <li key={p.name} className="flex justify-between py-2"><span className="truncate pr-2">{p.name}</span><span className="text-emerald font-medium whitespace-nowrap">{formatPaise(p.revenue)}</span></li>

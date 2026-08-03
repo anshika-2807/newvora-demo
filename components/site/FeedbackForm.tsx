@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { submitFeedbackAction } from "@/app/actions/feedback";
+import { Icon } from "@/components/ui/Icon";
 
 export function FeedbackForm({ storePhone = "", orderRef = "" }: { storePhone?: string; orderRef?: string }) {
   const [rating, setRating] = useState(0);
@@ -28,7 +29,7 @@ export function FeedbackForm({ storePhone = "", orderRef = "" }: { storePhone?: 
 
   if (done) return (
     <div className="text-center py-6">
-      <p className="text-5xl">💛</p>
+      <Icon name="heart" className="w-12 h-12 mx-auto block text-gold" />
       <h2 className="font-display text-2xl text-ink mt-2">Thank you!</h2>
       <p className="text-sm text-muted mt-1">We've received your feedback and truly appreciate it.</p>
       {storePhone && (
@@ -42,7 +43,7 @@ export function FeedbackForm({ storePhone = "", orderRef = "" }: { storePhone?: 
       <div className="flex gap-1.5 justify-center text-4xl">
         {[1, 2, 3, 4, 5].map((s) => (
           <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}
-            className={`transition-transform hover:scale-110 ${(hover || rating) >= s ? "text-gold" : "text-sand"}`} aria-label={`${s} star${s > 1 ? "s" : ""}`}>★</button>
+            className={`transition-transform hover:scale-110 ${(hover || rating) >= s ? "text-gold" : "text-sand"}`} aria-label={`${s} star${s > 1 ? "s" : ""}`}><Icon name="star" className="w-7 h-7" /></button>
         ))}
       </div>
       <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={4} placeholder="Tell us what you loved, or how we can do better…" className={input} />

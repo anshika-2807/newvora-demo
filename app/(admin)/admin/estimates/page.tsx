@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { getEstimates, getStorefront } from "@/lib/supabase/queries";
+import { Icon } from "@/components/ui/Icon";
 import { liveOffer } from "@/lib/offers";
 import { formatPaise } from "@/lib/pricing";
 import { EstimateClient } from "@/components/admin/EstimateClient";
@@ -71,7 +72,7 @@ export default async function Estimates({ searchParams }: { searchParams: { tab?
                 <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs ${STATUS_STYLE[e.status] ?? "bg-cream text-muted"}`}>{STATUS_LABEL[e.status] ?? e.status}</span></td>
                 <td className="p-3">
                   <div className="flex flex-wrap gap-1.5 justify-end items-center">
-                    <Link href={`/admin/estimate/${e.id}`} className="px-2.5 py-1 rounded-full bg-ink/5 text-ink text-xs hover:bg-ink/10">🖶 Print</Link>
+                    <Link href={`/admin/estimate/${e.id}`} className="px-2.5 py-1 rounded-full bg-ink/5 text-ink text-xs hover:bg-ink/10 inline-flex items-center gap-1"><Icon name="print" className="w-3.5 h-3.5" />Print</Link>
                     {e.status === "open" && <>
                       <form action={billEstimateAction}><input type="hidden" name="id" value={e.id} /><input type="hidden" name="bill_type" value="gst" /><button className="px-2.5 py-1 rounded-full bg-emerald/10 text-emerald text-xs font-medium hover:bg-emerald/20">Bill · GST →</button></form>
                       <form action={billEstimateAction}><input type="hidden" name="id" value={e.id} /><input type="hidden" name="bill_type" value="cash" /><button className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-medium hover:bg-blue-100">Bill · Cash →</button></form>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { submitQuoteAction } from "@/app/actions/quotes";
+import { Icon } from "@/components/ui/Icon";
 
 export function QuoteRequestForm() {
   const [busy, setBusy] = useState(false);
@@ -17,7 +18,7 @@ export function QuoteRequestForm() {
 
   if (done) return (
     <div className="text-center py-8">
-      <p className="text-5xl">📩</p>
+      <Icon name="mail" className="w-12 h-12 mx-auto block text-emerald" />
       <h2 className="font-display text-2xl text-ink mt-2">Request received</h2>
       <p className="text-sm text-muted mt-1">Thanks! Our team will prepare a quote and reach out shortly.</p>
     </div>

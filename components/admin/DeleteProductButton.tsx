@@ -3,8 +3,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/Toast";
 import { deleteProductAction } from "@/app/actions/catalog";
+import { Icon } from "@/components/ui/Icon";
 
-export function DeleteProductButton({ sku, className = "", label }: { sku: string; className?: string; label?: string }) {
+export function DeleteProductButton({ sku, className = "", iconOnly = false }: { sku: string; className?: string; iconOnly?: boolean }) {
   const router = useRouter();
   const { toast } = useToast();
   const [busy, setBusy] = useState(false);
@@ -19,6 +20,6 @@ export function DeleteProductButton({ sku, className = "", label }: { sku: strin
   }
   return (
     <button onClick={del} disabled={busy} title="Delete product"
-      className={className || "text-muted hover:text-rose text-xs"}>{label ?? "🗑 Delete"}</button>
+      className={className || "text-muted hover:text-rose text-xs"}><span className="inline-flex items-center gap-1"><Icon name="trash" className="w-3.5 h-3.5" />{!iconOnly && "Delete"}</span></button>
   );
 }

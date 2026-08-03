@@ -20,7 +20,7 @@ export function ReturnClient({ orders }: { orders: Order[] }) {
     const res = await recordReturnAction({ orderId: order.id, reason, items });
     setBusy(false);
     if (res.ok) { setMsg(`✓ Return recorded · ${res.qty} pcs restored to stock`); setSel(""); setQty({}); setReason(""); }
-    else setMsg(`✕ ${res.error}`);
+    else setMsg(`${res.error}`);
   }
   const input = "w-full rounded-xl border border-sand px-4 py-2.5 text-sm bg-surface outline-none focus:border-emerald";
   return (

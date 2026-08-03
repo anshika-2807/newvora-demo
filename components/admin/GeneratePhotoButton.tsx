@@ -16,7 +16,7 @@ export function GeneratePhotoButton({ sku }: { sku: string }) {
     setBusy(true);
     const res = await generateOneAction(sku);
     setBusy(false);
-    if (res.ok) toast(`Model photo generated for ${sku} ✓`);
+    if (res.ok) toast(`Model photo generated for ${sku}`);
     else toast(MSG[res.reason ?? ""] ?? `Couldn't generate: ${res.reason}`, "error");
   }
   return (

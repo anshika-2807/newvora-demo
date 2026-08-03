@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { submitProductAction } from "@/app/actions/submissions";
+import { Icon } from "@/components/ui/Icon";
 
 type Cat = { id: string; name: string; slug: string };
 
@@ -20,7 +21,7 @@ export function SellForm({ categories = [] }: { categories?: Cat[] }) {
 
   if (done) return (
     <div className="text-center py-8">
-      <p className="text-5xl">✅</p>
+      <Icon name="check-circle" className="w-12 h-12 mx-auto block text-emerald" />
       <h2 className="font-display text-2xl text-ink mt-2">Submission received</h2>
       <p className="text-sm text-muted mt-1">Thanks! Our team will review your product and get back to you soon.</p>
     </div>

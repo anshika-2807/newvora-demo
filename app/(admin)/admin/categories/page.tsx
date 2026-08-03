@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { supabaseServer } from "@/lib/supabase/server";
 import { createCategoryAction, deleteCategoryAction } from "@/app/actions/catalog";
+import { Icon } from "@/components/ui/Icon";
 import { getSession, can } from "@/lib/auth";
 
 export const metadata = { title: "Owner Console · Categories" };
@@ -30,7 +31,7 @@ export default async function Categories() {
             <div className="flex items-center gap-3 shrink-0">
               <span className="text-sm text-emerald font-medium">{counts.get(c.id) ?? 0} designs</span>
               {canEdit && (counts.get(c.id) ?? 0) === 0 && (
-                <form action={deleteCategoryAction}><input type="hidden" name="id" value={c.id} /><button title="Delete empty category" className="text-muted hover:text-rose text-sm">🗑</button></form>
+                <form action={deleteCategoryAction}><input type="hidden" name="id" value={c.id} /><button title="Delete empty category" className="text-muted hover:text-rose text-sm" aria-label="Delete"><Icon name="trash" className="w-4 h-4" /></button></form>
               )}
             </div>
           </div>

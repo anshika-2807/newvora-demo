@@ -6,6 +6,7 @@ import { formatPaise } from "@/lib/pricing";
 import { geminiConfigured } from "@/lib/ai/gemini";
 import { aiProvidersStatus } from "@/lib/ai/listingAgent";
 import { ProductImage } from "@/components/Placeholder";
+import { Icon } from "@/components/ui/Icon";
 import { generateContentAction, generateAllContentAction } from "@/app/actions/aiContent";
 import { GeneratePhotoButton } from "@/components/admin/GeneratePhotoButton";
 import { generateEmbeddingsAction } from "@/app/actions/embeddings";
@@ -50,9 +51,9 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
           <p className="text-sm text-muted">{total} products · AI-drafted pages, one-tap approve</p>
         </div>
         <div className="flex gap-2">
-          <Link href="/catalog" target="_blank" className="px-4 py-2.5 text-sm font-medium rounded-full bg-gold text-ink hover:opacity-90 transition-opacity">📤 Share Catalogue ↗</Link>
+          <Link href="/catalog" target="_blank" className="px-4 py-2.5 text-sm font-medium rounded-full bg-gold text-ink hover:opacity-90 transition-opacity inline-flex items-center gap-2"><Icon name="share" className="w-4 h-4" />Share Catalogue<Icon name="external" className="w-3.5 h-3.5" /></Link>
           {canAi && <>
-            <form action={genAllContent}><button className="btn-primary px-4 py-2.5 text-sm font-medium">✨ Generate all AI pages</button></form>
+            <form action={genAllContent}><button className="btn-primary px-4 py-2.5 text-sm font-medium inline-flex items-center gap-2"><Icon name="sparkles" className="w-4 h-4" />Generate all AI pages</button></form>
             <form action={genEmbeddings}><button className="px-4 py-2.5 text-sm font-medium rounded-full border border-emerald text-emerald hover:bg-emerald-mist transition-colors">⌖ Build recommendations</button></form>
           </>}
         </div>
@@ -97,8 +98,8 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
                   <td className="p-3 text-muted">{p.category?.name} · {p.sku}</td>
                   <td className="p-3"><span className={p.qty <= 2 ? "text-rose font-medium" : "text-ink"}>{p.qty}</span></td>
                   <td className="p-3"><span className="font-semibold">{formatPaise(o.price)}</span>{o.hasOffer && <span className="text-xs text-rose ml-1">{o.offerPct}% off</span>}</td>
-                  <td className="p-3">{canEdit ? <Link className="px-3 py-1.5 rounded-full bg-ink/5 text-ink text-xs font-medium hover:bg-ink/10 transition-colors" href={`/admin/catalogue/${p.sku}`}>✎ Edit</Link> : <span className="text-xs text-muted">—</span>}</td>
-                  <td className="p-3 whitespace-nowrap"><Link className="text-ink/70 hover:text-ink text-xs mr-2" href={`/admin/product/${p.sku}`}>📷 Photos</Link><Link className="text-emerald nav-link" href={`/shop/${p.category?.slug}/${p.sku}`}>view ↗</Link></td>
+                  <td className="p-3">{canEdit ? <Link className="px-3 py-1.5 rounded-full bg-ink/5 text-ink text-xs font-medium hover:bg-ink/10 transition-colors" href={`/admin/catalogue/${p.sku}`}><span className="inline-flex items-center gap-1"><Icon name="edit" className="w-3.5 h-3.5" />Edit</span></Link> : <span className="text-xs text-muted">—</span>}</td>
+                  <td className="p-3 whitespace-nowrap"><Link className="text-ink/70 hover:text-ink text-xs mr-2 inline-flex items-center gap-1" href={`/admin/product/${p.sku}`}><Icon name="camera" className="w-3.5 h-3.5" />Photos</Link><Link className="text-emerald nav-link inline-flex items-center gap-1" href={`/shop/${p.category?.slug}/${p.sku}`}>view<Icon name="external" className="w-3 h-3" /></Link></td>
                   <td className="p-3">
                     {canAi ? (
                       <form action={genContent} className="flex items-center gap-2">
@@ -108,7 +109,7 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
                     ) : <span className="text-xs text-muted">{hasAi ? "✓" : "—"}</span>}
                   </td>
                   <td className="p-3">{canAi ? <GeneratePhotoButton sku={p.sku} /> : <span className="text-xs text-muted">—</span>}</td>
-                  <td className="p-3">{canDelete && <DeleteProductButton sku={p.sku} className="text-muted hover:text-rose text-sm" label="🗑" />}</td>
+                  <td className="p-3">{canDelete && <DeleteProductButton sku={p.sku} className="text-muted hover:text-rose text-sm" iconOnly />}</td>
                 </tr>
               );
             })}
