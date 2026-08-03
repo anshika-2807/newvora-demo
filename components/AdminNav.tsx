@@ -151,7 +151,7 @@ export function AdminNav({ perms = "*", roleName = "Owner" }: { perms?: Perms; r
         <button onClick={() => setOpen(true)} aria-label="Open menu" className="flex flex-col gap-[5px] p-1">
           <span className="block h-0.5 w-6 bg-onnight rounded" /><span className="block h-0.5 w-6 bg-onnight rounded" /><span className="block h-0.5 w-6 bg-onnight rounded" />
         </button>
-        <p className="font-display text-xl text-onnight leading-none">Newvora</p>
+        <Link href="/admin/dashboard" className="font-display text-xl text-onnight leading-none">Newvora</Link>
         <span className="ml-auto text-[10px] tracking-widest uppercase text-gold-light">{roleName}</span>
       </header>
 
@@ -160,7 +160,7 @@ export function AdminNav({ perms = "*", roleName = "Owner" }: { perms?: Perms; r
       <aside className={`no-print lg:hidden fixed top-0 left-0 bottom-0 w-72 bg-night text-onnight/90 z-50 px-4 py-6 overflow-y-auto transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex items-center justify-between mb-6 px-2">
           <div>
-            <p className="font-display text-2xl text-onnight leading-none">Newvora</p>
+            <Link href="/admin/dashboard" className="font-display text-2xl text-onnight leading-none">Newvora</Link>
             <p className="text-[10px] tracking-[0.25em] uppercase text-gold-light mt-1">Owner Console</p>
           </div>
           <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-onnight/70 px-2"><Icon name="x" className="w-5 h-5" /></button>
@@ -172,7 +172,7 @@ export function AdminNav({ perms = "*", roleName = "Owner" }: { perms?: Perms; r
       <aside className={`no-print hidden lg:flex shrink-0 lg:sticky lg:top-0 h-screen bg-night text-onnight/90 px-3 py-6 flex-col transition-[width] duration-200 ${collapsed ? "w-[4.75rem]" : "w-60"}`}>
         <div className={`mb-6 flex items-center ${collapsed ? "justify-center" : "justify-between px-2"}`}>
           {!collapsed && <div>
-            <p className="font-display text-2xl text-onnight leading-none">Newvora</p>
+            <Link href="/admin/dashboard" className="font-display text-2xl text-onnight leading-none">Newvora</Link>
             <p className="text-[10px] tracking-[0.25em] uppercase text-gold-light mt-1">{roleName === "Owner" ? "Owner Console" : roleName}</p>
           </div>}
           <button onClick={toggleCollapsed} aria-label="Collapse menu" className="text-onnight/60 hover:text-white"><Icon name={collapsed ? "chevron-right" : "chevron-down"} className="w-5 h-5" /></button>

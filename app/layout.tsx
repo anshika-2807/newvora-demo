@@ -3,6 +3,7 @@ import "./globals.css";
 import { Analytics } from "@/components/Analytics";
 import { ToastProvider } from "@/components/ui/Toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LangController } from "@/components/i18n/LangController";
 
 export const metadata: Metadata = {
   title: { default: "Newvora — Online Store & Business Console", template: "%s | Newvora" },
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');try{if(localStorage.theme==='dark')document.documentElement.classList.add('dark')}catch(e){}" }} />
         <Analytics />
       </head>
-      <body><ToastProvider>{children}<ThemeToggle /></ToastProvider></body>
+      <body><ToastProvider>{children}<ThemeToggle /><LangController /></ToastProvider></body>
     </html>
   );
 }
