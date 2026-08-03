@@ -10,6 +10,7 @@ const GROUPS: { title: string; links: L[] }[] = [
   { title: "Overview", links: [
     { href: "/admin/dashboard", label: "Dashboard", icon: "▦" },
     { href: "/admin/analytics", label: "Analytics & SEO", icon: "◷", perm: "analytics.view" },
+    { href: "/admin/reports", label: "Reports", icon: "⬇", perm: "sales.view" },
   ]},
   { title: "Catalog", links: [
     { href: "/admin/upload", label: "Add Inventory", icon: "↑", perm: "catalog.create" },
