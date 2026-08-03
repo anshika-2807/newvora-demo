@@ -90,7 +90,8 @@ body {
 /* print: invoice only */
 @media print {
   .no-print { display: none !important; }
-  body { background: #fff !important; }
+  html, body { background: #fff !important; }
+  main { min-height: 0 !important; background: #fff !important; }
   .print-area { box-shadow: none !important; }
 
   /* Barcode labels: exactly 64 per A4 (8 columns × 8 rows) */
@@ -107,6 +108,11 @@ body {
     height: 33mm;
     display: flex; flex-direction: column; justify-content: center;
   }
+  /* Labels always print white with black text/bars — never inherit dark theme */
+  .print-area, .barcode-grid { background: #fff !important; }
+  .barcode-label { background: #fff !important; color: #000 !important; border-color: #cbd5e1 !important; }
+  .barcode-label p, .barcode-label .bc-name, .barcode-label .bc-sku { color: #000 !important; }
+  .barcode-label svg rect { fill: #000 !important; }
   /* Catalogue PDF: make dark header/footer readable without background graphics */
   .catalog-dark, .catalog-dark * { background: transparent !important; color: #0F172A !important; }
   .catalog-dark a { color: #4F46E5 !important; }
