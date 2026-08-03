@@ -39,6 +39,7 @@ export function Footer({ categories }: { categories: { name: string; slug: strin
             <li><Link href="/about" className="hover:text-gold transition-colors">About Us</Link></li>
             <li><Link href="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
             <li><Link href="/track" className="hover:text-gold transition-colors">Track Order</Link></li>
+            <li><Link href="/feedback" className="hover:text-gold transition-colors">Share Feedback</Link></li>
             <li><Link href="/faq" className="hover:text-gold transition-colors">FAQ</Link></li>
             <li><Link href="/size-guide" className="hover:text-gold transition-colors">Size &amp; Length Guide</Link></li>
           </ul>
