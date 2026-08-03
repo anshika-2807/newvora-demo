@@ -370,6 +370,36 @@ export async function getOrder(id: string) {
   return { order, items: (items as any[]) ?? [] };
 }
 
+/** Customer order lookup for the public /track page. Matches the short order code
+ *  (first 8 chars of the id), the full id, or the invoice number. If a phone is
+ *  given, its last 10 digits must also match (light verification). */
+export async function findOrderForTracking(codeRaw: string, phoneRaw?: string) {
+  const code = (codeRaw ?? "").trim();
+  if (!code) return null;
+  const phoneDigits = (phoneRaw ?? "").replace(/\D/g, "");
+  const sb = supabaseServer();
+  const sel = "id,status,fulfillment,dispatched_at,delivered_at,created_at,customer_name,customer_phone,total,payment_mode,invoice_no,channel";
+  const phoneOk = (o: any) =>
+    !phoneDigits || String(o.customer_phone ?? "").replace(/\D/g, "").endsWith(phoneDigits.slice(-10));
+
+  // full uuid fast-path
+  if (/^[0-9a-fA-F-]{32,36}$/.test(code)) {
+    const { data } = await sb.from("orders").select(sel).eq("id", code.toLowerCase()).maybeSingle();
+    if (data && phoneOk(data)) return data as any;
+  }
+  // invoice number
+  const { data: byInv } = await sb.from("orders").select(sel).ilike("invoice_no", code).limit(1);
+  if (byInv && byInv[0] && phoneOk(byInv[0])) return byInv[0] as any;
+
+  // short-code prefix among recent orders
+  const { data: recent } = await sb.from("orders").select(sel).order("created_at", { ascending: false }).limit(500);
+  const short = code.replace(/-/g, "").toUpperCase();
+  const hit = ((recent as any[]) ?? []).find(
+    (o) => String(o.id).replace(/-/g, "").slice(0, 8).toUpperCase() === short && phoneOk(o),
+  );
+  return hit ?? null;
+}
+
 // ---------- estimates + returns ----------
 export async function getEstimates() {
   const sb = supabaseServer();
