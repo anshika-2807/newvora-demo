@@ -7,23 +7,23 @@ import { logoutAction } from "@/app/actions/auth";
 type L = { href: string; label: string; icon: string; perm?: string };
 type Perms = string[] | "*";
 const GROUPS: { title: string; links: L[] }[] = [
-  { title: "Overview", links: [
+  { title: "Home", links: [
     { href: "/admin/dashboard", label: "Dashboard", icon: "▦" },
-    { href: "/admin/analytics", label: "Analytics & SEO", icon: "◷", perm: "analytics.view" },
     { href: "/admin/reports", label: "Reports", icon: "⬇", perm: "sales.view" },
+    { href: "/admin/analytics", label: "Analytics & SEO", icon: "◷", perm: "analytics.view" },
   ]},
-  { title: "Catalog", links: [
-    { href: "/admin/upload", label: "Add Inventory", icon: "↑", perm: "catalog.create" },
-    { href: "/admin/submissions", label: "Submissions", icon: "⇢", perm: "catalog.create" },
+  { title: "Catalogue", links: [
     { href: "/admin/catalogue", label: "Catalogue", icon: "✦", perm: "catalog.view" },
-    { href: "/admin/media", label: "Product Photos", icon: "▣", perm: "catalog.ai" },
+    { href: "/admin/upload", label: "Add product", icon: "↑", perm: "catalog.create" },
     { href: "/admin/categories", label: "Categories", icon: "▦", perm: "catalog.edit" },
     { href: "/admin/colours", label: "Variant Options", icon: "◐", perm: "catalog.edit" },
     { href: "/admin/pricing", label: "Pricing formula", icon: "⚖", perm: "catalog.edit" },
+    { href: "/admin/barcodes", label: "Barcodes & QR", icon: "▥", perm: "inventory.barcode" },
+  ]},
+  { title: "Inventory", links: [
     { href: "/admin/inventory", label: "Inventory", icon: "▤", perm: "inventory.view" },
     { href: "/admin/stock-movements", label: "Stock Movements", icon: "⇅", perm: "inventory.view" },
-    { href: "/admin/barcodes", label: "Barcodes", icon: "▥", perm: "inventory.barcode" },
-    { href: "/admin/reorder", label: "AI Reorder", icon: "✨", perm: "inventory.view" },
+    { href: "/admin/backorders", label: "Backorders", icon: "◵", perm: "sales.view" },
   ]},
   { title: "Sales & Billing", links: [
     { href: "/admin/billing", label: "Billing (POS)", icon: "₹", perm: "billing.sell" },
@@ -31,28 +31,29 @@ const GROUPS: { title: string; links: L[] }[] = [
     { href: "/admin/orders", label: "Website Orders", icon: "◫", perm: "sales.view" },
     { href: "/admin/estimates", label: "Estimates", icon: "≈", perm: "estimates.create" },
     { href: "/admin/returns", label: "Returns", icon: "⤺", perm: "billing.refund" },
-    { href: "/admin/purchases", label: "Purchases", icon: "⇪", perm: "purchases.view" },
+  ]},
+  { title: "Money", links: [
     { href: "/admin/cashbook", label: "Cashbook", icon: "❒", perm: "sales.view" },
     { href: "/admin/creditors", label: "Receivables", icon: "⚑", perm: "sales.view" },
-    { href: "/admin/backorders", label: "Backorders", icon: "◵", perm: "sales.view" },
+    { href: "/admin/purchases", label: "Purchases", icon: "⇪", perm: "purchases.view" },
   ]},
-  { title: "People", links: [
+  { title: "Customers & Leads", links: [
     { href: "/admin/customers", label: "Customers", icon: "♚", perm: "customers.view" },
-    { href: "/admin/employees", label: "Employees", icon: "☰", perm: "customers.manage" },
-    { href: "/admin/trade-accounts", label: "Trade Accounts", icon: "🏬", perm: "customers.manage" },
-    { href: "/admin/suppliers", label: "Suppliers", icon: "⚒", perm: "suppliers.manage" },
     { href: "/admin/reviews", label: "Reviews", icon: "★", perm: "reviews.respond" },
     { href: "/admin/feedback", label: "Feedback", icon: "☺", perm: "reviews.respond" },
     { href: "/admin/quotes", label: "Quote Requests", icon: "✎", perm: "customers.view" },
-    { href: "/admin/abandoned", label: "Abandoned carts", icon: "⊘", perm: "marketing.manage" },
+    { href: "/admin/submissions", label: "Submissions", icon: "⇢", perm: "catalog.create" },
+  ]},
+  { title: "Wholesale & Marketing", links: [
+    { href: "/admin/trade-accounts", label: "Trade Accounts", icon: "🏬", perm: "customers.manage" },
     { href: "/admin/vouchers", label: "Coupons", icon: "％", perm: "marketing.manage" },
+    { href: "/admin/abandoned", label: "Abandoned carts", icon: "⊘", perm: "marketing.manage" },
   ]},
-  { title: "Growth", links: [
-    { href: "/admin/reels", label: "Reels", icon: "▷", perm: "reels.manage" },
-  ]},
-  { title: "Control", links: [
-    { href: "/admin/approvals", label: "Approvals", icon: "✓", perm: "approvals.approve" },
+  { title: "Team & Settings", links: [
+    { href: "/admin/employees", label: "Employees", icon: "☰", perm: "customers.manage" },
+    { href: "/admin/suppliers", label: "Suppliers", icon: "⚒", perm: "suppliers.manage" },
     { href: "/admin/inbox", label: "Notifications", icon: "✉" },
+    { href: "/admin/approvals", label: "Approvals", icon: "✓", perm: "approvals.approve" },
     { href: "/admin/roles", label: "Roles", icon: "⚿", perm: "roles.manage" },
   ]},
 ];
@@ -68,41 +69,67 @@ function NavInner({ collapsed, onNavigate, perms }: { collapsed: boolean; onNavi
   const path = usePathname();
   const isActive = (href: string) => path === href || path.startsWith(href + "/");
   const groups = GROUPS.map((g) => ({ ...g, links: g.links.filter((l) => allow(perms, l.perm)) })).filter((g) => g.links.length > 0);
-  return (
-    <>
-      <nav className="space-y-4">
-        {groups.map((g) => (
-          <div key={g.title}>
-            {!collapsed && <p className="px-3 mb-1 text-[10px] uppercase tracking-widest text-onnight/35">{g.title}</p>}
-            <div className="space-y-0.5">
-              {g.links.map((l) => (
-                <Link key={l.href} href={l.href} onClick={onNavigate} title={collapsed ? l.label : undefined}
-                  className={`group flex items-center gap-3 rounded-xl text-sm transition-all ${collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5 hover:translate-x-0.5"} ${isActive(l.href) ? "bg-white/10 text-onnight" : "text-onnight/85 hover:bg-white/5"}`}>
-                  <span className="w-5 text-center text-gold-light shrink-0">{l.icon}</span>
-                  {!collapsed && <span className="truncate">{l.label}</span>}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </nav>
-      <div className="mt-6">
-        {!collapsed && <p className="px-3 mb-1 text-[10px] uppercase tracking-widest text-onnight/35">Storefront</p>}
-        <div className="space-y-0.5">
-          {EXTERNAL.map((l) => (
-            <Link key={l.href} href={l.href} target="_blank" onClick={onNavigate} title={collapsed ? l.label : undefined}
-              className={`group flex items-center gap-3 rounded-xl text-sm text-onnight/70 hover:bg-white/5 transition-all ${collapsed ? "justify-center py-2.5" : "px-3 py-2.5"}`}>
-              <span className="w-5 text-center text-gold-light/70 shrink-0">{l.icon}</span>
-              {!collapsed && <><span className="truncate">{l.label}</span><span className="ml-auto opacity-0 group-hover:opacity-100">↗</span></>}
-            </Link>
-          ))}
-        </div>
-      </div>
-      <form action={logoutAction} className="mt-6">
-        <button className={`w-full text-sm text-onnight/70 hover:text-white transition-colors ${collapsed ? "text-center" : "text-left px-3"}`} title="Sign out">{collapsed ? "↩" : "↩ Sign out"}</button>
-      </form>
-    </>
+  const activeGroup = groups.find((g) => g.links.some((l) => isActive(l.href)))?.title;
+  const [openG, setOpenG] = useState<Record<string, boolean>>({});
+  useEffect(() => { if (activeGroup) setOpenG((o) => ({ ...o, [activeGroup]: true })); }, [activeGroup]);
+  const toggle = (t: string) => setOpenG((o) => ({ ...o, [t]: !(o[t] ?? t === activeGroup) }));
+
+  const linkEl = (l: L) => (
+    <Link key={l.href} href={l.href} onClick={onNavigate} title={collapsed ? l.label : undefined}
+      className={`group flex items-center gap-3 rounded-xl text-sm transition-all ${collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2 hover:translate-x-0.5"} ${isActive(l.href) ? "bg-white/10 text-onnight" : "text-onnight/85 hover:bg-white/5"}`}>
+      <span className="w-5 text-center text-gold-light shrink-0">{l.icon}</span>
+      {!collapsed && <span className="truncate">{l.label}</span>}
+    </Link>
   );
+
+  const storefront = (
+    <div className="mt-6">
+      {!collapsed && <p className="px-3 mb-1 text-[10px] uppercase tracking-widest text-onnight/35">View storefront</p>}
+      <div className="space-y-0.5">
+        {EXTERNAL.map((l) => (
+          <Link key={l.href} href={l.href} target="_blank" onClick={onNavigate} title={collapsed ? l.label : undefined}
+            className={`group flex items-center gap-3 rounded-xl text-sm text-onnight/70 hover:bg-white/5 transition-all ${collapsed ? "justify-center py-2.5" : "px-3 py-2"}`}>
+            <span className="w-5 text-center text-gold-light/70 shrink-0">{l.icon}</span>
+            {!collapsed && <><span className="truncate">{l.label}</span><span className="ml-auto opacity-0 group-hover:opacity-100">↗</span></>}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+
+  const logout = (
+    <form action={logoutAction} className="mt-6">
+      <button className={`w-full text-sm text-onnight/70 hover:text-white transition-colors ${collapsed ? "text-center" : "text-left px-3"}`} title="Sign out">{collapsed ? "↩" : "↩ Sign out"}</button>
+    </form>
+  );
+
+  // Collapsed rail → flat icon list (no headers).
+  if (collapsed) {
+    return (<>
+      <nav className="space-y-0.5">{groups.flatMap((g) => g.links).map(linkEl)}</nav>
+      {storefront}{logout}
+    </>);
+  }
+
+  // Expanded → collapsible dropdown groups (active group open by default).
+  return (<>
+    <nav className="space-y-1">
+      {groups.map((g) => {
+        const isOpen = openG[g.title] ?? (g.title === activeGroup);
+        return (
+          <div key={g.title}>
+            <button type="button" onClick={() => toggle(g.title)}
+              className="w-full flex items-center justify-between px-3 py-2 text-[11px] uppercase tracking-widest text-onnight/45 hover:text-onnight/80 transition-colors">
+              <span>{g.title}</span>
+              <span className={`text-onnight/40 transition-transform ${isOpen ? "rotate-90" : ""}`}>›</span>
+            </button>
+            {isOpen && <div className="space-y-0.5 mb-1">{g.links.map(linkEl)}</div>}
+          </div>
+        );
+      })}
+    </nav>
+    {storefront}{logout}
+  </>);
 }
 
 export function AdminNav({ perms = "*", roleName = "Owner" }: { perms?: Perms; roleName?: string }) {

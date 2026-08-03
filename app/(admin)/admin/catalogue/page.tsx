@@ -98,7 +98,7 @@ export default async function AdminCatalogue({ searchParams }: { searchParams: {
                   <td className="p-3"><span className={p.qty <= 2 ? "text-rose font-medium" : "text-ink"}>{p.qty}</span></td>
                   <td className="p-3"><span className="font-semibold">{formatPaise(o.price)}</span>{o.hasOffer && <span className="text-xs text-rose ml-1">{o.offerPct}% off</span>}</td>
                   <td className="p-3">{canEdit ? <Link className="px-3 py-1.5 rounded-full bg-ink/5 text-ink text-xs font-medium hover:bg-ink/10 transition-colors" href={`/admin/catalogue/${p.sku}`}>✎ Edit</Link> : <span className="text-xs text-muted">—</span>}</td>
-                  <td className="p-3 whitespace-nowrap"><Link className="text-ink/70 hover:text-ink text-xs mr-2" href={`/admin/product/${p.sku}`}>360°</Link><Link className="text-emerald nav-link" href={`/shop/${p.category?.slug}/${p.sku}`}>view ↗</Link></td>
+                  <td className="p-3 whitespace-nowrap"><Link className="text-ink/70 hover:text-ink text-xs mr-2" href={`/admin/product/${p.sku}`}>📷 Photos</Link><Link className="text-emerald nav-link" href={`/shop/${p.category?.slug}/${p.sku}`}>view ↗</Link></td>
                   <td className="p-3">
                     {canAi ? (
                       <form action={genContent} className="flex items-center gap-2">

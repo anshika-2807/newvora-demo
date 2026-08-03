@@ -7,6 +7,8 @@ import { formatPaise } from "@/lib/pricing";
 import { getSession, can } from "@/lib/auth";
 import { setProductVisibilityAction } from "@/app/actions/catalog";
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
+import { MediaCard } from "@/components/admin/MediaCard";
+import { geminiConfigured } from "@/lib/ai/gemini";
 
 export const metadata = { title: "Owner Console · Product 360" };
 
@@ -28,6 +30,14 @@ export default async function Product360({ params }: { params: { sku: string } }
   const tags: string[] = gc.tags ?? [];
   const session = getSession();
   const published = p.status === "published";
+  const canPhotos = can(session, "catalog.edit");
+  const geminiReady = geminiConfigured();
+  const mediaP = {
+    id: p.id, sku: p.sku, name: p.name, category: p.category?.name ?? "—",
+    images: ((p.images ?? []) as any[])
+      .filter((i) => typeof i.path === "string" && i.path.startsWith("http"))
+      .sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0)),
+  };
 
   return (
     <main className="p-4 sm:p-8 bg-cream/40 min-h-screen max-w-4xl">
@@ -72,11 +82,19 @@ export default async function Product360({ params }: { params: { sku: string } }
           </div>
         </div>
         <div className="bg-surface rounded-2xl p-5 shadow-card">
-          <h2 className="font-medium text-ink mb-3">Photos &amp; content</h2>
+          <h2 className="font-medium text-ink mb-3">Content</h2>
           <p className="text-sm text-muted">{(p.images ?? []).length} photo(s) · AI page {gc.title ? "written ✓" : "not yet"}</p>
           {tags.length > 0 && <div className="flex flex-wrap gap-1.5 mt-3">{tags.slice(0, 10).map((t) => <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-mist text-emerald-dark">{t}</span>)}</div>}
         </div>
       </div>
+
+      {/* Photos — upload raw shots, generate AI model photos, add angles, set the hero image */}
+      {canPhotos && (
+        <div className="mt-4">
+          <h2 className="font-medium text-ink mb-2">Photos</h2>
+          <MediaCard p={mediaP} geminiReady={geminiReady} />
+        </div>
+      )}
 
       {gc.description && (
         <div className="bg-surface rounded-2xl p-5 shadow-card mt-4">

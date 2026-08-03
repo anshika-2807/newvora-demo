@@ -60,7 +60,6 @@ export function BarcodeSheet({ products }: { products: P[] }) {
                 <p className="bc-name font-semibold text-ink truncate">{it.name}</p>
                 <Barcode value={it.sku} height={30} unit={1.1} />
                 <p className="bc-sku tracking-widest text-ink">{it.sku}</p>
-                <p className="bc-price font-medium text-ink">{formatPaise(it.price)}</p>
               </div>
             ))}
           </div>
