@@ -2,22 +2,22 @@ import Link from "next/link";
 
 export function Footer({ categories }: { categories: { name: string; slug: string }[] }) {
   return (
-    <footer className="bg-ink text-cream/80 mt-20">
+    <footer className="bg-night text-onnight/80 mt-20">
       <div className="max-w-7xl mx-auto px-5 py-14 grid md:grid-cols-4 gap-10">
         <div>
-          <p className="font-display text-3xl text-ivory">Newvora</p>
-          <p className="text-sm mt-3 text-cream/60 leading-relaxed">Your storefront and back-office in one system — for retail and wholesale.</p>
+          <p className="font-display text-3xl text-onnight">Newvora</p>
+          <p className="text-sm mt-3 text-onnight/60 leading-relaxed">Your storefront and back-office in one system — for retail and wholesale.</p>
           <div className="flex gap-3 mt-5">
             <a href="https://wa.me/918377062790" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"
-              className="w-9 h-9 grid place-items-center rounded-full bg-surface/10 hover:bg-gold hover:text-ink transition-colors">
+              className="w-9 h-9 grid place-items-center rounded-full bg-white/5 hover:bg-gold hover:text-ink transition-colors">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.5-.3.3c-.2.2-.3.4-.2.6.2.4.8 1.3 1.6 2 1 .9 1.9 1.2 2.2 1.3.2.1.4.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.2.1.7-.1 1.4z"/></svg>
             </a>
             <a href="#" aria-label="Instagram" title="Instagram"
-              className="w-9 h-9 grid place-items-center rounded-full bg-surface/10 hover:bg-gold hover:text-ink transition-colors">
+              className="w-9 h-9 grid place-items-center rounded-full bg-white/5 hover:bg-gold hover:text-ink transition-colors">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
             </a>
             <a href="#" aria-label="Facebook" title="Facebook"
-              className="w-9 h-9 grid place-items-center rounded-full bg-surface/10 hover:bg-gold hover:text-ink transition-colors">
+              className="w-9 h-9 grid place-items-center rounded-full bg-white/5 hover:bg-gold hover:text-ink transition-colors">
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M14 9h2.5l.5-3H14V4.5c0-.9.3-1.5 1.6-1.5H17V.3C16.7.2 15.8.1 14.8.1 12.5.1 11 1.5 11 4.1V6H8.5v3H11v8h3V9z"/></svg>
             </a>
           </div>
@@ -47,18 +47,18 @@ export function Footer({ categories }: { categories: { name: string; slug: strin
         </div>
         <div>
           <p className="text-gold-light text-xs uppercase tracking-widest mb-4">Stay in touch</p>
-          <p className="text-sm text-cream/60 mb-3">Subscribe for new drops &amp; exclusive offers.</p>
+          <p className="text-sm text-onnight/60 mb-3">Subscribe for new drops &amp; exclusive offers.</p>
           <form className="flex">
             <input placeholder="Your email" className="flex-1 rounded-l-full px-4 py-2 text-sm text-ink outline-none" />
             <button className="btn-gold rounded-l-none px-4 text-sm font-medium">Join</button>
           </form>
-          <p className="text-xs text-cream/50 mt-4">WhatsApp orders: +91 83770 62790</p>
+          <p className="text-xs text-onnight/50 mt-4">WhatsApp orders: +91 83770 62790</p>
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-5 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/50">
+        <div className="max-w-7xl mx-auto px-5 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-onnight/50">
           <span>© 2026 Newvora. All rights reserved.</span>
-          <span className="flex gap-2 text-cream/40">Visa · Mastercard · UPI · Paytm · COD</span>
+          <span className="flex gap-2 text-onnight/40">Visa · Mastercard · UPI · Paytm · COD</span>
         </div>
       </div>
     </footer>

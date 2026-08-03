@@ -11,6 +11,8 @@
   --c-gold: 245 158 11;     --c-gold-light: 252 211 77;   --c-gold-dark: 217 119 6;
   --c-rose: 225 29 72;      --c-rose-light: 254 205 211;  --c-wine: 49 46 129;
   --c-on-primary: 255 255 255;
+  /* Fixed chrome surfaces (sidebar, footer, dark banners) — dark in BOTH themes. */
+  --c-night: 11 12 16;      --c-onnight: 233 238 244;
 }
 .dark {
   color-scheme: dark;
@@ -121,7 +123,21 @@ body {
 
 /* Privacy shield — full-viewport frosted layer (in-store safety) */
 .privacy-overlay {
-  background: rgba(248, 250, 252, 0.72);
+  background: rgb(var(--c-ivory) / 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
+
+/* Sophisticated themed scrollbar (Firefox + WebKit) */
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--c-muted) / 0.35) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--c-muted) / 0.35);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  transition: background .2s ease;
+}
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-muted) / 0.6); background-clip: padding-box; }
+::-webkit-scrollbar-corner { background: transparent; }

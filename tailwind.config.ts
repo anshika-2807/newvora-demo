@@ -31,6 +31,8 @@ export default {
           light: "rgb(var(--c-rose-light) / <alpha-value>)",
         },
         wine: "rgb(var(--c-wine) / <alpha-value>)",
+        night: "rgb(var(--c-night) / <alpha-value>)",       // fixed dark chrome (both themes)
+        onnight: "rgb(var(--c-onnight) / <alpha-value>)",   // light text on night
         diva: {
           rose: "rgb(var(--c-primary) / <alpha-value>)",
           gold: "rgb(var(--c-gold) / <alpha-value>)",

@@ -56,26 +56,26 @@ export default async function Dashboard({ searchParams }: { searchParams: { pres
         <div className="mb-4 rounded-xl bg-rose/10 text-rose px-4 py-2.5 text-sm">Your role doesn't have access to <b>{searchParams.denied}</b>. Ask the owner if you need it.</div>
       )}
       {/* Hero */}
-      <div className="relative rounded-3xl overflow-hidden mb-6 bg-gradient-to-br from-ink via-[#2c2238] to-emerald-dark text-cream p-6 sm:p-8 shadow-luxe">
+      <div className="relative rounded-3xl overflow-hidden mb-6 bg-gradient-to-br from-ink via-[#2c2238] to-emerald-dark text-onnight p-6 sm:p-8 shadow-luxe">
         <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-gold/20 blur-2xl" />
         <div className="absolute right-20 bottom-0 w-32 h-32 rounded-full bg-emerald/30 blur-2xl" />
         <div className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
             <p className="text-[11px] tracking-[0.3em] uppercase text-gold-light">Owner Console</p>
-            <h1 className="font-display text-4xl sm:text-5xl text-ivory mt-1">{greet}, Owner</h1>
-            <p className="text-sm text-cream/70 mt-1">Showing <b className="text-ivory">{label}</b> · live from your catalogue &amp; orders</p>
-            <p className="text-2xl font-semibold text-ivory mt-3">{formatPaise(d.revenue)} <span className="text-sm font-normal text-cream/60">in revenue · {d.orders} orders</span></p>
+            <h1 className="font-display text-4xl sm:text-5xl text-onnight mt-1">{greet}, Owner</h1>
+            <p className="text-sm text-onnight/70 mt-1">Showing <b className="text-onnight">{label}</b> · live from your catalogue &amp; orders</p>
+            <p className="text-2xl font-semibold text-onnight mt-3">{formatPaise(d.revenue)} <span className="text-sm font-normal text-onnight/60">in revenue · {d.orders} orders</span></p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex gap-1 bg-surface/10 rounded-full p-1">
+            <div className="flex gap-1 bg-white/5 rounded-full p-1">
               {PRESETS.map((p) => (
                 <a key={p.key} href={`/admin/dashboard?preset=${p.key}`}
-                  className={`px-3.5 py-1.5 rounded-full text-sm transition-colors ${!custom && preset === p.key ? "bg-ivory text-ink" : "text-cream/80 hover:text-white"}`}>{p.label}</a>
+                  className={`px-3.5 py-1.5 rounded-full text-sm transition-colors ${!custom && preset === p.key ? "bg-ivory text-ink" : "text-onnight/80 hover:text-white"}`}>{p.label}</a>
               ))}
             </div>
-            <form action="/admin/dashboard" className="flex items-center gap-1.5 bg-surface/10 rounded-full p-1.5">
+            <form action="/admin/dashboard" className="flex items-center gap-1.5 bg-white/5 rounded-full p-1.5">
               <input type="date" name="from" defaultValue={fromDate} className={`${sel} bg-surface/90`} />
-              <span className="text-cream/60 text-xs">→</span>
+              <span className="text-onnight/60 text-xs">→</span>
               <input type="date" name="to" defaultValue={toDate} className={`${sel} bg-surface/90`} />
               <button className="px-3 py-1.5 rounded-full bg-gold text-ink text-sm font-medium">Apply</button>
             </form>
