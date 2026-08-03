@@ -5,6 +5,8 @@ import { Back } from "@/components/site/Back";
 import { getWholesaleSession } from "@/lib/wholesale";
 import { wholesaleLoginAction } from "@/app/actions/wholesale";
 import { WholesaleCatalog } from "@/components/site/WholesaleCatalog";
+import { DealerSignupForm } from "@/components/site/DealerSignupForm";
+import Link from "next/link";
 
 export const metadata = { title: "Wholesale — Trade Pricing for Retailers" };
 
@@ -20,7 +22,10 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
     }));
     return (
       <div className="max-w-7xl mx-auto px-5 py-8">
-        <div className="mb-4"><Back label="Back to store" /></div>
+        <div className="mb-4 flex items-center justify-between">
+          <Back label="Back to store" />
+          <Link href="/wholesale/orders" className="text-sm text-emerald nav-link">My orders →</Link>
+        </div>
         <h1 className="font-display text-4xl text-ink mb-1">Wholesale Catalogue</h1>
         <p className="text-sm text-muted mb-6">Factory-direct trade rates. Enter quantities and place your order — no retail discounts, just your wholesale price.</p>
         <WholesaleCatalog products={list} customerName={session.name} />
@@ -34,12 +39,12 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
   return (
     <div className="max-w-5xl mx-auto px-5 py-8">
       <div className="mb-3"><Back label="Back to store" /></div>
-      <section className="rounded-3xl bg-ink text-cream px-8 py-12 relative overflow-hidden mb-8">
-        <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(circle at 15% 20%, #F59E0B, transparent 38%), radial-gradient(circle at 85% 90%, #4F46E5, transparent 42%)" }} />
+      <section className="rounded-3xl bg-night text-onnight px-8 py-12 relative overflow-hidden mb-8">
+        <div className="absolute inset-0 opacity-25" style={{ background: "radial-gradient(circle at 15% 20%, #F59E0B, transparent 38%), radial-gradient(circle at 85% 90%, #38BDF8, transparent 42%)" }} />
         <div className="relative max-w-2xl">
           <p className="text-gold-light tracking-[0.3em] uppercase text-xs">Newvora · Trade</p>
           <h1 className="font-display text-5xl mt-2">Wholesale Portal</h1>
-          <p className="text-cream/70 mt-3">Factory-direct rates from Delhi. {products.length} designs live · {formatPaise(totalValue)} stock on hand. Approved retailers sign in to see trade prices and order.</p>
+          <p className="text-onnight/70 mt-3">Factory-direct rates. {products.length} products live · {formatPaise(totalValue)} stock on hand. Approved retailers sign in to see trade prices and order.</p>
         </div>
       </section>
 
@@ -54,9 +59,10 @@ export default async function Wholesale({ searchParams }: { searchParams: { erro
         </form>
 
         <div className="bg-emerald-mist/60 rounded-2xl p-7 border border-emerald/20">
-          <h2 className="font-display text-2xl text-emerald-dark mb-2">Become a wholesale partner</h2>
-          <p className="text-sm text-emerald-dark/80">Trade pricing is unlocked only after we verify your shop — this protects everyone's margins. To get an access code, message us with your shop name and GST number:</p>
-          <a href="https://wa.me/918377062790" target="_blank" rel="noopener" className="btn-gold inline-block px-6 py-3 text-sm font-medium mt-4">Request access on WhatsApp</a>
+          <h2 className="font-display text-2xl text-emerald-dark mb-1">Become a wholesale partner</h2>
+          <p className="text-xs text-emerald-dark/80 mb-4">Apply for a trade account — we verify your shop, then send an access code to sign in with. Or reach us on WhatsApp.</p>
+          <DealerSignupForm />
+          <a href="https://wa.me/918377062790" target="_blank" rel="noopener" className="block text-center text-xs text-emerald-dark/80 hover:text-emerald-dark mt-3">or message us on WhatsApp →</a>
         </div>
       </div>
     </div>
