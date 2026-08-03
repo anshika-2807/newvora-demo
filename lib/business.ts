@@ -22,6 +22,7 @@ export const BUSINESS = {
     account: "50200000000000",
     ifsc: "HDFC0000123",
     branch: "Delhi, India",
+    upi: process.env.BUSINESS_UPI_VPA || "newvora@okhdfcbank", // scan-to-pay VPA (demo)
   },
   terms: [
     "Goods once sold are subject to our return policy.",

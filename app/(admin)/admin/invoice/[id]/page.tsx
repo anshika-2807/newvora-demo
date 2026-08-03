@@ -5,6 +5,7 @@ import { getOrder } from "@/lib/supabase/queries";
 import { formatPaise } from "@/lib/pricing";
 import { PrintButton } from "@/components/admin/PrintButton";
 import { BUSINESS, HSN_JEWELLERY, GST_RATE, gstSplit, stateCodeFromGstin, amountInWords } from "@/lib/business";
+import { UpiQr } from "@/components/UpiQr";
 import { getSession, can } from "@/lib/auth";
 import { recordPaymentAction, setDocTypeAction } from "@/app/actions/payments";
 
@@ -126,6 +127,12 @@ export default async function Invoice({ params }: { params: { id: string } }) {
                   <p className="text-muted mb-1">Bank details</p>
                   <p className="text-ink">{BUSINESS.bank.name} · A/C {BUSINESS.bank.account}</p>
                   <p className="text-ink">IFSC {BUSINESS.bank.ifsc} · {BUSINESS.bank.branch}</p>
+                </div>
+              )}
+              {balanceDue > 0 && (
+                <div className="mt-4">
+                  <p className="text-muted mb-1">Pay by UPI</p>
+                  <UpiQr amountPaise={balanceDue} size={110} />
                 </div>
               )}
             </div>

@@ -12,6 +12,7 @@ import { Stars } from "@/components/site/Stars";
 import { Back } from "@/components/site/Back";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductCard } from "@/components/site/ProductCard";
+import { QrCode } from "@/components/admin/QrCode";
 
 type Params = { params: { category: string; sku: string } };
 
@@ -73,8 +74,14 @@ export default async function ProductPage({ params }: Params) {
 
           <BuyBox colors={colors} waText={waText} waHref={waHref} item={{ sku: p.sku, name: p.name, price: o.price, category: p.category.slug }} />
 
-          <div className="mt-7 border-t border-sand pt-5">
+          <div className="mt-7 border-t border-sand pt-5 flex items-start justify-between gap-4">
             <p className="text-ink/80 leading-relaxed">{content.description}</p>
+            <div className="shrink-0 text-center">
+              <div className="w-20 h-20 rounded-lg border border-sand bg-white p-1">
+                <QrCode value={`${process.env.NEXT_PUBLIC_SITE_URL || "https://newvora-demo.vercel.app"}/shop/${p.category.slug}/${p.sku}`} size={72} />
+              </div>
+              <p className="text-[10px] text-muted mt-1">Scan to open</p>
+            </div>
           </div>
 
           <div className="mt-6">

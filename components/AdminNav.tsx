@@ -33,6 +33,7 @@ const GROUPS: { title: string; links: L[] }[] = [
     { href: "/admin/purchases", label: "Purchases", icon: "⇪", perm: "purchases.view" },
     { href: "/admin/cashbook", label: "Cashbook", icon: "❒", perm: "sales.view" },
     { href: "/admin/creditors", label: "Receivables", icon: "⚑", perm: "sales.view" },
+    { href: "/admin/backorders", label: "Backorders", icon: "◵", perm: "sales.view" },
   ]},
   { title: "People", links: [
     { href: "/admin/customers", label: "Customers", icon: "♚", perm: "customers.view" },
@@ -40,6 +41,7 @@ const GROUPS: { title: string; links: L[] }[] = [
     { href: "/admin/suppliers", label: "Suppliers", icon: "⚒", perm: "suppliers.manage" },
     { href: "/admin/reviews", label: "Reviews", icon: "★", perm: "reviews.respond" },
     { href: "/admin/feedback", label: "Feedback", icon: "☺", perm: "reviews.respond" },
+    { href: "/admin/quotes", label: "Quote Requests", icon: "✎", perm: "customers.view" },
     { href: "/admin/abandoned", label: "Abandoned carts", icon: "⊘", perm: "marketing.manage" },
     { href: "/admin/vouchers", label: "Coupons", icon: "％", perm: "marketing.manage" },
   ]},
@@ -115,7 +117,7 @@ export function AdminNav({ perms = "*", roleName = "Owner" }: { perms?: Perms; r
       {/* Mobile top bar */}
       <header className="no-print lg:hidden fixed top-0 inset-x-0 h-14 bg-night text-onnight z-40 flex items-center gap-3 px-4 shadow-card">
         <button onClick={() => setOpen(true)} aria-label="Open menu" className="flex flex-col gap-[5px] p-1">
-          <span className="block h-0.5 w-6 bg-cream rounded" /><span className="block h-0.5 w-6 bg-cream rounded" /><span className="block h-0.5 w-6 bg-cream rounded" />
+          <span className="block h-0.5 w-6 bg-onnight rounded" /><span className="block h-0.5 w-6 bg-onnight rounded" /><span className="block h-0.5 w-6 bg-onnight rounded" />
         </button>
         <p className="font-display text-xl text-onnight leading-none">Newvora</p>
         <span className="ml-auto text-[10px] tracking-widest uppercase text-gold-light">{roleName}</span>
