@@ -16,7 +16,7 @@ export function Header({ categories }: { categories: Cat[] }) {
         <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <MobileMenu categories={categories} />
-            <Link href="/shop" className="leading-none">
+            <Link href="/" className="leading-none">
               <span className="block font-display text-2xl md:text-3xl text-ink tracking-tight">Newvora</span>
               <span className="hidden md:block text-[9px] tracking-[0.3em] uppercase text-gold-dark -mt-1">Online Store</span>
             </Link>
